@@ -26,7 +26,7 @@ namespace _Scripts
 
             if (!Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, Mathf.Infinity,
                     _mouseInputLayerMask)) return;
-            
+             
             Vector3 position = hit.point - transform.position;
         }
         
