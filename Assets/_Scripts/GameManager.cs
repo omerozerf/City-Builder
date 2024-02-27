@@ -43,7 +43,7 @@ namespace _Scripts
         }
 
         private void OnInputCalculated(Vector3 position)
-        {
+        { 
             Vector3 gridPosition = m_GridStructure.CalculateGridPosition(position);
 
             if (m_BuildingModeActive && !m_GridStructure.IsCellTaken(gridPosition))
