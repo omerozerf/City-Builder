@@ -8,10 +8,12 @@ namespace _Scripts
         [SerializeField] private Transform _groundTransform;
 
 
-        public void Build(Vector3 position)
+        public void Build(Vector3 position, GridStructure gridStructure)
         {
             Vector3 fixedPosition = position + _groundTransform.position;
-            Instantiate(_buildPrefab, fixedPosition, Quaternion.identity);
+            GameObject newStructure = Instantiate(_buildPrefab, fixedPosition, Quaternion.identity);
+            
+            gridStructure.PlaceStructureOnTheGrid(newStructure, fixedPosition);
         }
     }
 }
