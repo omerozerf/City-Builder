@@ -1,23 +1,24 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+// ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 namespace _Scripts
 {
     public class InputManager : MonoBehaviour
     {
         [SerializeField] private LayerMask _mouseInputLayerMask;
-        // [SerializeField] private GameObject _buildPrefab;
 
+        public event Action<Vector3> OnInputCalculated;
+        
 
         private void Update()
         {
-            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-            GetInput();
+            CalculateInput();
         }
         
         
-        // ReSharper disable Unity.PerformanceAnalysis
-        private void GetInput()
+        private void CalculateInput()
         {
             if (!Input.GetMouseButtonDown(0) || EventSystem.current.IsPointerOverGameObject())
                 return;
@@ -28,13 +29,7 @@ namespace _Scripts
                     _mouseInputLayerMask)) return;
              
             Vector3 position = hit.point - transform.position;
+            OnInputCalculated?.Invoke(position);
         }
-        
-        /*
-        private void Build(Vector3 position)
-        {
-            Instantiate(_buildPrefab, position, Quaternion.identity);
-        }
-        */
     }
 }

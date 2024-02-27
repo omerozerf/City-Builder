@@ -2,21 +2,21 @@ using UnityEngine;
 
 namespace _Scripts
 {
-    public class GridStructure : MonoBehaviour
+    public class GridStructure
     {
-        private int CELL_SIZE = 2;
+        private readonly int m_CellSize;
 
         public GridStructure(int cellSize)
         {
-            CELL_SIZE = cellSize;
+            m_CellSize = cellSize;
         }
 
         public Vector3 CalculateGridPosition(Vector3 inputPosition)
         {
-            int x = Mathf.FloorToInt((float) inputPosition.x / CELL_SIZE);
-            int z = Mathf.FloorToInt((float) inputPosition.z / CELL_SIZE);
+            int x = Mathf.FloorToInt((float) inputPosition.x / m_CellSize);
+            int z = Mathf.FloorToInt((float) inputPosition.z / m_CellSize);
             
-            return new Vector3(x * CELL_SIZE, 0, z * CELL_SIZE);
+            return new Vector3(x * m_CellSize, 0, z * m_CellSize);
         }
     }
 }
