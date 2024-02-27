@@ -8,6 +8,7 @@ namespace _Scripts
     public class InputManager : MonoBehaviour
     {
         [SerializeField] private LayerMask _mouseInputLayerMask;
+        [SerializeField] private Transform _groundTransform;
 
         public event Action<Vector3> OnInputCalculated;
         
@@ -28,7 +29,7 @@ namespace _Scripts
             if (!Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, Mathf.Infinity,
                     _mouseInputLayerMask)) return;
              
-            Vector3 position = hit.point - transform.position;
+            Vector3 position = hit.point - _groundTransform.position;
             OnInputCalculated?.Invoke(position);
         }
     }
