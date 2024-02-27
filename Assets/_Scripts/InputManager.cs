@@ -6,7 +6,7 @@ namespace _Scripts
     public class InputManager : MonoBehaviour
     {
         [SerializeField] private LayerMask _mouseInputLayerMask;
-        [SerializeField] private GameObject _buildPrefab;
+        // [SerializeField] private GameObject _buildPrefab;
 
 
         private void Update()
@@ -30,9 +30,11 @@ namespace _Scripts
             Vector3 position = hit.point - transform.position;
         }
         
+        /*
         private void Build(Vector3 position)
         {
             Instantiate(_buildPrefab, position, Quaternion.identity);
         }
+        */
     }
 }
