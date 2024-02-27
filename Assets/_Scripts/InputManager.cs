@@ -11,15 +11,17 @@ namespace _Scripts
         [SerializeField] private Transform _groundTransform;
 
         public event Action<Vector3> OnInputCalculated;
-        
+        public event Action<Vector3> OnPointerDownHandler;
+        public event Action OnPointerUpHandler;
 
         private void Update()
         {
-            CalculateInput();
+            CalculatePointerPosition();
+            CalculatePanningInput();
         }
         
         
-        private void CalculateInput()
+        private void CalculatePointerPosition()
         {
             if (!Input.GetMouseButtonDown(0) || EventSystem.current.IsPointerOverGameObject())
                 return;
@@ -31,6 +33,20 @@ namespace _Scripts
              
             Vector3 position = hit.point - _groundTransform.position;
             OnInputCalculated?.Invoke(position);
+        }
+
+        private void CalculatePanningInput()
+        {
+            if (Input.GetMouseButton(1))
+            {
+                Vector3 position = Input.mousePosition;
+                OnPointerDownHandler?.Invoke(position);
+            }
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                OnPointerUpHandler?.Invoke();
+            }
         }
     }
 }
