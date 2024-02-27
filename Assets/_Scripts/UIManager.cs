@@ -13,10 +13,20 @@ namespace _Scripts
         public event Action OnBuildResidentialAreaButtonClicked;
         public event Action OnCancelActionButtonClicked;
         
-        private void Start()
+        private void Awake()
         {
             _cancelActionPanel.SetActive(false);
+            
+            _buildResidentialAreaButton.onClick.AddListener(OnBuildAreaCallback);
+            _cancelActionButton.onClick.AddListener(OnCancelActionCallback);
         }
+        
+        private void OnDestroy()
+        {
+            _buildResidentialAreaButton.onClick.RemoveListener(OnBuildAreaCallback);
+            _cancelActionButton.onClick.RemoveListener(OnCancelActionCallback);
+        }
+        
 
         private void OnBuildAreaCallback()
         {
