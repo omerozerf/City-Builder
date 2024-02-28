@@ -21,7 +21,7 @@ namespace _Scripts
             m_GridStructure = new GridStructure(2, _width, _height);
             _cameraMovement.SetCameraLimits(0, _width, 0, _height);
             
-            _inputManager.OnInputCalculated += OnInputCalculated;
+            _inputManager.OnMousePositionCalculated += OnMousePositionCalculated;
             _inputManager.OnPointerDownHandler += OnPointerDownHandler;
             _inputManager.OnPointerUpHandler += OnPointerUpHandler;
             _uiManager.OnBuildResidentialAreaButtonClicked += OnBuildResidentialAreaButtonClicked;
@@ -30,9 +30,9 @@ namespace _Scripts
 
         private void OnDestroy()
         {
-            _inputManager.OnInputCalculated -= OnInputCalculated;
+            _inputManager.OnMousePositionCalculated -= OnMousePositionCalculated;
             _inputManager.OnPointerDownHandler -= OnPointerDownHandler;
-            _inputManager.OnPointerUpHandler += OnPointerUpHandler;
+            _inputManager.OnPointerUpHandler -= OnPointerUpHandler;
             _uiManager.OnBuildResidentialAreaButtonClicked -= OnBuildResidentialAreaButtonClicked;
             _uiManager.OnCancelActionButtonClicked -= OnCancelActionButtonClicked;
         }
@@ -61,7 +61,7 @@ namespace _Scripts
             m_IsBuildingMode = false;
         }
 
-        private void OnInputCalculated(Vector3 position)
+        private void OnMousePositionCalculated(Vector3 position)
         { 
             Vector3 gridPosition = m_GridStructure.CalculateGridPosition(position);
 

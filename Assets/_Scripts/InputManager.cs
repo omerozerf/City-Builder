@@ -10,18 +10,18 @@ namespace _Scripts
         [SerializeField] private LayerMask _mouseInputLayerMask;
         [SerializeField] private Transform _groundTransform;
 
-        public event Action<Vector3> OnInputCalculated;
+        public event Action<Vector3> OnMousePositionCalculated;
         public event Action<Vector3> OnPointerDownHandler;
         public event Action OnPointerUpHandler;
 
         private void Update()
         {
-            CalculatePointerPosition();
+            CalculateMousePosition();
             CalculatePanningInput();
         }
         
         
-        private void CalculatePointerPosition()
+        private void CalculateMousePosition()
         {
             if (!Input.GetMouseButtonDown(0) || EventSystem.current.IsPointerOverGameObject())
                 return;
@@ -32,7 +32,7 @@ namespace _Scripts
                     _mouseInputLayerMask)) return;
              
             Vector3 position = hit.point - _groundTransform.position;
-            OnInputCalculated?.Invoke(position);
+            OnMousePositionCalculated?.Invoke(position);
         }
 
         private void CalculatePanningInput()
