@@ -21,29 +21,45 @@ namespace _Scripts
             m_GridStructure = new GridStructure(2, _width, _height);
             _cameraMovement.SetCameraLimits(0, _width, 0, _height);
             
-            _inputManager.OnMousePositionCalculated += OnMousePositionCalculated;
-            _inputManager.OnPointerDownHandler += OnPointerDownHandler;
-            _inputManager.OnPointerUpHandler += OnPointerUpHandler;
+            _inputManager.OnLeftMouseDown += OnLeftMouseDown;
+            _inputManager.OnRightMouseDown += OnRightMouseDown;
+            _inputManager.OnRightMouseUp += OnRightMouseUp;
+            _inputManager.OnLeftMouseUp += OnLeftMouseUp;
+            _inputManager.OnPointerChangeHandler += OnPointerChangeHandler;
+            
             _uiManager.OnBuildResidentialAreaButtonClicked += OnBuildResidentialAreaButtonClicked;
             _uiManager.OnCancelActionButtonClicked += OnCancelActionButtonClicked;
         }
-
+        
         private void OnDestroy()
         {
-            _inputManager.OnMousePositionCalculated -= OnMousePositionCalculated;
-            _inputManager.OnPointerDownHandler -= OnPointerDownHandler;
-            _inputManager.OnPointerUpHandler -= OnPointerUpHandler;
+            _inputManager.OnLeftMouseDown -= OnLeftMouseDown;
+            _inputManager.OnRightMouseDown -= OnRightMouseDown;
+            _inputManager.OnRightMouseUp -= OnRightMouseUp;
+            _inputManager.OnLeftMouseUp -= OnLeftMouseUp;
+            _inputManager.OnPointerChangeHandler -= OnPointerChangeHandler;
+            
             _uiManager.OnBuildResidentialAreaButtonClicked -= OnBuildResidentialAreaButtonClicked;
             _uiManager.OnCancelActionButtonClicked -= OnCancelActionButtonClicked;
         }
         
         
-        private void OnPointerUpHandler()
+        private void OnPointerChangeHandler(Vector3 obj)
+        {
+            Debug.Log(obj);
+        }
+        
+        private void OnLeftMouseUp()
+        {
+            throw new NotImplementedException();
+        }
+        
+        private void OnRightMouseUp()
         {
             _cameraMovement.StopCameraMovement();
         }
         
-        private void OnPointerDownHandler(Vector3 pos)
+        private void OnRightMouseDown(Vector3 pos)
         {
             if (!m_IsBuildingMode)
             {
@@ -61,7 +77,7 @@ namespace _Scripts
             m_IsBuildingMode = false;
         }
 
-        private void OnMousePositionCalculated(Vector3 position)
+        private void OnLeftMouseDown(Vector3 position)
         { 
             Vector3 gridPosition = m_GridStructure.CalculateGridPosition(position);
 

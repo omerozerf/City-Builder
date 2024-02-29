@@ -8,7 +8,7 @@ namespace _Scripts
         private readonly int m_CellSize;
         private readonly int m_Width;
         private readonly int m_Height;
-        private Cell[,] m_Grid;
+        private readonly Cell[,] m_Grid;
         
         public GridStructure(int cellSize, int width, int height)
         {
