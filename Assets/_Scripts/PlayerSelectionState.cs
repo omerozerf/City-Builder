@@ -1,0 +1,45 @@
+﻿using UnityEngine;
+
+namespace _Scripts
+{
+    public class PlayerSelectionState : PlayerState
+    {
+        private CameraMovement m_CameraMovement;
+        
+        public PlayerSelectionState(GameManager gameManager, CameraMovement cameraMovement) : base(gameManager)
+        {
+            m_CameraMovement = cameraMovement;
+        }
+
+        public override void OnInputPointerDown(Vector3 position)
+        {
+            return;
+        }
+
+        public override void OnInputPointerChange(Vector3 position)
+        {
+            return;
+        }
+
+        public override void OnInputPointerUp()
+        {
+            return;
+        }
+
+        public override void OnInputPanChange(Vector3 panPosition)
+        {
+            m_CameraMovement.MoveCamera(panPosition);
+        }
+
+        public override void OnInputPanUp()
+        {
+            m_CameraMovement.StopCameraMovement();
+        }
+
+        
+        protected override void OnCancel()
+        {
+            return;
+        }
+    }
+}

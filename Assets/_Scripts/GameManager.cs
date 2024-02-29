@@ -56,15 +56,12 @@ namespace _Scripts
         
         private void OnRightMouseUp()
         {
-            _cameraMovement.StopCameraMovement();
+            
         }
         
         private void OnRightMouseDown(Vector3 pos)
         {
-            if (!m_IsBuildingMode)
-            {
-                _cameraMovement.MoveCamera(pos);
-            }
+            
         }
         
         private void OnBuildResidentialAreaButtonClicked()
