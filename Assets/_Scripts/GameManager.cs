@@ -51,7 +51,7 @@ namespace _Scripts
         
         private void OnLeftMouseUp()
         {
-            throw new NotImplementedException();
+            Debug.Log("Left mouse up");
         }
         
         private void OnRightMouseUp()
