@@ -4,39 +4,51 @@ namespace _Scripts
 {
     public class PlayerBuildingSingleStructureState : PlayerState
     {
-        public PlayerBuildingSingleStructureState(GameManager gameManager) : base(gameManager)
+        private GridStructure m_GridStructure;
+        private PlacementManager m_PlacementManager;
+        
+        
+        public PlayerBuildingSingleStructureState(GameManager gameManager, GridStructure gridStructure,
+            PlacementManager placementManager) : base(gameManager)
         {
-            
+            m_GridStructure = gridStructure;
+            m_PlacementManager = placementManager;
         }
 
         public override void OnInputPointerDown(Vector3 position)
         {
-            throw new System.NotImplementedException();
+            Vector3 gridPosition = m_GridStructure.CalculateGridPosition(position);
+
+            if (!m_GridStructure.IsCellTaken(gridPosition))
+            {
+                m_PlacementManager.Build(gridPosition, m_GridStructure);
+            }
+            
         }
 
         public override void OnInputPointerChange(Vector3 position)
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public override void OnInputPointerUp()
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public override void OnInputPanChange(Vector3 panPosition)
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public override void OnInputPanUp()
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         protected override void OnCancel()
         {
-            throw new System.NotImplementedException();
+            return;
         }
     }
 }

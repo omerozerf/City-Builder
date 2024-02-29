@@ -56,12 +56,12 @@ namespace _Scripts
         
         private void OnRightMouseUp()
         {
-            
+            return;
         }
         
         private void OnRightMouseDown(Vector3 pos)
         {
-            
+            return;
         }
         
         private void OnBuildResidentialAreaButtonClicked()
@@ -76,12 +76,7 @@ namespace _Scripts
 
         private void OnLeftMouseDown(Vector3 position)
         { 
-            Vector3 gridPosition = m_GridStructure.CalculateGridPosition(position);
-
-            if (m_IsBuildingMode && !m_GridStructure.IsCellTaken(gridPosition))
-            {
-                _placementManager.Build(gridPosition, m_GridStructure);
-            }
+            return;
         }
     }
 }
