@@ -45,7 +45,6 @@ namespace _Scripts
             newPosition = new Vector3(newPosition.x, 0, newPosition.y);
             
             transform.Translate(newPosition * (_speed * Time.deltaTime));
-            
             LimitPositionInsideCameraBounds();
         }
     }
