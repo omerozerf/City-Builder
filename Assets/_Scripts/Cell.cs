@@ -17,4 +17,9 @@ public class Cell
     {
         return m_IsTaken;
     }
+    
+    public GameObject GetStructure()
+    {
+        return m_StructureModel;
+    }
 }

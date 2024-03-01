@@ -5,9 +5,9 @@ namespace States
     public abstract class PlayerState
     {
         private GameManager m_GameManager;
-        
-        
-        public PlayerState(GameManager gameManager)
+
+
+        protected PlayerState(GameManager gameManager)
         {
             m_GameManager = gameManager;
         }

@@ -65,4 +65,10 @@ public class GridStructure
             
         if (CheckIndexValidity(cellIndex)) m_Grid[cellIndex.y, cellIndex.x].SetStructure(structure);
     }
+    
+    public void RemoveStructureFromTheGrid(Vector3 gridPosition)
+    {
+        var cellIndex = CalculateGridIndex(gridPosition);
+        var currentObj = m_Grid[cellIndex.y, cellIndex.x].GetStructure();
+    }
 }
