@@ -1,44 +1,43 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
-namespace _Scripts
+public class InputManager : MonoBehaviour
 {
-    public class InputManager : MonoBehaviour
+    [SerializeField] private LayerMask _mouseInputLayerMask;
+    [SerializeField] private Transform _groundTransform;
+
+    public event Action<Vector3> OnLeftMouseDown;
+    public event Action OnLeftMouseUp;
+    public event Action<Vector3> OnPointerChangeHandler; 
+    public event Action<Vector3> OnRightMouseDown;
+    public event Action OnRightMouseUp;
+
+    private void Update()
     {
-        [SerializeField] private LayerMask _mouseInputLayerMask;
-        [SerializeField] private Transform _groundTransform;
+        CalculateMousePosition();
+        CalculatePanningInput();
+    }
 
-        public event Action<Vector3> OnLeftMouseDown;
-        public event Action OnLeftMouseUp;
-        public event Action<Vector3> OnPointerChangeHandler; 
-        public event Action<Vector3> OnRightMouseDown;
-        public event Action OnRightMouseUp;
 
-        private void Update()
+    private void CallActionOnPointer(Action<Vector3> action)
+    {
+        var position = GetMousePosition();
+
+        if (position.HasValue)
         {
-            CalculateMousePosition();
-            CalculatePanningInput();
+            action.Invoke(position.Value);
+            position = null;
         }
-
-
-        private void CallActionOnPointer(Action<Vector3> action)
-        {
-            var position = GetMousePosition();
-
-            if (position.HasValue)
-            {
-                action.Invoke(position.Value);
-                position = null;
-            }
-        }
+    }
         
-        private void CalculateMousePosition()
+    private void CalculateMousePosition()
+    {
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-            {
-                /*
+            /*
                 var position = GetMousePosition();
 
                 if (position.HasValue)
@@ -47,12 +46,12 @@ namespace _Scripts
                     position = null;
                 }
                 */
-                CallActionOnPointer((position) => OnLeftMouseDown?.Invoke(position));
-            }
+            CallActionOnPointer((position) => OnLeftMouseDown?.Invoke(position));
+        }
 
-            if (Input.GetMouseButton(0))
-            {
-                /*
+        if (Input.GetMouseButton(0))
+        {
+            /*
                 var position = GetMousePosition();
 
                 if (position.HasValue)
@@ -62,41 +61,40 @@ namespace _Scripts
                 }
                 */
                 
-                CallActionOnPointer((position) => OnPointerChangeHandler?.Invoke(position));
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                OnRightMouseUp?.Invoke();
-            }
+            CallActionOnPointer((position) => OnPointerChangeHandler?.Invoke(position));
         }
 
-        private Vector3? GetMousePosition()
+        if (Input.GetMouseButtonUp(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3? position = null;
+            OnRightMouseUp?.Invoke();
+        }
+    }
 
-            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, Mathf.Infinity,
-                    _mouseInputLayerMask))
-            {
-                position = hit.point - _groundTransform.position;
-            }
+    private Vector3? GetMousePosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector3? position = null;
 
-            return position;
+        if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, Mathf.Infinity,
+                _mouseInputLayerMask))
+        {
+            position = hit.point - _groundTransform.position;
         }
 
-        private void CalculatePanningInput()
-        {
-            if (Input.GetMouseButton(1))
-            {
-                Vector3 position = Input.mousePosition;
-                OnRightMouseDown?.Invoke(position);
-            }
+        return position;
+    }
 
-            if (Input.GetMouseButtonUp(1))
-            {
-                OnRightMouseUp?.Invoke();
-            }
+    private void CalculatePanningInput()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            Vector3 position = Input.mousePosition;
+            OnRightMouseDown?.Invoke(position);
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            OnRightMouseUp?.Invoke();
         }
     }
 }

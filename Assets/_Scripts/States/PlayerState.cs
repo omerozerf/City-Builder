@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Scripts
+namespace States
 {
     public abstract class PlayerState
     {

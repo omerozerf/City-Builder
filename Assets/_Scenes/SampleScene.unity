@@ -984,8 +984,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd65232963a49ed4492c943db3a6cdf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 100
-  _height: 100
+  _width: 500
+  _height: 500
   _placementManager: {fileID: 1743894546}
   _inputManager: {fileID: 1697907387}
   _uiManager: {fileID: 1174232614}

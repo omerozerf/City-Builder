@@ -1,23 +1,20 @@
 using UnityEngine;
 
-namespace _Scripts
+public class Cell
 {
-    public class Cell
+    private GameObject m_StructureModel = null;
+    private bool m_IsTaken = false;
+    
+    public void SetStructure(GameObject structureModel)
     {
-        private GameObject m_StructureModel = null;
-        private bool m_IsTaken = false;
-    
-        public void SetStructure(GameObject structureModel)
-        {
-            if (!structureModel) return;
+        if (!structureModel) return;
             
-            m_StructureModel = structureModel;
-            m_IsTaken = true;
-        }
+        m_StructureModel = structureModel;
+        m_IsTaken = true;
+    }
     
-        public bool GetIsTaken()
-        {
-            return m_IsTaken;
-        }
+    public bool GetIsTaken()
+    {
+        return m_IsTaken;
     }
 }
