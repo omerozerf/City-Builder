@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private CameraMovement _cameraMovement;
         
-    private GridStructure m_GridStructure;
+    private BuildingManager m_BuildingManager;
     private PlayerSelectionState m_SelectionState;
     private PlayerBuildingSingleStructureState m_BuildingSingleStructureState;
     private PlayerState m_PlayerState;
@@ -20,13 +20,14 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        m_GridStructure = new GridStructure(m_CellSize, _width, _height);
         _cameraMovement.SetCameraLimits(0, _width, 0, _height);
             
+        m_BuildingManager = 
+            new BuildingManager(_placementManager, m_CellSize, _width, _height);
         m_SelectionState =
             new PlayerSelectionState(this, _cameraMovement);
         m_BuildingSingleStructureState =
-            new PlayerBuildingSingleStructureState(this, m_GridStructure, _placementManager);
+            new PlayerBuildingSingleStructureState(this, m_BuildingManager);
 
         m_PlayerState = m_SelectionState;
             

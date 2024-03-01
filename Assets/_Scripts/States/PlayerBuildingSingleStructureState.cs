@@ -4,26 +4,18 @@ namespace States
 {
     public class PlayerBuildingSingleStructureState : PlayerState
     {
-        private GridStructure m_GridStructure;
-        private PlacementManager m_PlacementManager;
+        private BuildingManager m_BuildingManager;
         
         
-        public PlayerBuildingSingleStructureState(GameManager gameManager, GridStructure gridStructure,
-            PlacementManager placementManager) : base(gameManager)
+        public PlayerBuildingSingleStructureState(GameManager gameManager,
+            BuildingManager buildingManager) : base(gameManager)
         {
-            m_GridStructure = gridStructure;
-            m_PlacementManager = placementManager;
+            m_BuildingManager = buildingManager;
         }
 
         public override void OnInputPointerDown(Vector3 position)
         {
-            Vector3 gridPosition = m_GridStructure.CalculateGridPosition(position);
-
-            if (!m_GridStructure.IsCellTaken(gridPosition))
-            {
-                m_PlacementManager.Build(gridPosition, m_GridStructure);
-            }
-            
+            m_BuildingManager.PlaceStructureAt(position);
         }
 
         public override void OnInputPointerChange(Vector3 position)
