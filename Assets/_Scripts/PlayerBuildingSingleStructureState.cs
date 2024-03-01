@@ -46,10 +46,10 @@ namespace _Scripts
             return;
         }
 
-        
-        protected override void OnCancel()
+
+        public override void OnCancel()
         {
-            return;
+            GetManager().TransitionToState(GetManager().GetSelectionState());
         }
     }
 }

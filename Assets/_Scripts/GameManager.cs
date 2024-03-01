@@ -15,18 +15,22 @@ namespace _Scripts
         private GridStructure m_GridStructure;
         private PlayerSelectionState m_SelectionState;
         private PlayerBuildingSingleStructureState m_BuildingSingleStructureState;
+        private PlayerState m_PlayerState;
         private bool m_IsBuildingMode;
+        private int m_CellSize = 2;
 
 
         private void Awake()
         {
-            m_GridStructure = new GridStructure(2, _width, _height);
+            m_GridStructure = new GridStructure(m_CellSize, _width, _height);
             _cameraMovement.SetCameraLimits(0, _width, 0, _height);
             
             m_SelectionState =
                 new PlayerSelectionState(this, _cameraMovement);
             m_BuildingSingleStructureState =
                 new PlayerBuildingSingleStructureState(this, m_GridStructure, _placementManager);
+
+            m_PlayerState = m_SelectionState;
             
             InitializeListener();
         }
@@ -37,9 +41,9 @@ namespace _Scripts
         }
 
 
-        private void OnPointerChangeHandler(Vector3 obj)
+        private void OnPointerChangeHandler(Vector3 pos)
         {
-            Debug.Log(obj);
+            m_PlayerState.OnInputPointerChange(pos);
         }
         
         private void OnLeftMouseUp()
@@ -49,27 +53,27 @@ namespace _Scripts
         
         private void OnRightMouseUp()
         {
-            return;
+            m_PlayerState.OnInputPanUp();
         }
         
         private void OnRightMouseDown(Vector3 pos)
         {
-            return;
+            m_PlayerState.OnInputPanChange(pos);
         }
         
         private void OnBuildResidentialAreaButtonClicked()
         {
-            m_IsBuildingMode = true;
+            TransitionToState(m_BuildingSingleStructureState);
         }
         
         private void OnCancelActionButtonClicked()
         {
-            m_IsBuildingMode = false;
+            m_PlayerState.OnCancel();
         }
 
         private void OnLeftMouseDown(Vector3 position)
         { 
-            return;
+            m_PlayerState.OnInputPointerDown(position);
         }
         
         private void InitializeListener()
@@ -94,6 +98,22 @@ namespace _Scripts
             
             _uiManager.OnBuildResidentialAreaButtonClicked -= OnBuildResidentialAreaButtonClicked;
             _uiManager.OnCancelActionButtonClicked -= OnCancelActionButtonClicked;
+        }
+        
+        public void TransitionToState(PlayerState state)
+        {
+            m_PlayerState = state;
+            m_PlayerState.EnterState();
+        }
+        
+        public PlayerSelectionState GetSelectionState()
+        {
+            return m_SelectionState;
+        }
+        
+        public PlayerBuildingSingleStructureState GetBuildingSingleStructureState()
+        {
+            return m_BuildingSingleStructureState;
         }
     }
 }

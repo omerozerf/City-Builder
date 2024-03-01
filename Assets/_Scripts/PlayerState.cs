@@ -30,6 +30,6 @@ namespace _Scripts
             
         }
 
-        protected abstract void OnCancel();
+        public abstract void OnCancel();
     }
 }

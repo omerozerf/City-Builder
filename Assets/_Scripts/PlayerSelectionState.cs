@@ -35,9 +35,8 @@ namespace _Scripts
         {
             m_CameraMovement.StopCameraMovement();
         }
-
         
-        protected override void OnCancel()
+        public override void OnCancel()
         {
             return;
         }
