@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private BuildingManager m_BuildingManager;
     private PlayerSelectionState m_SelectionState;
     private PlayerBuildingSingleStructureState m_BuildingSingleStructureState;
+    private PlayerRemoveBuildingState m_RemoveBuildingState;
     private PlayerState m_PlayerState;
     private bool m_IsBuildingMode;
     private int m_CellSize = 2;
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
             new PlayerSelectionState(this, _cameraMovement);
         m_BuildingSingleStructureState =
             new PlayerBuildingSingleStructureState(this, m_BuildingManager);
+        m_RemoveBuildingState = 
+            new PlayerRemoveBuildingState(this, m_BuildingManager);
 
         m_PlayerState = m_SelectionState;
             
@@ -85,8 +88,14 @@ public class GameManager : MonoBehaviour
             
         _uiManager.OnBuildResidentialAreaButtonClicked += OnBuildResidentialAreaButtonClicked;
         _uiManager.OnCancelActionButtonClicked += OnCancelActionButtonClicked;
+        _uiManager.OnDemolishButtonClicked += OnDemolishButtonClicked;
     }
-        
+
+    private void OnDemolishButtonClicked()
+    {
+        TransitionToState(m_RemoveBuildingState);
+    }
+
     private void DestroyListener()
     {
         _inputManager.OnLeftMouseDown -= OnLeftMouseDown;
@@ -97,6 +106,7 @@ public class GameManager : MonoBehaviour
             
         _uiManager.OnBuildResidentialAreaButtonClicked -= OnBuildResidentialAreaButtonClicked;
         _uiManager.OnCancelActionButtonClicked -= OnCancelActionButtonClicked;
+        _uiManager.OnDemolishButtonClicked -= OnDemolishButtonClicked;
     }
         
     public void TransitionToState(PlayerState state)

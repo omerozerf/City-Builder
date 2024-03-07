@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.emreberatkr.poolablebehaviour": {
+      "version": "https://github.com/EmreBeratKR/PoolableBehaviour.git?path=EmreBeratKR/PoolableBehaviour",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7e23a8ac56bd5e0fc6ac0401c118ee4364144788"
+    },
     "com.unity.burst": {
       "version": "1.8.11",
       "depth": 1,

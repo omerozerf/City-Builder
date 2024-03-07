@@ -23,4 +23,10 @@ public class Cell
     {
         return m_StructureModel;
     }
+
+    public void RemoveStructure()
+    {
+        m_StructureModel = null;
+        m_IsTaken = false;
+    }
 }

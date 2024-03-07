@@ -16,10 +16,16 @@ public class PlacementManager : MonoBehaviour
     
     public void RemoveBuilding(Vector3 position, GridStructure gridStructure)
     {
-        //TODO .
         /*
         Vector3 fixedPosition = position + _groundTransform.position;
         gridStructure.RemoveStructureFromTheGrid(fixedPosition);
         */
+        
+        GameObject structure = gridStructure.GetStructureFromTheGrid(position);
+
+        if (!structure) return;
+        
+        Destroy(structure);
+        gridStructure.RemoveStructureFromTheGrid(position);
     }
 }
