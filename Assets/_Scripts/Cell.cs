@@ -5,6 +5,7 @@ public class Cell
     private GameObject m_StructureModel = null;
     private bool m_IsTaken = false;
     
+    
     public void SetStructure(GameObject structureModel)
     {
         if (!structureModel) return;
