@@ -97,4 +97,14 @@ public class InputManager : MonoBehaviour
             OnRightMouseUp?.Invoke();
         }
     }
+    
+    public LayerMask GetMouseInputLayerMask()
+    {
+        return _mouseInputLayerMask;
+    }
+    
+    public void SetMouseInputLayerMask(LayerMask layerMask)
+    {
+        _mouseInputLayerMask = layerMask;
+    }
 }

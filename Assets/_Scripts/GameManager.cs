@@ -1,5 +1,6 @@
 using States;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private InputManager _inputManager;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private CameraMovement _cameraMovement;
+    [SerializeField] private LayerMask _inputMask;
         
     private BuildingManager m_BuildingManager;
     private PlayerSelectionState m_SelectionState;
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _inputManager.SetMouseInputLayerMask(_inputMask);
         _cameraMovement.SetCameraLimits(0, _width, 0, _height);
             
         m_BuildingManager = 
