@@ -108,11 +108,24 @@ namespace Managers
 
         private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow)
         {
+            if (dataToShow.Count > panelTransform.childCount)
+            {
+                int quantityDifference = dataToShow.Count - panelTransform.childCount;
+                
+                for (int i = 0; i < quantityDifference; i++)
+                {
+                    Instantiate(_buildButtonPrefab, panelTransform);
+                }
+            }
+            
             for (int i = 0; i < panelTransform.childCount; i++)
             {
                 var button = panelTransform.GetChild(i).GetComponent<Button>();
                 if (button)
                 {
+                    button.onClick.RemoveAllListeners();
+                    
+                    button.onClick.AddListener(OnBuildAreaCallback);
                     button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
                 }
             }
