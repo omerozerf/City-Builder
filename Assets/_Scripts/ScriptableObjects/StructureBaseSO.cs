@@ -13,82 +13,82 @@ namespace ScriptableObjects
         [SerializeField] private bool _isRequireWater;
         [SerializeField] private bool _isRequirePower;
     
-        protected void SetName(string name)
+        public void SetName(string name)
         {
             _name = name;
         }
     
-        protected void SetPrefab(GameObject prefab)
+        public void SetPrefab(GameObject prefab)
         {
             _prefab = prefab;
         }
     
-        protected void SetPlacementCost(int placementCost)
+        public void SetPlacementCost(int placementCost)
         {
             _placementCost = placementCost;
         }
     
-        protected void SetUpkeepCost(int upkeepCost)
+        public void SetUpkeepCost(int upkeepCost)
         {
             _upkeepCost = upkeepCost;
         }
     
-        protected void SetIncome(int income)
+        public void SetIncome(int income)
         {
             _income = income;
         }
     
-        protected void SetRequireRoadAccess(bool isRequireRoadAccess)
+        public void SetRequireRoadAccess(bool isRequireRoadAccess)
         {
             _isRequireRoadAccess = isRequireRoadAccess;
         }
     
-        protected void SetRequireWater(bool isRequireWater)
+        public void SetRequireWater(bool isRequireWater)
         {
             _isRequireWater = isRequireWater;
         }
     
-        protected void SetRequirePower(bool isRequirePower)
+        public void SetRequirePower(bool isRequirePower)
         {
             _isRequirePower = isRequirePower;
         }
     
-        protected string GetName()
+        public string GetName()
         {
             return _name;
         }
     
-        protected GameObject GetPrefab()
+        public GameObject GetPrefab()
         {
             return _prefab;
         }
     
-        protected int GetPlacementCost()
+        public int GetPlacementCost()
         {
             return _placementCost;
         }
     
-        protected int GetUpkeepCost()
+        public int GetUpkeepCost()
         {
             return _upkeepCost;
         }
     
-        protected int GetIncome()
+        public int GetIncome()
         {
             return _income;
         }
     
-        protected bool IsRequireRoadAccess()
+        public bool IsRequireRoadAccess()
         {
             return _isRequireRoadAccess;
         }
     
-        protected bool IsRequireWater()
+        public bool IsRequireWater()
         {
             return _isRequireWater;
         }
     
-        protected bool IsRequirePower()
+        public bool IsRequirePower()
         {
             return _isRequirePower;
         }

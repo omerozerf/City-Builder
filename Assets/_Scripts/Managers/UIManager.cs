@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +19,7 @@ namespace Managers
         [SerializeField] private GameObject _roadsPanel;
         [SerializeField] private Button _closeBuildMenuButton;
         [SerializeField] private GameObject _buildButtonPrefab;
+        [SerializeField] private StructureRepository _structureRepository;
     
 
         public event Action OnBuildResidentialAreaButtonClicked;
@@ -93,13 +96,28 @@ namespace Managers
 
         private void PrepareBuildMenu()
         {
-            CreateButtonsInPanel(_zonesPanel.transform);
-            CreateButtonsInPanel(_facilitiesPanel.transform);
-            CreateButtonsInPanel(_roadsPanel.transform);
+            CreateButtonsInPanel(_zonesPanel.transform,
+                _structureRepository.GetZonesNameList());
+            
+            CreateButtonsInPanel(_facilitiesPanel.transform,
+                _structureRepository.GetFacilityNameList());
+            
+            CreateButtonsInPanel(_roadsPanel.transform,
+                new List<string> {_structureRepository.GetRoadStructureName()});
         }
 
-        private void CreateButtonsInPanel(Transform panelTransform)
+        private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow)
         {
+            for (int i = 0; i < panelTransform.childCount; i++)
+            {
+                var button = panelTransform.GetChild(i).GetComponent<Button>();
+                if (button)
+                {
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
+                }
+            }
+            
+            /*
             foreach (Transform childTransform in panelTransform)
             {
                 Button button = childTransform.GetComponent<Button>();
@@ -110,6 +128,7 @@ namespace Managers
                     button.onClick.AddListener(OnBuildAreaCallback);
                 }
             }
+            */
         }
     }
 }
