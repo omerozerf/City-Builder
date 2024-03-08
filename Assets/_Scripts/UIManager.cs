@@ -104,6 +104,7 @@ public class UIManager : MonoBehaviour
 
             if (button)
             {
+                button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(OnBuildAreaCallback);
             }
         }
