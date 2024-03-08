@@ -22,7 +22,7 @@ namespace Managers
         [SerializeField] private StructureRepository _structureRepository;
     
 
-        public event Action OnBuildResidentialAreaButtonClicked;
+        public event Action<string> OnBuildResidentialAreaButtonClicked;
         public event Action OnCancelActionButtonClicked;
         public event Action OnDemolishButtonClicked;
         
@@ -79,11 +79,11 @@ namespace Managers
             PrepareBuildMenu();
         }    
 
-        private void OnBuildAreaCallback()
+        private void OnBuildAreaCallback(string nameOfStructure)
         {
             _cancelActionPanel.SetActive(true);
             OnCloseMenuCallback();   
-            OnBuildResidentialAreaButtonClicked?.Invoke();
+            OnBuildResidentialAreaButtonClicked?.Invoke(nameOfStructure);
         }
         
         private void OnCancelActionCallback()
@@ -125,23 +125,10 @@ namespace Managers
                 {
                     button.onClick.RemoveAllListeners();
                     
-                    button.onClick.AddListener(OnBuildAreaCallback);
                     button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
+                    button.onClick.AddListener(() => OnBuildAreaCallback(button.name));
                 }
             }
-            
-            /*
-            foreach (Transform childTransform in panelTransform)
-            {
-                Button button = childTransform.GetComponent<Button>();
-
-                if (button)
-                {
-                    button.onClick.RemoveAllListeners();
-                    button.onClick.AddListener(OnBuildAreaCallback);
-                }
-            }
-            */
         }
     }
 }

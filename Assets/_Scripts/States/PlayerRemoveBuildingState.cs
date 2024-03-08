@@ -40,7 +40,7 @@ namespace States
 
         public override void OnCancel()
         {
-            GetManager().TransitionToState(GetManager().GetSelectionState());
+            GetManager().TransitionToState(GetManager().GetSelectionState(), null);
         }
     }
 }

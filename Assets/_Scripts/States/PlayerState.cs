@@ -26,7 +26,7 @@ namespace States
         public abstract void OnInputPanChange(Vector3 panPosition);
         public abstract void OnInputPanUp();
 
-        public virtual void EnterState()
+        public virtual void EnterState(string variable)
         {
             
         }

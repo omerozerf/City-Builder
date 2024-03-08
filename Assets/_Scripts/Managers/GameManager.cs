@@ -67,9 +67,9 @@ namespace Managers
             m_PlayerState.OnInputPanChange(pos);
         }
         
-        private void OnBuildResidentialAreaButtonClicked()
+        private void OnBuildResidentialAreaButtonClicked(string variable)
         {
-            TransitionToState(m_BuildingSingleStructureState);
+            TransitionToState(m_BuildingSingleStructureState, variable);
         }
         
         private void OnCancelActionButtonClicked()
@@ -97,7 +97,7 @@ namespace Managers
 
         private void OnDemolishButtonClicked()
         {
-            TransitionToState(m_RemoveBuildingState);
+            TransitionToState(m_RemoveBuildingState, null);
         }
 
         private void DestroyListener()
@@ -114,10 +114,10 @@ namespace Managers
         }
         
     
-        public void TransitionToState(PlayerState state)
+        public void TransitionToState(PlayerState state, string variable)
         {
             m_PlayerState = state;
-            m_PlayerState.EnterState();
+            m_PlayerState.EnterState(variable);
         }
         
         public PlayerSelectionState GetSelectionState()

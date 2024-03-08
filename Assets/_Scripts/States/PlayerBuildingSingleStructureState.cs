@@ -38,11 +38,15 @@ namespace States
         {
             return;
         }
-
-
+        
         public override void OnCancel()
         {
-            GetManager().TransitionToState(GetManager().GetSelectionState());
+            GetManager().TransitionToState(GetManager().GetSelectionState(), null);
+        }
+
+        public override void EnterState(string variable)
+        {
+            base.EnterState(variable);
         }
     }
 }
