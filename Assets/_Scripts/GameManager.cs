@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
         _uiManager.OnDemolishButtonClicked -= OnDemolishButtonClicked;
     }
         
+    
     public void TransitionToState(PlayerState state)
     {
         m_PlayerState = state;

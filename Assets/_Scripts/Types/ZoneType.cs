@@ -1,4 +1,4 @@
-﻿namespace ScriptableObjects
+﻿namespace Types
 {
     public enum ZoneType
     {
