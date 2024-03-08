@@ -22,7 +22,9 @@ namespace Managers
         [SerializeField] private StructureRepository _structureRepository;
     
 
-        public event Action<string> OnBuildResidentialAreaButtonClicked;
+        public event Action<string> OnBuildAreaButtonClicked;
+        public event Action<string> OnBuildSingleStructureButtonClicked;
+        public event Action<string> OnBuildRoadButtonClicked;
         public event Action OnCancelActionButtonClicked;
         public event Action OnDemolishButtonClicked;
         
@@ -30,7 +32,7 @@ namespace Managers
         {
             _cancelActionPanel.SetActive(false);
             _buildingMenuPanel.SetActive(false);
-        
+            
             InitializeListeners();
         }
     
@@ -81,11 +83,28 @@ namespace Managers
 
         private void OnBuildAreaCallback(string nameOfStructure)
         {
-            _cancelActionPanel.SetActive(true);
-            OnCloseMenuCallback();   
-            OnBuildResidentialAreaButtonClicked?.Invoke(nameOfStructure);
+            PrepareUIForBuilding();
+            OnBuildAreaButtonClicked?.Invoke(nameOfStructure);
         }
         
+        private void OnBuildSingleStructureCallback(string nameOfStructure)
+        {
+            PrepareUIForBuilding();
+            OnBuildSingleStructureButtonClicked?.Invoke(nameOfStructure);
+        }
+        
+        private void OnBuildRoadCallback(string nameOfStructure)
+        {
+            PrepareUIForBuilding();
+            OnBuildRoadButtonClicked?.Invoke(nameOfStructure);
+        }
+
+        private void PrepareUIForBuilding()
+        {
+            _cancelActionPanel.SetActive(true);
+            OnCloseMenuCallback();
+        }
+
         private void OnCancelActionCallback()
         {
             _cancelActionPanel.SetActive(false);
@@ -97,16 +116,16 @@ namespace Managers
         private void PrepareBuildMenu()
         {
             CreateButtonsInPanel(_zonesPanel.transform,
-                _structureRepository.GetZonesNameList());
+                _structureRepository.GetZonesNameList(), OnBuildAreaCallback);
             
             CreateButtonsInPanel(_facilitiesPanel.transform,
-                _structureRepository.GetFacilityNameList());
+                _structureRepository.GetFacilityNameList(), OnBuildSingleStructureCallback);
             
             CreateButtonsInPanel(_roadsPanel.transform,
-                new List<string> {_structureRepository.GetRoadStructureName()});
+                new List<string> {_structureRepository.GetRoadStructureName()}, OnBuildRoadCallback);
         }
 
-        private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow)
+        private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow, Action<string> callback)
         {
             if (dataToShow.Count > panelTransform.childCount)
             {
@@ -126,7 +145,7 @@ namespace Managers
                     button.onClick.RemoveAllListeners();
                     
                     button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
-                    button.onClick.AddListener(() => OnBuildAreaCallback(button.name));
+                    button.onClick.AddListener(() => callback(button.name));
                 }
             }
         }

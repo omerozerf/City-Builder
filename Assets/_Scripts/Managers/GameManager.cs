@@ -67,7 +67,7 @@ namespace Managers
             m_PlayerState.OnInputPanChange(pos);
         }
         
-        private void OnBuildResidentialAreaButtonClicked(string variable)
+        private void OnBuildAreaButtonClicked(string variable)
         {
             TransitionToState(m_BuildingSingleStructureState, variable);
         }
@@ -90,7 +90,7 @@ namespace Managers
             _inputManager.OnLeftMouseUp += OnLeftMouseUp;
             _inputManager.OnPointerChangeHandler += OnPointerChangeHandler;
             
-            _uiManager.OnBuildResidentialAreaButtonClicked += OnBuildResidentialAreaButtonClicked;
+            _uiManager.OnBuildAreaButtonClicked += OnBuildAreaButtonClicked;
             _uiManager.OnCancelActionButtonClicked += OnCancelActionButtonClicked;
             _uiManager.OnDemolishButtonClicked += OnDemolishButtonClicked;
         }
@@ -108,7 +108,7 @@ namespace Managers
             _inputManager.OnLeftMouseUp -= OnLeftMouseUp;
             _inputManager.OnPointerChangeHandler -= OnPointerChangeHandler;
             
-            _uiManager.OnBuildResidentialAreaButtonClicked -= OnBuildResidentialAreaButtonClicked;
+            _uiManager.OnBuildAreaButtonClicked -= OnBuildAreaButtonClicked;
             _uiManager.OnCancelActionButtonClicked -= OnCancelActionButtonClicked;
             _uiManager.OnDemolishButtonClicked -= OnDemolishButtonClicked;
         }
