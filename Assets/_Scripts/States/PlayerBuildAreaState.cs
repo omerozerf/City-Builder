@@ -1,4 +1,5 @@
 ﻿using Managers;
+using UnityEngine;
 
 namespace States
 {
@@ -23,6 +24,12 @@ namespace States
             base.EnterState(structureName);
             
             m_StructureName = structureName;
+        }
+        
+        public override void OnInputPointerDown(Vector3 position)
+        {
+            Debug.Log("Area");
+            m_BuildingManager.PlaceStructureAt(position);
         }
 
 

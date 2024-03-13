@@ -16,6 +16,7 @@ namespace States
 
         public override void OnInputPointerDown(Vector3 position)
         {
+            Debug.Log("Single Structure");
             m_BuildingManager.PlaceStructureAt(position);
         }
 

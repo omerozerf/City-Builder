@@ -36,36 +36,11 @@ namespace States
         {
             m_CameraMovement.StopCameraMovement();
         }
-
-        public override void OnBuildArea(string structureName)
-        {
-            base.OnBuildArea(structureName);
-            
-            GetManager().TransitionToState(GetManager().GetBuildAreaState(), structureName);
-        }
-
-        public override void OnBuildSingleStructure(string structureName)
-        {
-            base.OnBuildSingleStructure(structureName);
-            
-            GetManager().TransitionToState(GetManager().GetBuildingSingleStructureState(), structureName);
-        }
-
-        public override void OnBuildRoad(string structureName)
-        {
-            base.OnBuildRoad(structureName);
-            
-            GetManager().TransitionToState(GetManager().GetBuildingRoadState(), structureName);
-        }
-
+        
+        
         public override void OnCancel()
         {
             return;
-        }
-
-        public override void OnDemolishAction()
-        {
-            GetManager().TransitionToState(GetManager().GetRemoveBuildingState(), null);
         }
     }
 }

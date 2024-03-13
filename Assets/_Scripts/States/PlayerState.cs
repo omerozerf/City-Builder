@@ -70,6 +70,8 @@ namespace States
             GetManager().TransitionToState(GetManager().GetRemoveBuildingState(), null);
         }
         
+        
+        
 
         public abstract void OnCancel();
     }
