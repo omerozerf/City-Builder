@@ -12,12 +12,13 @@ namespace Managers
         [SerializeField] private UIManager _uiManager;
         [SerializeField] private CameraMovement _cameraMovement;
         [SerializeField] private LayerMask _inputMask;
+        [SerializeField] private StructureRepository _structureRepository;
         
         private BuildingManager m_BuildingManager;
         private PlayerSelectionState m_SelectionState;
         private PlayerBuildingSingleStructureState m_BuildingSingleStructureState;
         private PlayerRemoveBuildingState m_RemoveBuildingState;
-        private PlayerBuildAreaState m_BuildAreaState;
+        private PlayerBuildZoneState m_BuildZoneState;
         private PlayerBuildingRoadState m_BuildingRoadState;
         private PlayerState m_PlayerState;
         private bool m_IsBuildingMode;
@@ -93,7 +94,7 @@ namespace Managers
         private void PrepareStates()
         {
             m_BuildingManager = 
-                new BuildingManager(_placementManager, m_CellSize, _width, _height);
+                new BuildingManager(_placementManager, m_CellSize, _width, _height, _structureRepository);
             
             m_SelectionState =
                 new PlayerSelectionState(this, _cameraMovement);
@@ -104,8 +105,8 @@ namespace Managers
             m_RemoveBuildingState = 
                 new PlayerRemoveBuildingState(this, m_BuildingManager);
             
-            m_BuildAreaState =
-                new PlayerBuildAreaState(this, m_BuildingManager);
+            m_BuildZoneState =
+                new PlayerBuildZoneState(this, m_BuildingManager);
             
             m_BuildingRoadState = 
                 new PlayerBuildingRoadState(this, m_BuildingManager);
@@ -134,9 +135,9 @@ namespace Managers
             return m_RemoveBuildingState;
         }
         
-        public PlayerBuildAreaState GetBuildAreaState()
+        public PlayerBuildZoneState GetBuildAreaState()
         {
-            return m_BuildAreaState;
+            return m_BuildZoneState;
         }
         
         public PlayerBuildingRoadState GetBuildingRoadState()

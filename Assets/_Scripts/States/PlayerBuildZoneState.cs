@@ -1,14 +1,15 @@
 ﻿using Managers;
+using Types;
 using UnityEngine;
 
 namespace States
 {
-    public class PlayerBuildAreaState : PlayerState
+    public class PlayerBuildZoneState : PlayerState
     {
         private BuildingManager m_BuildingManager;
         private string m_StructureName;
         
-        public PlayerBuildAreaState(GameManager gameManager,
+        public PlayerBuildZoneState(GameManager gameManager,
             BuildingManager buildingManager) : base(gameManager)
         {
             m_BuildingManager = buildingManager;
@@ -29,7 +30,7 @@ namespace States
         public override void OnInputPointerDown(Vector3 position)
         {
             Debug.Log("Area");
-            m_BuildingManager.PlaceStructureAt(position);
+            m_BuildingManager.PlaceStructureAt(position, m_StructureName, StructureType.Zone);
         }
 
 

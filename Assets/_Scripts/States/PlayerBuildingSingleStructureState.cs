@@ -1,4 +1,5 @@
 ﻿using Managers;
+using Types;
 using UnityEngine;
 
 namespace States
@@ -17,7 +18,8 @@ namespace States
         public override void OnInputPointerDown(Vector3 position)
         {
             Debug.Log("Single Structure");
-            m_BuildingManager.PlaceStructureAt(position);
+            
+            m_BuildingManager.PlaceStructureAt(position, m_StructureName, StructureType.Facility);
         }
 
         public override void OnInputPointerChange(Vector3 position)

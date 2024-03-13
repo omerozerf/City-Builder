@@ -1,4 +1,5 @@
 ﻿using Managers;
+using Types;
 using UnityEngine;
 
 namespace States
@@ -35,7 +36,8 @@ namespace States
         public override void OnInputPointerDown(Vector3 position)
         {
             Debug.Log("Road");
-            m_BuildingManager.PlaceStructureAt(position);
+            
+            m_BuildingManager.PlaceStructureAt(position, m_StructureName, StructureType.Road);
         }
     }
 }
