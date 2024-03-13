@@ -18,18 +18,53 @@ namespace States
         {
             return m_GameManager;
         }
+
+
+        public virtual void OnInputPointerDown(Vector3 position)
+        {
+            
+        }
         
-        
-        public abstract void OnInputPointerDown(Vector3 position);
-        public abstract void OnInputPointerChange(Vector3 position);
-        public abstract void OnInputPointerUp();
-        public abstract void OnInputPanChange(Vector3 panPosition);
-        public abstract void OnInputPanUp();
+        public virtual void OnInputPointerChange(Vector3 position)
+        {
+            
+        }
+
+        public virtual void OnInputPointerUp()
+        {
+            
+        }
+
+        public virtual void OnInputPanChange(Vector3 panPosition)
+        {
+            
+        }
+
+        public virtual void OnInputPanUp()
+        {
+            
+        }
 
         public virtual void EnterState(string variable)
         {
             
         }
+
+        public virtual void OnBuildArea(string structureName)
+        {
+            
+        }
+        
+        public virtual void OnBuildSingleStructure(string structureName)
+        {
+            
+        }
+        
+        public virtual void OnBuildRoad(string structureName)
+        {
+            
+        }
+        
 
         public abstract void OnCancel();
     }
