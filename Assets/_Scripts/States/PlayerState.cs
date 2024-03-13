@@ -49,25 +49,25 @@ namespace States
         {
             
         }
-
+        
         public virtual void OnBuildArea(string structureName)
         {
-            
+            GetManager().TransitionToState(GetManager().GetBuildAreaState(), structureName);
         }
-        
+
         public virtual void OnBuildSingleStructure(string structureName)
         {
-            
+            GetManager().TransitionToState(GetManager().GetBuildingSingleStructureState(), structureName);
         }
-        
+
         public virtual void OnBuildRoad(string structureName)
         {
-            
+            GetManager().TransitionToState(GetManager().GetBuildingRoadState(), structureName);
         }
-        
+
         public virtual void OnDemolishAction()
         {
-            
+            GetManager().TransitionToState(GetManager().GetRemoveBuildingState(), null);
         }
         
 
