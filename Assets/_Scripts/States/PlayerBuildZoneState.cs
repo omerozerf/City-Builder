@@ -29,7 +29,6 @@ namespace States
         
         public override void OnInputPointerDown(Vector3 position)
         {
-            Debug.Log("Area");
             m_BuildingManager.PlaceStructureAt(position, m_StructureName, StructureType.Zone);
         }
 

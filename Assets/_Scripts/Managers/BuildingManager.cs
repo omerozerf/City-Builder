@@ -21,8 +21,6 @@ namespace Managers
         {
             GameObject buildingPrefab = m_StructureRepository.GetBuildingPrefabByName(structureName, structureType);
             Vector3 gridPosition = m_GridStructure.CalculateGridPosition(position);
-        
-            Debug.Log(buildingPrefab);
             
             if (!m_GridStructure.IsCellTaken(gridPosition))
             {

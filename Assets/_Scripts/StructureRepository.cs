@@ -46,8 +46,8 @@ public class StructureRepository : MonoBehaviour
     
     private GameObject GetFacilityBuildingPrefabByName(string structureName)
     {
-        return _modelDataCollection.GetSingleStructureList()
-            .FirstOrDefault(structure => structure.GetName() == structureName)?.GetPrefab();
+        //TODO: Implement logic to get the prefab by name
+        return _modelDataCollection.GetSingleStructureList()[0].GetPrefab();
     }
 
     private GameObject GetRoadBuildingPrefabByName(string structureName)
@@ -57,7 +57,7 @@ public class StructureRepository : MonoBehaviour
 
     private GameObject GetZoneBuildingPrefabByName(string structureName)
     {
-        return _modelDataCollection.GetZoneStructureList()
-            .FirstOrDefault(structure => structure.GetName() == structureName)?.GetPrefab();
+        //TODO: Implement logic to get the prefab by name
+        return _modelDataCollection.GetZoneStructureList()[0].GetPrefab();
     }
 }
