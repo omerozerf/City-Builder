@@ -41,7 +41,7 @@ namespace States
         {
             base.OnBuildArea(structureName);
             
-            // GetManager().TransitionToState(GetManager().GetBuildingSingleStructureState(), structureName);
+            GetManager().TransitionToState(GetManager().GetBuildAreaState(), structureName);
         }
 
         public override void OnBuildSingleStructure(string structureName)
@@ -55,12 +55,17 @@ namespace States
         {
             base.OnBuildRoad(structureName);
             
-            // GetManager().TransitionToState(GetManager().GetBuildingSingleStructureState(), structureName);
+            GetManager().TransitionToState(GetManager().GetBuildingRoadState(), structureName);
         }
 
         public override void OnCancel()
         {
             return;
+        }
+
+        public override void OnDemolishAction()
+        {
+            GetManager().TransitionToState(GetManager().GetRemoveBuildingState(), null);
         }
     }
 }

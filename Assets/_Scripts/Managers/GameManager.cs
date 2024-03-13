@@ -17,6 +17,8 @@ namespace Managers
         private PlayerSelectionState m_SelectionState;
         private PlayerBuildingSingleStructureState m_BuildingSingleStructureState;
         private PlayerRemoveBuildingState m_RemoveBuildingState;
+        private PlayerBuildAreaState m_BuildAreaState;
+        private PlayerBuildingRoadState m_BuildingRoadState;
         private PlayerState m_PlayerState;
         private bool m_IsBuildingMode;
         private int m_CellSize = 2;
@@ -27,17 +29,8 @@ namespace Managers
             _inputManager.SetMouseInputLayerMask(_inputMask);
             _cameraMovement.SetCameraLimits(0, _width, 0, _height);
             
-            m_BuildingManager = 
-                new BuildingManager(_placementManager, m_CellSize, _width, _height);
-            m_SelectionState =
-                new PlayerSelectionState(this, _cameraMovement);
-            m_BuildingSingleStructureState =
-                new PlayerBuildingSingleStructureState(this, m_BuildingManager);
-            m_RemoveBuildingState = 
-                new PlayerRemoveBuildingState(this, m_BuildingManager);
+            PrepareStates();
 
-            m_PlayerState = m_SelectionState;
-            
             InitializeListener();
         }
         
@@ -45,37 +38,7 @@ namespace Managers
         {
             DestroyListener();
         }
-
-
-        private void OnPointerChangeHandler(Vector3 pos)
-        {
-            m_PlayerState.OnInputPointerChange(pos);
-        }
         
-        private void OnLeftMouseUp()
-        {
-            Debug.Log("Left mouse up");
-        }
-        
-        private void OnRightMouseUp()
-        {
-            m_PlayerState.OnInputPanUp();
-        }
-        
-        private void OnRightMouseDown(Vector3 pos)
-        {
-            m_PlayerState.OnInputPanChange(pos);
-        }
-        
-        private void OnBuildAreaButtonClicked(string variable)
-        {
-            TransitionToState(m_BuildingSingleStructureState, variable);
-        }
-        
-        private void OnCancelActionButtonClicked()
-        {
-            m_PlayerState.OnCancel();
-        }
 
         private void OnLeftMouseDown(Vector3 position)
         { 
@@ -84,36 +47,72 @@ namespace Managers
         
         private void InitializeListener()
         {
-            _inputManager.OnLeftMouseDown += OnLeftMouseDown;
-            _inputManager.OnRightMouseDown += OnRightMouseDown;
-            _inputManager.OnRightMouseUp += OnRightMouseUp;
-            _inputManager.OnLeftMouseUp += OnLeftMouseUp;
-            _inputManager.OnPointerChangeHandler += OnPointerChangeHandler;
+            _inputManager.OnLeftMouseDown +=
+                (position) => m_PlayerState.OnInputPointerDown(position);
             
-            _uiManager.OnBuildAreaButtonClicked += OnBuildAreaButtonClicked;
-            _uiManager.OnCancelActionButtonClicked += OnCancelActionButtonClicked;
-            _uiManager.OnDemolishButtonClicked += OnDemolishButtonClicked;
-        }
-
-        private void OnDemolishButtonClicked()
-        {
-            TransitionToState(m_RemoveBuildingState, null);
+            _inputManager.OnRightMouseDown +=
+                (panPosition) => m_PlayerState.OnInputPanChange(panPosition);
+            
+            _inputManager.OnRightMouseUp +=
+                m_PlayerState.OnInputPanUp;
+            
+            _inputManager.OnPointerChangeHandler += 
+                (position) => m_PlayerState.OnInputPointerChange(position);
+            
+            
+            _uiManager.OnBuildAreaButtonClicked +=
+                (structureName) => m_PlayerState.OnBuildArea(structureName);
+            
+            _uiManager.OnCancelActionButtonClicked +=
+                () => m_PlayerState.OnCancel();
+            
+            _uiManager.OnDemolishButtonClicked += 
+                () => m_PlayerState.OnDemolishAction();
+            
+            _uiManager.OnBuildRoadButtonClicked +=
+                (structureName) => m_PlayerState.OnBuildRoad(structureName);
+            
+            _uiManager.OnBuildSingleStructureButtonClicked +=
+                (structureName) => m_PlayerState.OnBuildSingleStructure(structureName);
         }
 
         private void DestroyListener()
         {
             _inputManager.OnLeftMouseDown -= OnLeftMouseDown;
-            _inputManager.OnRightMouseDown -= OnRightMouseDown;
-            _inputManager.OnRightMouseUp -= OnRightMouseUp;
-            _inputManager.OnLeftMouseUp -= OnLeftMouseUp;
-            _inputManager.OnPointerChangeHandler -= OnPointerChangeHandler;
+            _inputManager.OnRightMouseDown -= m_PlayerState.OnInputPanChange;
+            _inputManager.OnRightMouseUp -= m_PlayerState.OnInputPanUp;
+            _inputManager.OnPointerChangeHandler -= m_PlayerState.OnInputPointerChange;
             
-            _uiManager.OnBuildAreaButtonClicked -= OnBuildAreaButtonClicked;
-            _uiManager.OnCancelActionButtonClicked -= OnCancelActionButtonClicked;
-            _uiManager.OnDemolishButtonClicked -= OnDemolishButtonClicked;
+            _uiManager.OnBuildAreaButtonClicked -= m_PlayerState.OnBuildArea;
+            _uiManager.OnCancelActionButtonClicked -= m_PlayerState.OnCancel;
+            _uiManager.OnDemolishButtonClicked -= m_PlayerState.OnDemolishAction;
+            _uiManager.OnBuildSingleStructureButtonClicked -= m_PlayerState.OnBuildSingleStructure;
+            _uiManager.OnBuildRoadButtonClicked -= m_PlayerState.OnBuildRoad;
         }
         
-    
+        private void PrepareStates()
+        {
+            m_BuildingManager = 
+                new BuildingManager(_placementManager, m_CellSize, _width, _height);
+            
+            m_SelectionState =
+                new PlayerSelectionState(this, _cameraMovement);
+            
+            m_BuildingSingleStructureState =
+                new PlayerBuildingSingleStructureState(this, m_BuildingManager);
+            
+            m_RemoveBuildingState = 
+                new PlayerRemoveBuildingState(this, m_BuildingManager);
+            
+            m_BuildAreaState =
+                new PlayerBuildAreaState(this, m_BuildingManager);
+            
+            m_BuildingRoadState = 
+                new PlayerBuildingRoadState(this, m_BuildingManager);
+
+            m_PlayerState = m_SelectionState;
+        }
+        
         public void TransitionToState(PlayerState state, string variable)
         {
             m_PlayerState = state;
@@ -133,6 +132,16 @@ namespace Managers
         public PlayerRemoveBuildingState GetRemoveBuildingState()
         {
             return m_RemoveBuildingState;
+        }
+        
+        public PlayerBuildAreaState GetBuildAreaState()
+        {
+            return m_BuildAreaState;
+        }
+        
+        public PlayerBuildingRoadState GetBuildingRoadState()
+        {
+            return m_BuildingRoadState;
         }
     }
 }

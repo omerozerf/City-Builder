@@ -65,6 +65,11 @@ namespace States
             
         }
         
+        public virtual void OnDemolishAction()
+        {
+            
+        }
+        
 
         public abstract void OnCancel();
     }
