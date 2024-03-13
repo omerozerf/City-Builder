@@ -5,6 +5,8 @@ namespace States
     public class PlayerBuildingRoadState : PlayerState
     {
         private BuildingManager m_BuildingManager;
+        private string m_StructureName;
+        
         
         public PlayerBuildingRoadState(GameManager gameManager,
             BuildingManager buildingManager) : base(gameManager)
@@ -14,7 +16,14 @@ namespace States
 
         public override void OnCancel()
         {
+            GetManager().TransitionToState(GetManager().GetSelectionState(), null);
+        }
+
+        public override void EnterState(string structureName)
+        {
+            base.EnterState(structureName);
             
+            m_StructureName = structureName;
         }
         
         public BuildingManager GetBuildingManager()

@@ -45,7 +45,7 @@ namespace States
             
         }
 
-        public virtual void EnterState(string variable)
+        public virtual void EnterState(string structureName)
         {
             
         }

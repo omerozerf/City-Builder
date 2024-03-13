@@ -6,7 +6,7 @@ namespace States
     public class PlayerBuildingSingleStructureState : PlayerState
     {
         private BuildingManager m_BuildingManager;
-        
+        private string m_StructureName;
         
         public PlayerBuildingSingleStructureState(GameManager gameManager,
             BuildingManager buildingManager) : base(gameManager)
@@ -44,9 +44,11 @@ namespace States
             GetManager().TransitionToState(GetManager().GetSelectionState(), null);
         }
 
-        public override void EnterState(string variable)
+        public override void EnterState(string structureName)
         {
-            base.EnterState(variable);
+            base.EnterState(structureName);
+            
+            m_StructureName = structureName;
         }
     }
 }
