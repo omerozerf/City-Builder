@@ -129,5 +129,10 @@ namespace Managers
         {
             return m_BuildingSingleStructureState;
         }
+        
+        public PlayerRemoveBuildingState GetRemoveBuildingState()
+        {
+            return m_RemoveBuildingState;
+        }
     }
 }

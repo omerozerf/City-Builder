@@ -40,16 +40,22 @@ namespace States
         public override void OnBuildArea(string structureName)
         {
             base.OnBuildArea(structureName);
+            
+            // GetManager().TransitionToState(GetManager().GetBuildingSingleStructureState(), structureName);
         }
 
         public override void OnBuildSingleStructure(string structureName)
         {
             base.OnBuildSingleStructure(structureName);
+            
+            GetManager().TransitionToState(GetManager().GetBuildingSingleStructureState(), structureName);
         }
 
         public override void OnBuildRoad(string structureName)
         {
             base.OnBuildRoad(structureName);
+            
+            // GetManager().TransitionToState(GetManager().GetBuildingSingleStructureState(), structureName);
         }
 
         public override void OnCancel()
