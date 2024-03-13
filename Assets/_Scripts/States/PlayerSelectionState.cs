@@ -36,7 +36,22 @@ namespace States
         {
             m_CameraMovement.StopCameraMovement();
         }
-        
+
+        public override void OnBuildArea(string structureName)
+        {
+            base.OnBuildArea(structureName);
+        }
+
+        public override void OnBuildSingleStructure(string structureName)
+        {
+            base.OnBuildSingleStructure(structureName);
+        }
+
+        public override void OnBuildRoad(string structureName)
+        {
+            base.OnBuildRoad(structureName);
+        }
+
         public override void OnCancel()
         {
             return;
