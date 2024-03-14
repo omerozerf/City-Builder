@@ -5,11 +5,9 @@ namespace States
 {
     public class PlayerSelectionState : PlayerState
     {
-        private CameraMovement m_CameraMovement;
-        
-        public PlayerSelectionState(GameManager gameManager, CameraMovement cameraMovement) : base(gameManager)
+        public PlayerSelectionState(GameManager gameManager) : base(gameManager)
         {
-            m_CameraMovement = cameraMovement;
+            
         }
 
         public override void OnInputPointerDown(Vector3 position)
@@ -26,17 +24,6 @@ namespace States
         {
             return;
         }
-
-        public override void OnInputPanChange(Vector3 panPosition)
-        {
-            m_CameraMovement.MoveCamera(panPosition);
-        }
-
-        public override void OnInputPanUp()
-        {
-            m_CameraMovement.StopCameraMovement();
-        }
-        
         
         public override void OnCancel()
         {

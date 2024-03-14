@@ -75,6 +75,9 @@ namespace Managers
             
             _uiManager.OnBuildSingleStructureButtonClicked +=
                 (structureName) => m_PlayerState.OnBuildSingleStructure(structureName);
+            
+            _uiManager.OnConfirmActionButtonClicked +=
+                () => m_PlayerState.OnConfirmAction();
         }
 
         private void DestroyListener()
@@ -89,6 +92,7 @@ namespace Managers
             _uiManager.OnDemolishButtonClicked -= m_PlayerState.OnDemolishAction;
             _uiManager.OnBuildSingleStructureButtonClicked -= m_PlayerState.OnBuildSingleStructure;
             _uiManager.OnBuildRoadButtonClicked -= m_PlayerState.OnBuildRoad;
+            _uiManager.OnConfirmActionButtonClicked -= m_PlayerState.OnConfirmAction;
         }
         
         private void PrepareStates()
@@ -97,7 +101,7 @@ namespace Managers
                 new BuildingManager(_placementManager, m_CellSize, _width, _height, _structureRepository);
             
             m_SelectionState =
-                new PlayerSelectionState(this, _cameraMovement);
+                new PlayerSelectionState(this);
             
             m_BuildingSingleStructureState =
                 new PlayerBuildingSingleStructureState(this, m_BuildingManager);
@@ -143,6 +147,11 @@ namespace Managers
         public PlayerBuildingRoadState GetBuildingRoadState()
         {
             return m_BuildingRoadState;
+        }
+
+        public CameraMovement GetCameraMovement()
+        {
+            return _cameraMovement;
         }
     }
 }

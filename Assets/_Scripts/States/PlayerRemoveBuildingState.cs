@@ -27,16 +27,7 @@ namespace States
         {
             return;
         }
-
-        public override void OnInputPanChange(Vector3 panPosition)
-        {
-            return;
-        }
-
-        public override void OnInputPanUp()
-        {
-            return;
-        }
+        
 
         public override void OnCancel()
         {

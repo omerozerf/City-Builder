@@ -17,9 +17,14 @@ namespace States
 
         public override void OnInputPointerDown(Vector3 position)
         {
-            Debug.Log("Single Structure");
-            
             m_BuildingManager.PlaceStructureAt(position, m_StructureName, StructureType.Facility);
+        }
+
+        public override void OnConfirmAction()
+        {
+            base.OnConfirmAction();
+            
+            m_BuildingManager.ConfirmPlacement();
         }
 
         public override void OnInputPointerChange(Vector3 position)
@@ -44,6 +49,7 @@ namespace States
         
         public override void OnCancel()
         {
+            m_BuildingManager.CancelPlacement();
             GetManager().TransitionToState(GetManager().GetSelectionState(), null);
         }
 

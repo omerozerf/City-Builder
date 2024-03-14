@@ -10,6 +10,7 @@ namespace Managers
     {
         [SerializeField] private Button _buildResidentialAreaButton;
         [SerializeField] private GameObject _cancelActionPanel;
+        [SerializeField] private Button _confirmActionButton;
         [SerializeField] private Button _cancelActionButton;
         [SerializeField] private GameObject _buildingMenuPanel;
         [SerializeField] private Button _openBuildMenuButton;
@@ -25,6 +26,7 @@ namespace Managers
         public event Action<string> OnBuildAreaButtonClicked;
         public event Action<string> OnBuildSingleStructureButtonClicked;
         public event Action<string> OnBuildRoadButtonClicked;
+        public event Action OnConfirmActionButtonClicked;
         public event Action OnCancelActionButtonClicked;
         public event Action OnDemolishButtonClicked;
         
@@ -49,8 +51,9 @@ namespace Managers
             _openBuildMenuButton.onClick.AddListener(OnOpenBuildMenuCallback);
             _demolishButton.onClick.AddListener(OnDemolishButtonCallback);
             _closeBuildMenuButton.onClick.AddListener(OnCloseMenuCallback);
+            _confirmActionButton.onClick.AddListener(OnConfirmActionCallback);
         }
-    
+        
         private void RemoveListeners()
         {
             // _buildResidentialAreaButton.onClick.RemoveListener(OnBuildAreaCallback);
@@ -58,8 +61,16 @@ namespace Managers
             _openBuildMenuButton.onClick.RemoveListener(OnOpenBuildMenuCallback);
             _demolishButton.onClick.RemoveListener(OnDemolishButtonCallback);
             _closeBuildMenuButton.onClick.RemoveListener(OnCloseMenuCallback);
+            _confirmActionButton.onClick.RemoveListener(OnConfirmActionCallback);
         }
-    
+        
+        
+        private void OnConfirmActionCallback()
+        {
+            _cancelActionPanel.SetActive(false);
+            
+            OnConfirmActionButtonClicked?.Invoke();
+        }
     
         private void OnCloseMenuCallback()
         {
