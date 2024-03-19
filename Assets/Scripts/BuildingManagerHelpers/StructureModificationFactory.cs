@@ -5,35 +5,35 @@ using UnityEngine;
 
 public static class StructureModificationFactory
 {
-    private static StructureModificationHelper singleStructurePlacementHelper;
-    private static StructureModificationHelper structureDemolitionHelper;
-    private static StructureModificationHelper roadStructurePlacementHelper;
-    private static StructureModificationHelper zonePlacementHelper;
+    private static StructureModificationHelper ms_SingleStructurePlacementHelper;
+    private static StructureModificationHelper ms_StructureDemolitionHelper;
+    private static StructureModificationHelper ms_RoadStructurePlacementHelper;
+    private static StructureModificationHelper ms_ZonePlacementHelper;
     public static void PrepareFactory(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager)
     {
-        singleStructurePlacementHelper = new SingleStructurePlacementHelper(structureRepository, grid, placementManager);
-        structureDemolitionHelper = new StructureDemolitionHelper(structureRepository, grid, placementManager);
-        roadStructurePlacementHelper = new RoadPlacementModificationHelper(structureRepository, grid, placementManager);
-        zonePlacementHelper = new ZonePlacementHelper(structureRepository, grid, placementManager, Vector3.zero);
+        ms_SingleStructurePlacementHelper = new SingleStructurePlacementHelper(structureRepository, grid, placementManager);
+        ms_StructureDemolitionHelper = new StructureDemolitionHelper(structureRepository, grid, placementManager);
+        ms_RoadStructurePlacementHelper = new RoadPlacementModificationHelper(structureRepository, grid, placementManager);
+        ms_ZonePlacementHelper = new ZonePlacementHelper(structureRepository, grid, placementManager, Vector3.zero);
     }
 
     public static StructureModificationHelper GetHelper(Type classType)
     {
         if (classType == typeof(PlayerDemolitionState))
         {
-            return structureDemolitionHelper;
+            return ms_StructureDemolitionHelper;
         }
         else if (classType == typeof(PlayerBuildingZoneState))
         {
-            return zonePlacementHelper;
+            return ms_ZonePlacementHelper;
         }
         else if (classType == typeof(PlayerBuildingRoadState))
         {
-            return roadStructurePlacementHelper;
+            return ms_RoadStructurePlacementHelper;
         }
         else
         {
-            return singleStructurePlacementHelper;
+            return ms_SingleStructurePlacementHelper;
         }
     }
 }

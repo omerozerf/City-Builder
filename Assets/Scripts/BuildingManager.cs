@@ -5,70 +5,70 @@ using UnityEngine;
 
 public class BuildingManager
 {
-    GridStructure grid;
-    IPlacementManager placementManager;
-    StructureRepository structureRepository;
-    StructureModificationHelper helper;
+    GridStructure m_Grid;
+    IPlacementManager m_PlacementManager;
+    StructureRepository m_StructureRepository;
+    StructureModificationHelper m_Helper;
 
     public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManager, StructureRepository structureRepository)
     {
-        this.grid = new GridStructure(cellSize, width, length);
-        this.placementManager = placementManager;
-        this.structureRepository = structureRepository;
-        StructureModificationFactory.PrepareFactory(structureRepository, grid, placementManager);
+        this.m_Grid = new GridStructure(cellSize, width, length);
+        this.m_PlacementManager = placementManager;
+        this.m_StructureRepository = structureRepository;
+        StructureModificationFactory.PrepareFactory(structureRepository, m_Grid, placementManager);
 
     }
 
     public void PrepareBuildingManager(Type classType)
     {
-        helper = StructureModificationFactory.GetHelper(classType);
+        m_Helper = StructureModificationFactory.GetHelper(classType);
     }
 
     public void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        helper.PrepareStructureForModification(inputPosition, structureName, structureType);
+        m_Helper.PrepareStructureForModification(inputPosition, structureName, structureType);
     }
 
     public void ConfirmModification()
     {
-        helper.ConfirmModifications();
+        m_Helper.ConfirmModifications();
     }
 
     public void CancelModification()
     {
-        helper.CancleModifications();
+        m_Helper.CancleModifications();
     }
 
     public void PrepareStructureForDemolitionAt(Vector3 inputPosition)
     {
-        helper.PrepareStructureForModification(inputPosition, "", StructureType.None);
+        m_Helper.PrepareStructureForModification(inputPosition, "", StructureType.None);
     }
 
     public GameObject CheckForStructureInGrid(Vector3 inputPosition)
     {
-        Vector3 gridPositoion = grid.CalculateGridPosition(inputPosition);
-        if (grid.IsCellTaken(gridPositoion))
+        Vector3 gridPositoion = m_Grid.CalculateGridPosition(inputPosition);
+        if (m_Grid.IsCellTaken(gridPositoion))
         {
-            return grid.GetStructureFromTheGrid(gridPositoion);
+            return m_Grid.GetStructureFromTheGrid(gridPositoion);
         }
         return null;
     }
 
     public GameObject CheckForStructureInDictionary(Vector3 inputPosition)
     {
-        Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
+        Vector3 gridPosition = m_Grid.CalculateGridPosition(inputPosition);
         GameObject structureToReturn = null;
-        structureToReturn = helper.AccessStructureInDictionary(gridPosition);
+        structureToReturn = m_Helper.AccessStructureInDictionary(gridPosition);
         if (structureToReturn != null)
         {
             return structureToReturn;
         }
-        structureToReturn = helper.AccessStructureInDictionary(gridPosition);
+        structureToReturn = m_Helper.AccessStructureInDictionary(gridPosition);
         return structureToReturn;
     }
 
     public void StopContinuousPlacement()
     {
-        helper.StopContinuousPlacement();
+        m_Helper.StopContinuousPlacement();
     }
 }

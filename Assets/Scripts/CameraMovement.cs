@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraMovement : MonoBehaviour
 {
-    Vector3? basePointerPosition = null;
-    public float cameraMovementSpeed = 0.05f;
-    private int cameraXMin, cameraXMax, cameraZMin, cameraZMax;
+    Vector3? m_BasePointerPosition = null;
+    [FormerlySerializedAs("cameraMovementSpeed")] public float _cameraMovementSpeed = 0.05f;
+    private int m_CameraXMin, m_CameraXMax, m_CameraZMin, m_CameraZMax;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,35 +22,35 @@ public class CameraMovement : MonoBehaviour
 
     public void MoveCamera(Vector3 pointerposition)
     {
-        if (basePointerPosition.HasValue == false)
+        if (m_BasePointerPosition.HasValue == false)
         {
-            basePointerPosition = pointerposition;
+            m_BasePointerPosition = pointerposition;
         }
-        Vector3 newPosition = pointerposition - basePointerPosition.Value;
+        Vector3 newPosition = pointerposition - m_BasePointerPosition.Value;
         newPosition = new Vector3(newPosition.x, 0, newPosition.y);
-        transform.Translate(newPosition * cameraMovementSpeed);
+        transform.Translate(newPosition * _cameraMovementSpeed);
         LimitPositionInsideCameraBounds();
     }
 
     private void LimitPositionInsideCameraBounds()
     {
         transform.position = new Vector3(
-                    Mathf.Clamp(transform.position.x, cameraXMin, cameraXMax),
+                    Mathf.Clamp(transform.position.x, m_CameraXMin, m_CameraXMax),
                     0,
-                    Mathf.Clamp(transform.position.z, cameraZMin, cameraZMax)
+                    Mathf.Clamp(transform.position.z, m_CameraZMin, m_CameraZMax)
                     );
     }
 
     public void StopCameraMovement()
     {
-        basePointerPosition = null;
+        m_BasePointerPosition = null;
     }
 
     public void SetCameraLimits(int cameraXMin, int cameraXMax, int cameraZMin, int cameraZMax)
     {
-        this.cameraXMax = cameraXMax;
-        this.cameraXMin = cameraXMin;
-        this.cameraZMax = cameraZMax;
-        this.cameraZMin = cameraZMin;
+        this.m_CameraXMax = cameraXMax;
+        this.m_CameraXMin = cameraXMin;
+        this.m_CameraZMax = cameraZMax;
+        this.m_CameraZMin = cameraZMin;
     }
 }

@@ -12,7 +12,7 @@ public class SingleStructurePlacementHelper : StructureModificationHelper
     {
         base.PrepareStructureForModification(inputPosition, structureName, structureType);
         //GameObject buildingPrefab = this.structureRepository.GetBuildingPrefabByName(structureName, structureType);
-        GameObject buildingPrefab = structureData.prefab;
+        GameObject buildingPrefab = structureData._prefab;
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
         if (grid.IsCellTaken(gridPosition) == false)

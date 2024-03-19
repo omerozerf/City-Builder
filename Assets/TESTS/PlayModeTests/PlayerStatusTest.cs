@@ -48,9 +48,9 @@ namespace Tests
 
             gameManagerComponent = gameManagerObject.AddComponent<GameManager>();
             gameManagerObject.AddComponent<PlacementManager>();
-            gameManagerComponent.placementManagerGameObject = gameManagerObject;
-            gameManagerComponent.cameraMovement = camerMovementComponent;
-            gameManagerComponent.uiController = uiController;
+            gameManagerComponent._placementManagerGameObject = gameManagerObject;
+            gameManagerComponent._cameraMovement = camerMovementComponent;
+            gameManagerComponent._uiController = uiController;
         }
 
         [UnityTest]

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class StructureDemolitionHelper : StructureModificationHelper
 {
-    Dictionary<Vector3Int, GameObject> roadToDemolish = new Dictionary<Vector3Int, GameObject>();
+    Dictionary<Vector3Int, GameObject> m_RoadToDemolish = new Dictionary<Vector3Int, GameObject>();
     public StructureDemolitionHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager) : base(structureRepository, grid, placementManager)
     {
     }
@@ -21,7 +21,7 @@ public class StructureDemolitionHelper : StructureModificationHelper
         {
             grid.RemoveStructureFromTheGrid(gridPosition);
         }
-        foreach (var keyVeluPair in roadToDemolish)
+        foreach (var keyVeluPair in m_RoadToDemolish)
         {
             Dictionary<Vector3Int, GameObject> neighboursDictionary = RoadManager.GetRoadNeighboursForPosition(grid, keyVeluPair.Key);
             if (neighboursDictionary.Count > 0)
@@ -58,9 +58,9 @@ public class StructureDemolitionHelper : StructureModificationHelper
     {
         structuresToBeModified.Add(gridPositionInt, structure);
         placementManager.SetBuildingForDemolition(structure);
-        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && roadToDemolish.ContainsKey(gridPositionInt) == false)
+        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && m_RoadToDemolish.ContainsKey(gridPositionInt) == false)
         {
-            roadToDemolish.Add(gridPositionInt, structure);
+            m_RoadToDemolish.Add(gridPositionInt, structure);
         }
     }
 
@@ -68,9 +68,9 @@ public class StructureDemolitionHelper : StructureModificationHelper
     {
         placementManager.ResetBuildingLook(structure);
         structuresToBeModified.Remove(gridPositionInt);
-        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && roadToDemolish.ContainsKey(gridPositionInt))
+        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && m_RoadToDemolish.ContainsKey(gridPositionInt))
         {
-            roadToDemolish.Remove(gridPositionInt);
+            m_RoadToDemolish.Remove(gridPositionInt);
         }
     }
 

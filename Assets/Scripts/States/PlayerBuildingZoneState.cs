@@ -5,60 +5,60 @@ using UnityEngine;
 public class PlayerBuildingZoneState : PlayerState
 {
     
-    BuildingManager buildingManager;
-    string structureName;
+    BuildingManager m_BuildingManager;
+    string m_StructureName;
 
     public PlayerBuildingZoneState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
-        this.buildingManager = buildingManager;
+        this.m_BuildingManager = buildingManager;
     }
 
     public override void OnConfirmAction()
     {
         
-        this.buildingManager.ConfirmModification();
+        this.m_BuildingManager.ConfirmModification();
         base.OnConfirmAction();
     }
 
     public override void OnCancle()
     {
-        this.buildingManager.CancelModification();
+        this.m_BuildingManager.CancelModification();
         this.gameManager.TransitionToState(this.gameManager.selectionState, null);
     }
 
     public override void EnterState(string structureName)
     {
         base.EnterState(structureName);
-        this.buildingManager.PrepareBuildingManager(this.GetType());
-        this.structureName = structureName;
+        this.m_BuildingManager.PrepareBuildingManager(this.GetType());
+        this.m_StructureName = structureName;
     }
 
     public override void OnInputPointerDown(Vector3 position)
     {
 
-        buildingManager.PrepareStructureForPlacement(position, this.structureName, StructureType.Zone);
+        m_BuildingManager.PrepareStructureForPlacement(position, this.m_StructureName, StructureType.Zone);
     }
 
     public override void OnBuildSingleStructure(string structureName)
     {
         base.OnBuildSingleStructure(structureName);
-        this.buildingManager.CancelModification();
+        this.m_BuildingManager.CancelModification();
     }
 
     public override void OnInputPointerChange(Vector3 position)
     {
-        this.buildingManager.PrepareStructureForPlacement(position, structureName, StructureType.Zone);
+        this.m_BuildingManager.PrepareStructureForPlacement(position, m_StructureName, StructureType.Zone);
     }
 
     public override void OnBuildRoad(string structureName)
     {
 
         base.OnBuildRoad(structureName);
-        this.buildingManager.CancelModification();
+        this.m_BuildingManager.CancelModification();
     }
 
     public override void OnInputPointerUp()
     {
-        this.buildingManager.StopContinuousPlacement();
+        this.m_BuildingManager.StopContinuousPlacement();
     }
 }

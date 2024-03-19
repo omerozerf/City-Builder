@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlacementManager : MonoBehaviour, IPlacementManager
 {
-    public Transform ground;
-    public Material transparentMaterial;
-    private Dictionary<GameObject, Material[]> originalMaterials = new Dictionary<GameObject, Material[]>();
+    [FormerlySerializedAs("ground")] public Transform _ground;
+    [FormerlySerializedAs("transparentMaterial")] public Material _transparentMaterial;
+    private Dictionary<GameObject, Material[]> m_OriginalMaterials = new Dictionary<GameObject, Material[]>();
 
     //public void CreateBuilding(Vector3 gridPosition, GridStructure grid, GameObject buildingPrefab)
     //{
@@ -25,7 +26,7 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
 
     public GameObject PlaceStructureOnTheMap(Vector3 gridPosition, GameObject buildingPrefab, RotationValue rotationValue)
     {
-        GameObject newStructure = Instantiate(buildingPrefab, ground.position + gridPosition, Quaternion.identity);
+        GameObject newStructure = Instantiate(buildingPrefab, _ground.position + gridPosition, Quaternion.identity);
         Vector3 rotation = Vector3.zero;
         switch (rotationValue)
         {
@@ -55,15 +56,15 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
         foreach (Transform child in newStructure.transform)
         {
             var renderer = child.GetComponent<MeshRenderer>();
-            if (originalMaterials.ContainsKey(child.gameObject) == false)
+            if (m_OriginalMaterials.ContainsKey(child.gameObject) == false)
             {
-                originalMaterials.Add(child.gameObject, renderer.materials);
+                m_OriginalMaterials.Add(child.gameObject, renderer.materials);
             }
             Material[] materialsToSet = new Material[renderer.materials.Length];
             colorToSet.a = 0.5f;
             for (int i = 0; i < materialsToSet.Length; i++)
             {
-                materialsToSet[i] = transparentMaterial;
+                materialsToSet[i] = _transparentMaterial;
                 materialsToSet[i].color = colorToSet;
             }
             renderer.materials = materialsToSet;
@@ -78,7 +79,7 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
             ResetBuildingLook(structure);
 
         }
-        originalMaterials.Clear();
+        m_OriginalMaterials.Clear();
     }
 
     public void ResetBuildingLook(GameObject structure)
@@ -86,9 +87,9 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
         foreach (Transform child in structure.transform)
         {
             var renderer = child.GetComponent<MeshRenderer>();
-            if (originalMaterials.ContainsKey(child.gameObject))
+            if (m_OriginalMaterials.ContainsKey(child.gameObject))
             {
-                renderer.materials = originalMaterials[child.gameObject];
+                renderer.materials = m_OriginalMaterials[child.gameObject];
             }
         }
     }
@@ -99,7 +100,7 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
         {
             DestroySingleStructure(structure);
         }
-        originalMaterials.Clear();
+        m_OriginalMaterials.Clear();
     }
 
     public void DestroySingleStructure(GameObject structure)

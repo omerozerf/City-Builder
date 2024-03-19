@@ -25,8 +25,8 @@ namespace Tests
             materialTransparent = new Material(Shader.Find("Standard"));
 
             placementManager = Substitute.For<PlacementManager>();
-            placementManager.ground = ground.transform;
-            placementManager.transparentMaterial = materialTransparent;
+            placementManager._ground = ground.transform;
+            placementManager._transparentMaterial = materialTransparent;
         }
         // A Test behaves as an ordinary method
         [UnityTest]

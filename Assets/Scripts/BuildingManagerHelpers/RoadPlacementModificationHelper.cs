@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RoadPlacementModificationHelper : StructureModificationHelper
 {
-    Dictionary<Vector3Int, GameObject> existingRoadStructuresToModify = new Dictionary<Vector3Int, GameObject>();
+    Dictionary<Vector3Int, GameObject> m_ExistingRoadStructuresToModify = new Dictionary<Vector3Int, GameObject>();
     public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager) : base(structureRepository, grid, placementManager)
     {
     }
@@ -55,9 +55,9 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
         if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, neighbourPositionInt))
         {
             var neighbourStructureData = grid.GetStructureDataFromTheGrid(neighbourGridPosition.Value);
-            if (neighbourStructureData != null && neighbourStructureData.GetType() == typeof(RoadStructureSO) && existingRoadStructuresToModify.ContainsKey(neighbourPositionInt) == false)
+            if (neighbourStructureData != null && neighbourStructureData.GetType() == typeof(RoadStructureSO) && m_ExistingRoadStructuresToModify.ContainsKey(neighbourPositionInt) == false)
             {
-                existingRoadStructuresToModify.Add(neighbourPositionInt, grid.GetStructureFromTheGrid(neighbourGridPosition.Value));
+                m_ExistingRoadStructuresToModify.Add(neighbourPositionInt, grid.GetStructureFromTheGrid(neighbourGridPosition.Value));
             }
         }
     }
@@ -90,12 +90,12 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
     public override void CancleModifications()
     {
         base.CancleModifications();
-        existingRoadStructuresToModify.Clear();
+        m_ExistingRoadStructuresToModify.Clear();
     }
 
     public override void ConfirmModifications()
     {
-        RoadManager.ModifyRoadCellsOnTheGrid(existingRoadStructuresToModify, structureData, structuresToBeModified, grid, placementManager);
+        RoadManager.ModifyRoadCellsOnTheGrid(m_ExistingRoadStructuresToModify, structureData, structuresToBeModified, grid, placementManager);
 
         base.ConfirmModifications();
     }
