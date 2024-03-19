@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace States
 {
-    public class PlayerBuildZoneState : PlayerState
+    public class PlayerBuildingZoneState : PlayerState
     {
         private BuildingManager m_BuildingManager;
         private string m_StructureName;
         
-        public PlayerBuildZoneState(GameManager gameManager,
+        public PlayerBuildingZoneState(GameManager gameManager,
             BuildingManager buildingManager) : base(gameManager)
         {
             m_BuildingManager = buildingManager;
@@ -17,7 +17,20 @@ namespace States
 
         public override void OnCancel()
         {
+            m_BuildingManager.CancelPlacement();
             GetManager().TransitionToState(GetManager().GetSelectionState(), null);
+        }
+
+        public override void OnBuildRoad(string structureName)
+        {
+            m_BuildingManager.CancelPlacement();
+            base.OnBuildRoad(structureName);
+        }
+
+        public override void OnBuildSingleStructure(string structureName)
+        {
+            m_BuildingManager.CancelPlacement();
+            base.OnBuildSingleStructure(structureName);
         }
 
         public override void EnterState(string structureName)

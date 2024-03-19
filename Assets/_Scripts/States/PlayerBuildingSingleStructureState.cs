@@ -53,6 +53,20 @@ namespace States
             GetManager().TransitionToState(GetManager().GetSelectionState(), null);
         }
 
+        public override void OnBuildRoad(string structureName)
+        {
+            m_BuildingManager.CancelPlacement();
+            
+            base.OnBuildRoad(structureName);
+        }
+
+        public override void OnBuildArea(string structureName)
+        {
+            m_BuildingManager.CancelPlacement();
+            
+            base.OnBuildArea(structureName);
+        }
+
         public override void EnterState(string structureName)
         {
             base.EnterState(structureName);

@@ -18,7 +18,7 @@ namespace Managers
         private PlayerSelectionState m_SelectionState;
         private PlayerBuildingSingleStructureState m_BuildingSingleStructureState;
         private PlayerRemoveBuildingState m_RemoveBuildingState;
-        private PlayerBuildZoneState m_BuildZoneState;
+        private PlayerBuildingZoneState m_BuildingZoneState;
         private PlayerBuildingRoadState m_BuildingRoadState;
         private PlayerState m_PlayerState;
         private bool m_IsBuildingMode;
@@ -109,8 +109,8 @@ namespace Managers
             m_RemoveBuildingState = 
                 new PlayerRemoveBuildingState(this, m_BuildingManager);
             
-            m_BuildZoneState =
-                new PlayerBuildZoneState(this, m_BuildingManager);
+            m_BuildingZoneState =
+                new PlayerBuildingZoneState(this, m_BuildingManager);
             
             m_BuildingRoadState = 
                 new PlayerBuildingRoadState(this, m_BuildingManager);
@@ -139,9 +139,9 @@ namespace Managers
             return m_RemoveBuildingState;
         }
         
-        public PlayerBuildZoneState GetBuildAreaState()
+        public PlayerBuildingZoneState GetBuildAreaState()
         {
-            return m_BuildZoneState;
+            return m_BuildingZoneState;
         }
         
         public PlayerBuildingRoadState GetBuildingRoadState()
