@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6eb3b5b2994394fa2d496b9cd513bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMovementSpeed: 0.0005
+  _cameraMovementSpeed: 0.0005
 --- !u!4 &64242002
 Transform:
   m_ObjectHideFlags: 0
@@ -585,7 +585,7 @@ GameObject:
   - component: {fileID: 399283730}
   - component: {fileID: 399283729}
   - component: {fileID: 399283728}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: GroundChild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -911,7 +911,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 593111620}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1434,7 +1434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b828968cb2abb041b0d82c0ac2993af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelDataCollection: {fileID: 11400000, guid: c0d06604e91293540adf0ebe91189840,
+  _modelDataCollection: {fileID: 11400000, guid: c0d06604e91293540adf0ebe91189840,
     type: 2}
 --- !u!4 &825389475
 Transform:
@@ -2734,7 +2734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1650921836}
   - component: {fileID: 1650921835}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2753,15 +2753,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8887e9ef26037a14ea6d3e51fc2d75ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementManagerGameObject: {fileID: 1817562211}
-  structureRepository: {fileID: 825389474}
-  uiController: {fileID: 1976479581}
-  width: 100
-  length: 100
-  cameraMovement: {fileID: 64242001}
-  inputMask:
+  _placementManagerGameObject: {fileID: 1817562211}
+  _structureRepository: {fileID: 825389474}
+  _uiController: {fileID: 1976479581}
+  _width: 100
+  _length: 100
+  _cameraMovement: {fileID: 64242001}
+  _inputMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!4 &1650921836
 Transform:
   m_ObjectHideFlags: 0
@@ -2927,8 +2927,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 152d9b002882cc94aa074027e6a50466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground: {fileID: 593111620}
-  transparentMaterial: {fileID: 2100000, guid: 19aeccfa875758143b1b8fc7176e8f84, type: 2}
+  _ground: {fileID: 593111620}
+  _transparentMaterial: {fileID: 2100000, guid: 19aeccfa875758143b1b8fc7176e8f84,
+    type: 2}
 --- !u!4 &1817562213
 Transform:
   m_ObjectHideFlags: 0
@@ -3252,19 +3253,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2a6ea4a9d5641479ac685545ae65c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structureRepository: {fileID: 825389474}
-  buildResidentialAreaBtn: {fileID: 1274327567}
-  cancleActionBtn: {fileID: 1657160094}
-  confirmActionBtn: {fileID: 1433759486}
-  cancleActionPanel: {fileID: 1643780337}
-  buildingMenuPanel: {fileID: 1470869744}
-  openBuildMenuBtn: {fileID: 1567679464}
-  demolishBtn: {fileID: 546405891}
-  zonesPanel: {fileID: 405806474}
-  facilitiesPanel: {fileID: 1551379265}
-  roadsPanel: {fileID: 1481577462}
-  closeBuildMenuBtn: {fileID: 1045125950}
-  buildButtonPrefab: {fileID: 887964655198250043, guid: e124772d9a861464d9b127a204043749,
+  _structureRepository: {fileID: 825389474}
+  _buildResidentialAreaBtn: {fileID: 1274327567}
+  _cancleActionBtn: {fileID: 1657160094}
+  _confirmActionBtn: {fileID: 1433759486}
+  _cancleActionPanel: {fileID: 1643780337}
+  _buildingMenuPanel: {fileID: 1470869744}
+  _openBuildMenuBtn: {fileID: 1567679464}
+  _demolishBtn: {fileID: 546405891}
+  _zonesPanel: {fileID: 405806474}
+  _facilitiesPanel: {fileID: 1551379265}
+  _roadsPanel: {fileID: 1481577462}
+  _closeBuildMenuBtn: {fileID: 1045125950}
+  _buildButtonPrefab: {fileID: 887964655198250043, guid: e124772d9a861464d9b127a204043749,
     type: 3}
 --- !u!4 &1976479582
 Transform:
