@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using States;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -116,8 +117,8 @@ public class GameManager : MonoBehaviour
 
     public void TransitionToState(PlayerState newState, string variable)
     {
-        this.m_State = newState;
-        this.m_State.EnterState(variable);
+        m_State = newState;
+        m_State.EnterState(variable);
     }
 
 }
