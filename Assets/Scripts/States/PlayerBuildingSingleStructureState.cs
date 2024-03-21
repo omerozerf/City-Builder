@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerBuildingSingleStructureState : PlayerState
 {
-    BuildingManager m_BuildingManager;
-    string m_StructureName;
+    private BuildingManager m_BuildingManager;
+    private string m_StructureName;
     public PlayerBuildingSingleStructureState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
         this.m_BuildingManager = buildingManager;

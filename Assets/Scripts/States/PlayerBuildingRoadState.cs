@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerBuildingRoadState : PlayerState
 {
-    BuildingManager m_BuildingManager;
-    string m_StructureName;
+    private BuildingManager m_BuildingManager;
+    private string m_StructureName;
     public PlayerBuildingRoadState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
         this.m_BuildingManager = buildingManager;

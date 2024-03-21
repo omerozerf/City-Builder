@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerBuildingZoneState : PlayerState
 {
-    
-    BuildingManager m_BuildingManager;
-    string m_StructureName;
+    private BuildingManager m_BuildingManager;
+    private string m_StructureName;
 
     public PlayerBuildingZoneState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {

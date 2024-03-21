@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDemolitionState : PlayerState
 {
-    BuildingManager m_BuildingManager;
+    private BuildingManager m_BuildingManager;
     public PlayerDemolitionState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
         this.m_BuildingManager = buildingManager;
