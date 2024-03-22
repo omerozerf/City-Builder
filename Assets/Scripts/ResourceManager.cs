@@ -78,4 +78,9 @@ public class ResourceManager : MonoBehaviour
 
         return false;
     }
+
+    public bool GetCanBuy(int amount)
+    {
+        return CanBuy(amount);
+    }
 }
