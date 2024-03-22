@@ -48,9 +48,9 @@ public class CameraMovement : MonoBehaviour
 
     public void SetCameraLimits(int cameraXMin, int cameraXMax, int cameraZMin, int cameraZMax)
     {
-        this.m_CameraXMax = cameraXMax;
-        this.m_CameraXMin = cameraXMin;
-        this.m_CameraZMax = cameraZMax;
-        this.m_CameraZMin = cameraZMin;
+        m_CameraXMax = cameraXMax;
+        m_CameraXMin = cameraXMin;
+        m_CameraZMax = cameraZMax;
+        m_CameraZMin = cameraZMin;
     }
 }

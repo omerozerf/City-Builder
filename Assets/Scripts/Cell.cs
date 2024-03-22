@@ -15,9 +15,9 @@ public class Cell
     {
         if (structureModel == null)
             return;
-        this.m_StructureModel = structureModel;
-        this.m_İsTaken = true;
-        this.m_StructureData = structureData;
+        m_StructureModel = structureModel;
+        m_İsTaken = true;
+        m_StructureData = structureData;
     }
 
     public GameObject GetStructure()

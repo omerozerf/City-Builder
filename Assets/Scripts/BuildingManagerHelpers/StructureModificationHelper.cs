@@ -35,7 +35,7 @@ public abstract class StructureModificationHelper
         placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
         foreach (var keyValuePair in structuresToBeModified)
         {
-            grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key, GameObject.Instantiate(structureData) );
+            grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key, Object.Instantiate(structureData) );
         }
         ResetHelpersData();
     }
@@ -49,7 +49,7 @@ public abstract class StructureModificationHelper
     {
         if (structureData.GetType()==typeof(NullStructureSO) && structureType != StructureType.None)
         {
-            structureData = this.structureRepository.GetStructureData(structureName, structureType);
+            structureData = structureRepository.GetStructureData(structureName, structureType);
         }
     }
 

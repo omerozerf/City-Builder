@@ -9,7 +9,7 @@ public class MoneyHelper
 
     public MoneyHelper(int startMoneyAmount)
     {
-        this.m_Money = startMoneyAmount;
+        m_Money = startMoneyAmount;
     }
 
     public int Money { get => m_Money; 

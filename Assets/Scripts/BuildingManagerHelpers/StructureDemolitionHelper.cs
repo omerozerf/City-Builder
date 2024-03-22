@@ -16,7 +16,7 @@ public class StructureDemolitionHelper : StructureModificationHelper
         {
             resourceManager.AddMoney(resourceManager.DemolitionPrice);
         }
-        this.placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
+        placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
         structuresToBeModified.Clear();
     }
 
@@ -38,7 +38,7 @@ public class StructureDemolitionHelper : StructureModificationHelper
 
 
         }
-        this.placementManager.DestroyStructures(structuresToBeModified.Values);
+        placementManager.DestroyStructures(structuresToBeModified.Values);
         structuresToBeModified.Clear();
     }
 

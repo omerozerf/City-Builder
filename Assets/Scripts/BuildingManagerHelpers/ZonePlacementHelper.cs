@@ -15,7 +15,7 @@ public class ZonePlacementHelper : StructureModificationHelper
 
     public ZonePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, Vector3 mapBottomLeftCorner, IResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
     {
-        this.m_MapBottomLeftCorner = mapBottomLeftCorner;
+        m_MapBottomLeftCorner = mapBottomLeftCorner;
     }
 
     public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)

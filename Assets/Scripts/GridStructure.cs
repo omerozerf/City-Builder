@@ -10,10 +10,10 @@ public class GridStructure
     private int m_Width, m_Length;
     public GridStructure(int cellSize, int width, int length)
     {
-        this.m_CellSize = cellSize;
-        this.m_Width = width;
-        this.m_Length = length;
-        m_Grid = new Cell[this.m_Width,this.m_Length];
+        m_CellSize = cellSize;
+        m_Width = width;
+        m_Length = length;
+        m_Grid = new Cell[m_Width,m_Length];
         for (int row = 0; row < m_Grid.GetLength(0); row++)
         {
             for (int col = 0; col < m_Grid.GetLength(1); col++)

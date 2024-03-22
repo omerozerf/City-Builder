@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class RoadManager
 {
@@ -137,25 +138,25 @@ public static class RoadManager
             placementManager.DestroySingleStructure(keyValuePair.Value);
             var roadStructure = GetCorrectRoadPrefab(keyValuePair.Key, structureData, structuresToBeModified, grid);
             var structure = placementManager.PlaceStructureOnTheMap(keyValuePair.Key, roadStructure.RoadPrefab, roadStructure.RoadPrefabRotation);
-            grid.PlaceStructureOnTheGrid(structure, keyValuePair.Key, GameObject.Instantiate(structureData));
+            grid.PlaceStructureOnTheGrid(structure, keyValuePair.Key, Object.Instantiate(structureData));
         }
         neighboursDictionar.Clear();
     }
 
     public static RoadStructureHelper GetCorrectRoadPrefab(Vector3 gridPosition, StructureBaseSO structureData, Dictionary<Vector3Int, GameObject> structuresToBeModified, GridStructure grid)
     {
-        var neighboursStatus = RoadManager.GetRoadNeighboursStatus(gridPosition, grid, structuresToBeModified);
+        var neighboursStatus = GetRoadNeighboursStatus(gridPosition, grid, structuresToBeModified);
         RoadStructureHelper roadToReturn = null;
-        roadToReturn = RoadManager.CheckIfStraightRoadFits(neighboursStatus, roadToReturn, structureData);
+        roadToReturn = CheckIfStraightRoadFits(neighboursStatus, roadToReturn, structureData);
         if (roadToReturn != null)
             return roadToReturn;
-        roadToReturn = RoadManager.CheckIfCornerFits(neighboursStatus, roadToReturn, structureData);
+        roadToReturn = CheckIfCornerFits(neighboursStatus, roadToReturn, structureData);
         if (roadToReturn != null)
             return roadToReturn;
-        roadToReturn = RoadManager.CheckIf3WayFits(neighboursStatus, roadToReturn, structureData);
+        roadToReturn = CheckIf3WayFits(neighboursStatus, roadToReturn, structureData);
         if (roadToReturn != null)
             return roadToReturn;
-        roadToReturn = RoadManager.CheckIf4WaysFits(neighboursStatus, roadToReturn, structureData);
+        roadToReturn = CheckIf4WaysFits(neighboursStatus, roadToReturn, structureData);
         return roadToReturn;
     }
 }

@@ -33,7 +33,7 @@ public class ResourceManager : MonoBehaviour, IResourceManager
 
     public void PrepareResourceManager(BuildingManager buildingManager)
     {
-        this.m_BuildingManger = buildingManager;
+        m_BuildingManger = buildingManager;
         InvokeRepeating("CalculateTownIncome",0,MoneyCalculationInterval);
     }
 

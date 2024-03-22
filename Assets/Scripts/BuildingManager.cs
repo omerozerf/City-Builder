@@ -12,9 +12,9 @@ public class BuildingManager
 
     public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManager, StructureRepository structureRepository, IResourceManager resourceManager)
     {
-        this.m_Grid = new GridStructure(cellSize, width, length);
-        this.m_PlacementManager = placementManager;
-        this.m_StructureRepository = structureRepository;
+        m_Grid = new GridStructure(cellSize, width, length);
+        m_PlacementManager = placementManager;
+        m_StructureRepository = structureRepository;
         StructureModificationFactory.PrepareFactory(structureRepository, m_Grid, placementManager, resourceManager);
 
     }

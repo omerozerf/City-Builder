@@ -13,7 +13,7 @@ public abstract class PlayerState
     }
     public virtual void OnConfirmAction()
     {
-        this.gameManager.TransitionToState(this.gameManager.selectionState,null);
+        gameManager.TransitionToState(gameManager.selectionState,null);
     }
     public virtual void OnInputPointerDown(Vector3 position) { }
     public virtual void OnInputPointerChange(Vector3 position) { }
@@ -33,22 +33,22 @@ public abstract class PlayerState
     }
     public virtual void OnBuildArea(string structureName)
     {
-        this.gameManager.TransitionToState(this.gameManager.buildingAreaState, structureName);
+        gameManager.TransitionToState(gameManager.buildingAreaState, structureName);
     }
 
     public virtual void OnBuildSingleStructure(string structureName)
     {
-        this.gameManager.TransitionToState(this.gameManager.buildingSingleStructureState, structureName);
+        gameManager.TransitionToState(gameManager.buildingSingleStructureState, structureName);
     }
 
     public virtual void OnBuildRoad(string structureName)
     {
-        this.gameManager.TransitionToState(this.gameManager.buildingRoadState, structureName);
+        gameManager.TransitionToState(gameManager.buildingRoadState, structureName);
     }
 
     public virtual void OnDemolishAction()
     {
-        this.gameManager.TransitionToState(this.gameManager.demolishState, null);
+        gameManager.TransitionToState(gameManager.demolishState, null);
     }
 
     public abstract void OnCancle();
