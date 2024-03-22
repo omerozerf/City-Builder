@@ -114,6 +114,26 @@ public class GridStructure
         }
         return neighbourPosition;
     }
+
+    public IEnumerable<StructureBaseSO> GetAllStructures()
+    {
+        List<StructureBaseSO> structureDataList = new List<StructureBaseSO>();
+
+        for (int row = 0; row < m_Grid.GetLength(0); row++)
+        {
+            for (int col = 0; col < m_Grid.GetLength(1); col++)
+            {
+                var data = m_Grid[row, col].GetStructureData();
+                
+                if (data != null)
+                {
+                    structureDataList.Add(data);
+                }
+            }
+        }
+        
+        return structureDataList;
+    }
 }
 
 public enum Direction

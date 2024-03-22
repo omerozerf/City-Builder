@@ -76,6 +76,6 @@ public class BuildingManager
 
     public IEnumerable<StructureBaseSO> GetAllStructures()
     {
-        throw new NotImplementedException();
+        return m_Grid.GetAllStructures();
     }
 }
