@@ -16,7 +16,7 @@ MonoBehaviour:
   _prefab: {fileID: 1874159045682050738, guid: dd1a6dc5c298f884590bc21cbf736ea9, type: 3}
   _placementCost: 2000
   _upkeepCost: 0
-  _income: 0
+  _income: 50
   _requireRoadAccess: 1
   _requireWater: 0
   _requirePower: 0

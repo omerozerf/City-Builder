@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ResourceManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private float _moneyCalculationInterval;
     [SerializeField] private BuildingManager _buildingManager;
     [SerializeField] private UiController _uiController;
+    
+    public int _demolitionPrice = 20;
     
     private MoneyHelper m_MoneyHelper;
 
@@ -19,6 +22,11 @@ public class ResourceManager : MonoBehaviour
     private void Start()
     {
         UpdateMoneyValueUI();
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
     }
 
 
@@ -82,5 +90,24 @@ public class ResourceManager : MonoBehaviour
     public bool GetCanBuy(int amount)
     {
         return CanBuy(amount);
+    }
+    
+    public BuildingManager GetBuildingManager()
+    {
+        return _buildingManager;
+    }
+
+    public void PrepareResourceManager(BuildingManager buildingManager)
+    {
+        _buildingManager = buildingManager;
+        
+        InvokeRepeating(nameof(CalculateTownIncome), 0, _moneyCalculationInterval);
+    }
+
+    public int HowManyStructuresCanBePlaced(int structureDataPlacementCost, int numberOfStructures)
+    {
+        int amount = (m_MoneyHelper.GetMoneyAmount() / structureDataPlacementCost);
+        
+        return amount > numberOfStructures ? amount : numberOfStructures;
     }
 }

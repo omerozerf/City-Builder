@@ -1,21 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BuildingManagerHelpers
 {
     public class ZonePlacementHelper : StructureModificationHelper
     {
-        Vector3 m_StartPosition;
-        Vector3? m_PreviousEndPositon = null;
-        bool m_StartPositionAcquired = false;
-        Vector3 m_MapBottomLeftCorner;
-        Queue<GameObject> m_GameObjectsToReuse = new Queue<GameObject>();
-        public ZonePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, Vector3 mapBottomLeftCorner, ResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
+        private Vector3 m_StartPosition;
+        private Vector3? m_PreviousEndPositon = null;
+        private bool m_StartPositionAcquired = false;
+        private Vector3 m_MapBottomLeftCorner;
+        private Queue<GameObject> m_GameObjectsToReuse = new Queue<GameObject>();
+        private int m_StructuresOldQuantity = 0;
+        
+        public ZonePlacementHelper(StructureRepository structureRepository, GridStructure grid,
+            IPlacementManager placementManager, Vector3 mapBottomLeftCorner, ResourceManager resourceManager) : base(
+            structureRepository, grid, placementManager, resourceManager)
         {
             m_MapBottomLeftCorner = mapBottomLeftCorner;
         }
 
-        public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+        public override void PrepareStructureForModification(Vector3 inputPosition, string structureName,
+            StructureType structureType)
         {
             base.PrepareStructureForModification(inputPosition, structureName, structureType);
             Vector3 gridPositon = grid.CalculateGridPosition(inputPosition);
@@ -26,18 +32,22 @@ namespace BuildingManagerHelpers
             }
             if (m_StartPositionAcquired && m_PreviousEndPositon == null || ZoneCalculator.CheckIfPositionHasChanged(gridPositon, m_PreviousEndPositon.Value, grid))
             {
-                PlaceNewZoneUpTo(gridPositon);
+                PlaceNewZoneUpToPosition(gridPositon);
             }
 
         }
 
-        private void PlaceNewZoneUpTo(Vector3 endPosition)
+        private void PlaceNewZoneUpToPosition(Vector3 endPosition)
         {
             Vector3Int minPoint = Vector3Int.FloorToInt(m_StartPosition);
             Vector3Int maxPoint = Vector3Int.FloorToInt(endPosition);
 
-            ZoneCalculator.PrepareStartAndEndPosition(m_StartPosition, endPosition, ref minPoint, ref maxPoint, m_MapBottomLeftCorner);
+            ZoneCalculator.PrepareStartAndEndPosition(m_StartPosition, endPosition, ref minPoint, ref maxPoint,
+                m_MapBottomLeftCorner);
             HashSet<Vector3Int> newPositionsSet = grid.GetAllPositionsFromTo(minPoint, maxPoint);
+
+            newPositionsSet = CalculateZoneCost(newPositionsSet);
+            
             m_PreviousEndPositon = endPosition;
             ZoneCalculator.CalculateZone(newPositionsSet, structuresToBeModified, m_GameObjectsToReuse);
 
@@ -50,7 +60,8 @@ namespace BuildingManagerHelpers
                 {
                     var gameObjectToReuse = m_GameObjectsToReuse.Dequeue();
                     gameObjectToReuse.SetActive(true);
-                    structureToAdd = placementManager.MoveStructureOnTheMap(positionToPlaceStructure, gameObjectToReuse, structureData._prefab);
+                    structureToAdd = placementManager.MoveStructureOnTheMap(positionToPlaceStructure, gameObjectToReuse,
+                        structureData._prefab);
 
                 }
                 else
@@ -64,8 +75,27 @@ namespace BuildingManagerHelpers
 
         }
 
+        private HashSet<Vector3Int> CalculateZoneCost(HashSet<Vector3Int> newPositionsSet)
+        {
+            resourceManager.AddMoney(m_StructuresOldQuantity * structureData._placementCost);
+            int numberOfZonesToPlace =
+                resourceManager.HowManyStructuresCanBePlaced(structureData._placementCost, newPositionsSet.Count);
+
+            if (numberOfZonesToPlace < newPositionsSet.Count)
+            {
+                newPositionsSet = new HashSet<Vector3Int>(newPositionsSet.Take(numberOfZonesToPlace).ToList());
+            }
+            
+            m_StructuresOldQuantity = newPositionsSet.Count;
+            resourceManager.SpendMoney(m_StructuresOldQuantity * structureData._placementCost);
+            
+            return newPositionsSet;
+        }
+
         public override void CancleModifications()
         {
+            resourceManager.AddMoney(m_StructuresOldQuantity * structureData._placementCost);
+            
             base.CancleModifications();
             ResetZonePlacementHelper();
         }

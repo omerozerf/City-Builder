@@ -6,12 +6,20 @@ namespace BuildingManagerHelpers
 {
     public class StructureDemolitionHelper : StructureModificationHelper
     {
-        Dictionary<Vector3Int, GameObject> m_RoadToDemolish = new Dictionary<Vector3Int, GameObject>();
-        public StructureDemolitionHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, ResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
+        private Dictionary<Vector3Int, GameObject> m_RoadToDemolish = new Dictionary<Vector3Int, GameObject>();
+        public StructureDemolitionHelper(StructureRepository structureRepository, GridStructure grid,
+            IPlacementManager placementManager, ResourceManager resourceManager) : base(structureRepository, grid,
+            placementManager, resourceManager)
         {
+            
         }
         public override void CancleModifications()
         {
+            foreach (var item in structuresToBeModified)
+            {
+                resourceManager.AddMoney(resourceManager._demolitionPrice);
+            }
+            
             placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
             structuresToBeModified.Clear();
         }
@@ -22,9 +30,9 @@ namespace BuildingManagerHelpers
             {
                 grid.RemoveStructureFromTheGrid(gridPosition);
             }
-            foreach (var keyVeluPair in m_RoadToDemolish)
+            foreach (var keyValuePair in m_RoadToDemolish)
             {
-                Dictionary<Vector3Int, GameObject> neighboursDictionary = RoadManager.GetRoadNeighboursForPosition(grid, keyVeluPair.Key);
+                Dictionary<Vector3Int, GameObject> neighboursDictionary = RoadManager.GetRoadNeighboursForPosition(grid, keyValuePair.Key);
                 if (neighboursDictionary.Count > 0)
                 {
                     var structureData = grid.GetStructureDataFromTheGrid(neighboursDictionary.Keys.First());
@@ -46,11 +54,13 @@ namespace BuildingManagerHelpers
                 var structure = grid.GetStructureFromTheGrid(gridPosition);
                 if (structuresToBeModified.ContainsKey(gridPositionInt))
                 {
+                    resourceManager.AddMoney(resourceManager._demolitionPrice);
                     RevokeStructureDemolitionAt(gridPositionInt, structure);
                 }
-                else
+                else if (resourceManager.GetCanBuy(resourceManager._demolitionPrice))
                 {
                     AddStructureForDemolition(gridPositionInt, structure);
+                    resourceManager.SpendMoney(resourceManager._demolitionPrice);
                 }
             }
         }

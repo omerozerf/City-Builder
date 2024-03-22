@@ -48,8 +48,14 @@ namespace BuildingManagerHelpers
             structuresToBeModified.Remove(gridPositionInt);
         }
 
-    
-
-
+        public override void CancleModifications()
+        {
+            foreach (var item in structuresToBeModified)
+            {
+                resourceManager.AddMoney(structureData._placementCost);
+            }
+            
+            base.CancleModifications();
+        }
     }
 }
