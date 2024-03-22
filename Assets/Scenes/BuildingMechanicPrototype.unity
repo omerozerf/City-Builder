@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6eb3b5b2994394fa2d496b9cd513bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraMovementSpeed: 0.0005
+  _cameraMovementSpeed: 0.00005
 --- !u!4 &64242002
 Transform:
   m_ObjectHideFlags: 0
@@ -1751,6 +1751,7 @@ MonoBehaviour:
   _startMoneyAmount: 5000
   _moneyCalculationInterval: 2
   _uiController: {fileID: 1976479581}
+  _demolitionPrice: 0
 --- !u!4 &1217917517
 Transform:
   m_ObjectHideFlags: 0

@@ -108,6 +108,7 @@ namespace BuildingManagerHelpers
 
         private void ResetZonePlacementHelper()
         {
+            m_StructuresOldQuantity = 0;
             placementManager.DestroyStructures(m_GameObjectsToReuse);
             m_GameObjectsToReuse.Clear();
             m_StartPositionAcquired = false;
