@@ -24,8 +24,8 @@ public class GridStructure
     }
     public Vector3 CalculateGridPosition(Vector3 inputPosition)
     {
-        int x = Mathf.FloorToInt((float)inputPosition.x / m_CellSize);
-        int z = Mathf.FloorToInt((float)inputPosition.z / m_CellSize);
+        int x = Mathf.FloorToInt(inputPosition.x / m_CellSize);
+        int z = Mathf.FloorToInt(inputPosition.z / m_CellSize);
         return new Vector3(x * m_CellSize, 0, z * m_CellSize);
     }
 

@@ -104,7 +104,7 @@ public class ResourceManager : MonoBehaviour, IResourceManager
 
     public int HowManyStructuresCanIPlace(int placementCost, int numberOfStructures)
     {
-        int amount = (int)(m_MoneyHelper.Money / placementCost);
+        int amount = m_MoneyHelper.Money / placementCost;
         return amount > numberOfStructures ? numberOfStructures : amount;
     }
 
