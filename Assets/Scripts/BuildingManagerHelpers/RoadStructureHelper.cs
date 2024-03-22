@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using ScriptableObjects;
+using UnityEngine;
 
-public class RoadStructureHelper
+namespace BuildingManagerHelpers
 {
-    public RotationValue RoadPrefabRotation { get; set; }
-    public GameObject RoadPrefab { get; set; }
-
-    public RoadStructureHelper(GameObject roadPrefab, RotationValue roadPrefabRotation)
+    public class RoadStructureHelper
     {
+        public RotationValue RoadPrefabRotation { get; set; }
+        public GameObject RoadPrefab { get; set; }
 
-        RoadPrefabRotation = roadPrefabRotation;
+        public RoadStructureHelper(GameObject roadPrefab, RotationValue roadPrefabRotation)
+        {
 
-        RoadPrefab = roadPrefab;
+            RoadPrefabRotation = roadPrefabRotation;
+
+            RoadPrefab = roadPrefab;
+        }
     }
 }

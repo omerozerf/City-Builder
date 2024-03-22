@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.TestTools;
 

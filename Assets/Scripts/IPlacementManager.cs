@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 public interface IPlacementManager

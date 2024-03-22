@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 public static class TestHelpers

@@ -32,6 +32,7 @@ public class UiController : MonoBehaviour
     [FormerlySerializedAs("closeBuildMenuBtn")] public Button _closeBuildMenuBtn;
 
     [FormerlySerializedAs("buildButtonPrefab")] public GameObject _buildButtonPrefab;
+    [SerializeField] private TMP_Text _moneyValueText;
 
     // Start is called before the first frame update
     void Start()
@@ -184,5 +185,10 @@ public class UiController : MonoBehaviour
     public void RemoveListenerOnConfirmActionEvent(Action listener)
     {
         m_OnConfirmActionHandler -= listener;
+    }
+
+    public void SetMoneyValue(int moneyAmount)
+    {
+        _moneyValueText.text = moneyAmount.ToString();
     }
 }

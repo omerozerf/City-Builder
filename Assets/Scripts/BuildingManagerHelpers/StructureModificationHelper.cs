@@ -1,63 +1,66 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
-public abstract class StructureModificationHelper
+namespace BuildingManagerHelpers
 {
-    protected Dictionary<Vector3Int, GameObject> structuresToBeModified = new Dictionary<Vector3Int, GameObject>();
-    protected readonly StructureRepository structureRepository;
-    protected readonly GridStructure grid;
-    protected readonly IPlacementManager placementManager;
-    protected StructureBaseSO structureData;
-
-    public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager)
+    public abstract class StructureModificationHelper
     {
-        this.structureRepository = structureRepository;
-        this.grid = grid;
-        this.placementManager = placementManager;
-    }
+        protected Dictionary<Vector3Int, GameObject> structuresToBeModified = new Dictionary<Vector3Int, GameObject>();
+        protected readonly StructureRepository structureRepository;
+        protected readonly GridStructure grid;
+        protected readonly IPlacementManager placementManager;
+        protected StructureBaseSO structureData;
 
-    public GameObject AccessStructureInDictionary(Vector3 gridPosition)
-    {
-        var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
-        if (structuresToBeModified.ContainsKey(gridPositionInt))
+        public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager)
         {
-            return structuresToBeModified[gridPositionInt];
+            this.structureRepository = structureRepository;
+            this.grid = grid;
+            this.placementManager = placementManager;
         }
-        return null;
-    }
 
-    public virtual void ConfirmModifications()
-    {
-        placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
-        foreach (var keyValuePair in structuresToBeModified)
+        public GameObject AccessStructureInDictionary(Vector3 gridPosition)
         {
-            grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key, Object.Instantiate(structureData) );
+            var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
+            if (structuresToBeModified.ContainsKey(gridPositionInt))
+            {
+                return structuresToBeModified[gridPositionInt];
+            }
+            return null;
         }
-        ResetHelpersData();
-    }
 
-    public virtual void CancleModifications()
-    {
-        placementManager.DestroyStructures(structuresToBeModified.Values);
-        ResetHelpersData();
-    }
-    public virtual void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
-    {
-        if (structureData == null && structureType != StructureType.None)
+        public virtual void ConfirmModifications()
         {
-            structureData = structureRepository.GetStructureData(structureName, structureType);
+            placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
+            foreach (var keyValuePair in structuresToBeModified)
+            {
+                grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key, Object.Instantiate(structureData) );
+            }
+            ResetHelpersData();
         }
-    }
 
-    protected void ResetHelpersData()
-    {
-        structureData = null;
-        structuresToBeModified.Clear();
-    }
+        public virtual void CancleModifications()
+        {
+            placementManager.DestroyStructures(structuresToBeModified.Values);
+            ResetHelpersData();
+        }
+        public virtual void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+        {
+            if (structureData == null && structureType != StructureType.None)
+            {
+                structureData = structureRepository.GetStructureData(structureName, structureType);
+            }
+        }
 
-    public virtual void StopContinuousPlacement()
-    {
+        protected void ResetHelpersData()
+        {
+            structureData = null;
+            structuresToBeModified.Clear();
+        }
 
+        public virtual void StopContinuousPlacement()
+        {
+
+        }
     }
 }

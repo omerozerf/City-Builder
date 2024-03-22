@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using BuildingManagerHelpers;
+using ScriptableObjects;
 using UnityEngine;
 
 public class BuildingManager
@@ -70,5 +72,10 @@ public class BuildingManager
     public void StopContinuousPlacement()
     {
         m_Helper.StopContinuousPlacement();
+    }
+
+    public IEnumerable<StructureBaseSO> GetAllStructures()
+    {
+        throw new NotImplementedException();
     }
 }
