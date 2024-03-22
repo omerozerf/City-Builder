@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959e1f1d97201974483909ddaac9c611, type: 3}
   m_Name: Road
   m_EditorClassIdentifier: 
-  _buildingName: Road
-  _prefab: {fileID: 1046759497217224246, guid: 2a74761dd523f864398408b1fea40e6f, type: 3}
-  _placementCost: 25
-  _upkeepCost: 10
-  _income: 0
-  _requireRoadAccess: 0
-  _requireWater: 0
-  _requirePower: 0
-  _cornerPrefab: {fileID: 8844013322122185506, guid: b3bf4733577630c4ab64cb9cfaaf5bd5,
+  buildingName: Road
+  prefab: {fileID: 1046759497217224246, guid: 2a74761dd523f864398408b1fea40e6f, type: 3}
+  placementCost: 20
+  upkeepCost: 20
+  income: 0
+  requireRoadAccess: 0
+  requireWater: 0
+  requirePower: 0
+  cornerPrefab: {fileID: 8844013322122185506, guid: b3bf4733577630c4ab64cb9cfaaf5bd5,
     type: 3}
-  _threeWayPrefab: {fileID: 4730560012720588634, guid: d409ae9d86ce93f4ebe501a20052ba8b,
+  threeWayPrefab: {fileID: 4730560012720588634, guid: d409ae9d86ce93f4ebe501a20052ba8b,
     type: 3}
-  _fourWayPrefab: {fileID: 4988593472733303505, guid: 5eafd473e55dbc042ba2959344fea2cd,
+  fourWayPrefab: {fileID: 4988593472733303505, guid: 5eafd473e55dbc042ba2959344fea2cd,
     type: 3}
-  _prefabRotation: 0
+  prefabRotation: 0

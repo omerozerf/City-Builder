@@ -2,22 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class StructureRepository : MonoBehaviour
 {
-    [FormerlySerializedAs("modelDataCollection")] public CollectionSO _modelDataCollection;
+    public CollectionSO modelDataCollection;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
 
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
     }
@@ -25,17 +23,17 @@ public class StructureRepository : MonoBehaviour
 
     public List<string> GetZoneNames()
     {
-        return _modelDataCollection._zonesList.Select(zone => zone._buildingName).ToList();
+        return modelDataCollection.zonesList.Select(zone => zone.buildingName).ToList();
     }
 
     public List<string> GetSingleStructureNames()
     {
-        return _modelDataCollection._singleStructureList.Select(facility => facility._buildingName).ToList();
+        return modelDataCollection.singleStructureList.Select(facility => facility.buildingName).ToList();
     }
 
     public string GetRoadStructureName()
     {
-        return _modelDataCollection._roadStructure._buildingName;
+        return modelDataCollection.roadStructure.buildingName;
     }
 
     public GameObject GetBuildingPrefabByName(string structureName, StructureType structureType)
@@ -65,7 +63,7 @@ public class StructureRepository : MonoBehaviour
 
     private GameObject GetRoadBuildingPrefab()
     {
-        return _modelDataCollection._roadStructure._prefab;
+        return modelDataCollection.roadStructure.prefab;
     }
 
     public StructureBaseSO GetStructureData(string structureName, StructureType structureType)
@@ -73,11 +71,11 @@ public class StructureRepository : MonoBehaviour
         switch (structureType)
         {
             case StructureType.Zone:
-                return _modelDataCollection._zonesList.Where(structure => structure._buildingName == structureName).FirstOrDefault();
+                return modelDataCollection.zonesList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
             case StructureType.SingleStructure:
-                return _modelDataCollection._singleStructureList.Where(structure => structure._buildingName == structureName).FirstOrDefault();
+                return modelDataCollection.singleStructureList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
             case StructureType.Road:
-                return _modelDataCollection._roadStructure;
+                return modelDataCollection.roadStructure;
             default:
                 throw new Exception("No such type. not implemented for " + structureType);
         }
@@ -85,20 +83,20 @@ public class StructureRepository : MonoBehaviour
 
     private GameObject GetSingleStructureBuildingPrefabByName(string structureName)
     {
-        var foundStructure = _modelDataCollection._singleStructureList.Where(structure => structure._buildingName == structureName).FirstOrDefault();
+        var foundStructure = modelDataCollection.singleStructureList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
         if (foundStructure != null)
         {
-            return foundStructure._prefab;
+            return foundStructure.prefab;
         }
         return null;
     }
 
     private GameObject GetZoneBuildingPrefabByName(string structureName)
     {
-        var foundStructure = _modelDataCollection._zonesList.Where(structure => structure._buildingName == structureName).FirstOrDefault();
+        var foundStructure = modelDataCollection.zonesList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
         if (foundStructure != null)
         {
-            return foundStructure._prefab;
+            return foundStructure.prefab;
         }
         return null;
     }

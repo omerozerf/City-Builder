@@ -12,31 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c170683446810c47bfd93820d712cda, type: 3}
   m_Name: ResidentialZone
   m_EditorClassIdentifier: 
-  _buildingName: Residential Area
-  _prefab: {fileID: 8033323200218459389, guid: 190271b57943f7f4db9c39b8b015e331, type: 3}
-  _placementCost: 500
-  _upkeepCost: 0
-  _income: 10
-  _requireRoadAccess: 1
-  _requireWater: 1
-  _requirePower: 1
-  _upgradable: 1
-  _prefabVariants:
+  buildingName: Residential Area
+  prefab: {fileID: 8033323200218459389, guid: 190271b57943f7f4db9c39b8b015e331, type: 3}
+  placementCost: 10
+  upkeepCost: 0
+  income: 10
+  requireRoadAccess: 1
+  requireWater: 1
+  requirePower: 1
+  upgradable: 1
+  prefabVariants:
   - {fileID: 7005307079094063810, guid: c77e949770bd8a54f8256dab2e9d5956, type: 3}
   - {fileID: 4424897985589242500, guid: 2578772fa254f6f4593ab5496d706359, type: 3}
-  _availableUpgrades:
-  - _prefabVariants:
+  availableUpgrades:
+  - prefabVariants:
     - {fileID: 6407806084271674788, guid: 57c398b4b793a614293c3d48d8ea46ab, type: 3}
     - {fileID: 2679059358018586621, guid: 024b517407c9ae44993494f0b31da891, type: 3}
     - {fileID: 6743178300494436748, guid: 1b89a9244d90032439c6154c27e062fd, type: 3}
-    _happinessThreshold: 0
-    _newIncome: 0
-    _newUpkeep: 0
-  - _prefabVariants:
+    happinessThreshold: 0
+    newIncome: 0
+    newUpkeep: 0
+  - prefabVariants:
     - {fileID: 4979051744302872479, guid: 06096a1e4c0f223409936dc5959b1768, type: 3}
     - {fileID: 6425462728982059652, guid: 2b91b3cd56bc13a43b4f91eb3eb89a07, type: 3}
     - {fileID: 7071884780968094295, guid: adc6f2718ceb6bc459a54285b9f9c0d0, type: 3}
-    _happinessThreshold: 0
-    _newIncome: 0
-    _newUpkeep: 0
-  _zoneType: 0
+    happinessThreshold: 0
+    newIncome: 0
+    newUpkeep: 0
+  zoneType: 0

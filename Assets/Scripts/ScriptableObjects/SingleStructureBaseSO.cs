@@ -1,9 +1,8 @@
-﻿using UnityEngine.Serialization;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace ScriptableObjects
+public abstract class SingleStructureBaseSO : StructureBaseSO
 {
-    public abstract class SingleStructureBaseSO : StructureBaseSO
-    {
-        [FormerlySerializedAs("range")] public int _range;
-    }
+    public int singleStructureRange;
 }

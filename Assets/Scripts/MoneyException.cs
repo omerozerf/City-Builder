@@ -2,11 +2,10 @@
 using System.Runtime.Serialization;
 
 [Serializable]
-public class MoneyException : Exception
+internal class MoneyException : Exception
 {
     public MoneyException()
     {
-        
     }
 
     public MoneyException(string message) : base(message)

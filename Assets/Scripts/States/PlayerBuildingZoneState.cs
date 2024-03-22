@@ -1,64 +1,63 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace States
+public class PlayerBuildingZoneState : PlayerState
 {
-    public class PlayerBuildingZoneState : PlayerState
+    private BuildingManager buildingManager;
+    private string structureName;
+
+    public PlayerBuildingZoneState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
-        private BuildingManager m_BuildingManager;
-        private string m_StructureName;
+        this.buildingManager = buildingManager;
+    }
 
-        public PlayerBuildingZoneState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
-        {
-            m_BuildingManager = buildingManager;
-        }
-
-        public override void OnConfirmAction()
-        {
+    public override void OnConfirmAction()
+    {
         
-            m_BuildingManager.ConfirmModification();
-            base.OnConfirmAction();
-        }
+        this.buildingManager.ConfirmModification();
+        base.OnConfirmAction();
+    }
 
-        public override void OnCancle()
-        {
-            m_BuildingManager.CancelModification();
-            gameManager.TransitionToState(gameManager.selectionState, null);
-        }
+    public override void OnCancle()
+    {
+        this.buildingManager.CancelModification();
+        this.gameManager.TransitionToState(this.gameManager.selectionState, null);
+    }
 
-        public override void EnterState(string structureName)
-        {
-            base.EnterState(structureName);
-            m_BuildingManager.PrepareBuildingManager(GetType());
-            m_StructureName = structureName;
-        }
+    public override void EnterState(string structureName)
+    {
+        base.EnterState(structureName);
+        this.buildingManager.PrepareBuildingManager(this.GetType());
+        this.structureName = structureName;
+    }
 
-        public override void OnInputPointerDown(Vector3 position)
-        {
+    public override void OnInputPointerDown(Vector3 position)
+    {
 
-            m_BuildingManager.PrepareStructureForPlacement(position, m_StructureName, StructureType.Zone);
-        }
+        buildingManager.PrepareStructureForPlacement(position, this.structureName, StructureType.Zone);
+    }
 
-        public override void OnBuildSingleStructure(string structureName)
-        {
-            base.OnBuildSingleStructure(structureName);
-            m_BuildingManager.CancelModification();
-        }
+    public override void OnBuildSingleStructure(string structureName)
+    {
+        base.OnBuildSingleStructure(structureName);
+        this.buildingManager.CancelModification();
+    }
 
-        public override void OnInputPointerChange(Vector3 position)
-        {
-            m_BuildingManager.PrepareStructureForPlacement(position, m_StructureName, StructureType.Zone);
-        }
+    public override void OnInputPointerChange(Vector3 position)
+    {
+        this.buildingManager.PrepareStructureForPlacement(position, structureName, StructureType.Zone);
+    }
 
-        public override void OnBuildRoad(string structureName)
-        {
+    public override void OnBuildRoad(string structureName)
+    {
 
-            base.OnBuildRoad(structureName);
-            m_BuildingManager.CancelModification();
-        }
+        base.OnBuildRoad(structureName);
+        this.buildingManager.CancelModification();
+    }
 
-        public override void OnInputPointerUp()
-        {
-            m_BuildingManager.StopContinuousPlacement();
-        }
+    public override void OnInputPointerUp()
+    {
+        this.buildingManager.StopContinuousPlacement();
     }
 }

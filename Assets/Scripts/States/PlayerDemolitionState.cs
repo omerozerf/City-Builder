@@ -1,55 +1,54 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace States
+public class PlayerDemolitionState : PlayerState
 {
-    public class PlayerDemolitionState : PlayerState
+    private BuildingManager buildingManager;
+    public PlayerDemolitionState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
-        private BuildingManager m_BuildingManager;
-        public PlayerDemolitionState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
-        {
-            m_BuildingManager = buildingManager;
-        }
-
-        public override void OnCancle()
-        {
-            m_BuildingManager.CancelModification();
-            gameManager.TransitionToState(gameManager.selectionState, null);
-        }
-
-        public override void OnConfirmAction()
-        {
-            m_BuildingManager.ConfirmModification();
-            base.OnConfirmAction();
-        }
-
-        public override void OnBuildSingleStructure(string structureName)
-        {
-            m_BuildingManager.CancelModification();
-            base.OnBuildSingleStructure(structureName);
-        }
-
-        public override void OnBuildRoad(string structureName)
-        {
-            m_BuildingManager.CancelModification();
-            base.OnBuildRoad(structureName);
-        }
-
-        public override void OnBuildArea(string structureName)
-        {
-            m_BuildingManager.CancelModification();
-            base.OnBuildArea(structureName);
-        }
-
-        public override void OnInputPointerDown(Vector3 position)
-        {
-            m_BuildingManager.PrepareStructureForDemolitionAt(position);
-        }
-
-        public override void EnterState(string variable)
-        {
-            base.EnterState(variable);
-            m_BuildingManager.PrepareBuildingManager(GetType());
-        }
-
+        this.buildingManager = buildingManager;
     }
+
+    public override void OnCancle()
+    {
+        this.buildingManager.CancelModification();
+        this.gameManager.TransitionToState(this.gameManager.selectionState, null);
+    }
+
+    public override void OnConfirmAction()
+    {
+        this.buildingManager.ConfirmModification();
+        base.OnConfirmAction();
+    }
+
+    public override void OnBuildSingleStructure(string structureName)
+    {
+        this.buildingManager.CancelModification();
+        base.OnBuildSingleStructure(structureName);
+    }
+
+    public override void OnBuildRoad(string structureName)
+    {
+        this.buildingManager.CancelModification();
+        base.OnBuildRoad(structureName);
+    }
+
+    public override void OnBuildArea(string structureName)
+    {
+        this.buildingManager.CancelModification();
+        base.OnBuildArea(structureName);
+    }
+
+    public override void OnInputPointerDown(Vector3 position)
+    {
+        this.buildingManager.PrepareStructureForDemolitionAt(position);
+    }
+
+    public override void EnterState(string variable)
+    {
+        base.EnterState(variable);
+        this.buildingManager.PrepareBuildingManager(this.GetType());
+    }
+
 }

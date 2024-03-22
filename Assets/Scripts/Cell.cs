@@ -1,39 +1,38 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ScriptableObjects;
 using UnityEngine;
 
 public class Cell 
 {
-    GameObject m_StructureModel = null;
-    StructureBaseSO m_StructureData;
-    bool m_İsTaken = false;
+    private GameObject structureModel = null;
+    private StructureBaseSO structureData;
+    private bool isTaken = false;
 
-    public bool IsTaken { get => m_İsTaken; }
+    public bool IsTaken { get => isTaken; }
 
     public void SetConstruction(GameObject structureModel, StructureBaseSO structureData)
     {
         if (structureModel == null)
             return;
-        m_StructureModel = structureModel;
-        m_İsTaken = true;
-        m_StructureData = structureData;
+        this.structureModel = structureModel;
+        this.isTaken = true;
+        this.structureData = structureData;
     }
 
     public GameObject GetStructure()
     {
-        return m_StructureModel;
+        return structureModel;
     }
     public void RemoveStructure()
     {
-        m_StructureModel = null;
-        m_İsTaken = false;
-        m_StructureData = null;
+        structureModel = null;
+        isTaken = false;
+        structureData = null;
     }
 
     public StructureBaseSO GetStructureData()
     {
-        return m_StructureData;
+        return structureData;
     }
 }

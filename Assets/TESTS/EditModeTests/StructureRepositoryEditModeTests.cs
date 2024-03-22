@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -23,20 +22,20 @@ namespace Tests
             testSingleStructure = new GameObject();
             testZone = new GameObject();
             var road = new RoadStructureSO();
-            road._buildingName = "Road";
-            road._prefab = testRoad;
+            road.buildingName = "Road";
+            road.prefab = testRoad;
             var facility = new SingleFacilitySO();
-            facility._buildingName = "PowerPlant";
-            facility._prefab = testSingleStructure;
+            facility.buildingName = "PowerPlant";
+            facility.prefab = testSingleStructure;
             var zone = new ZoneStructureSO();
-            zone._buildingName = "Commercial";
-            zone._prefab = testZone;
-            collection._roadStructure = road;
-            collection._singleStructureList = new List<SingleStructureBaseSO>();
-            collection._singleStructureList.Add(facility);
-            collection._zonesList = new List<ZoneStructureSO>();
-            collection._zonesList.Add(zone);
-            structureRepo._modelDataCollection = collection;
+            zone.buildingName = "Commercial";
+            zone.prefab = testZone;
+            collection.roadStructure = road;
+            collection.singleStructureList = new List<SingleStructureBaseSO>();
+            collection.singleStructureList.Add(facility);
+            collection.zonesList = new List<ZoneStructureSO>();
+            collection.zonesList.Add(zone);
+            structureRepo.modelDataCollection = collection;
         }
         // A Test behaves as an ordinary method
         [Test]

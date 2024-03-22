@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc45f24efc78d249b109c18daae9a63, type: 3}
   m_Name: PowerPlant
   m_EditorClassIdentifier: 
-  _buildingName: Power plant
-  _prefab: {fileID: 1874159045682050738, guid: dd1a6dc5c298f884590bc21cbf736ea9, type: 3}
-  _placementCost: 1250
-  _upkeepCost: 0
-  _income: 100
-  _requireRoadAccess: 1
-  _requireWater: 0
-  _requirePower: 0
-  _range: 0
-  _maxCustomers: 0
-  _upkeepPerCustomer: 0
+  buildingName: Power plant
+  prefab: {fileID: 1874159045682050738, guid: dd1a6dc5c298f884590bc21cbf736ea9, type: 3}
+  placementCost: 2000
+  upkeepCost: 0
+  income: 50
+  requireRoadAccess: 1
+  requireWater: 0
+  requirePower: 0
+  range: 0
+  maxCustomers: 0
+  upkeepPerCustomer: 0

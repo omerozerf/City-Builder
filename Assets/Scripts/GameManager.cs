@@ -2,35 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using States;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    [FormerlySerializedAs("placementManagerGameObject")] public GameObject _placementManagerGameObject;
-    private IPlacementManager m_PlacementManager;
-    [FormerlySerializedAs("structureRepository")] public StructureRepository _structureRepository;
+    public GameObject placementManagerGameObject;
+    private IPlacementManager placementManager;
+    public StructureRepository structureRepository;
     public IInputManager inputManager;
-    [FormerlySerializedAs("uiController")] public UiController _uiController;
-    [FormerlySerializedAs("width")] public int _width;
-    [FormerlySerializedAs("length")] public int _length;
-    [FormerlySerializedAs("cameraMovement")] public CameraMovement _cameraMovement;
-    [FormerlySerializedAs("inputMask")] public LayerMask _inputMask;
-    private BuildingManager m_BuildingManager;
-    private int m_CellSize = 3;
+    public UiController uiController;
+    public int width, length;
+    public CameraMovement cameraMovement;
+    public LayerMask inputMask;
+    private BuildingManager buildingManager;
+    private int cellSize = 3;
 
-    private PlayerState m_State;
+    private PlayerState state;
 
     public PlayerSelectionState selectionState;
     public PlayerBuildingSingleStructureState buildingSingleStructureState;
     public PlayerDemolitionState demolishState;
     public PlayerBuildingRoadState buildingRoadState;
     public PlayerBuildingZoneState buildingAreaState;
-    
-    [SerializeField] private ResourceManager _resourceManager;
 
-    public PlayerState State { get => m_State; }
+    public PlayerState State { get => state; }
+
+    public GameObject resourceManagerGameObject;
+    private IResourceManager resourceManager;
 
     private void Awake()
     {
@@ -45,20 +43,21 @@ public class GameManager : MonoBehaviour
 
     private void PrepareStates()
     {
-        m_BuildingManager = new BuildingManager(m_CellSize, _width, _length, m_PlacementManager, _structureRepository, _resourceManager);
-        _resourceManager.PrepareResourceManager(m_BuildingManager); 
+        buildingManager = new BuildingManager(cellSize, width, length, placementManager, structureRepository, resourceManager);
+        resourceManager.PrepareResourceManager(buildingManager);
         selectionState = new PlayerSelectionState(this);
-        demolishState = new PlayerDemolitionState(this, m_BuildingManager);
-        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, m_BuildingManager);
-        buildingAreaState = new PlayerBuildingZoneState(this, m_BuildingManager);
-        buildingRoadState = new PlayerBuildingRoadState(this, m_BuildingManager);
-        m_State = selectionState;
-        m_State.EnterState(null);
+        demolishState = new PlayerDemolitionState(this, buildingManager);
+        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
+        buildingAreaState = new PlayerBuildingZoneState(this, buildingManager);
+        buildingRoadState = new PlayerBuildingRoadState(this, buildingManager);
+        state = selectionState;
+        state.EnterState(null);
     }
 
-    void Start()
+    private void Start()
     {
-        m_PlacementManager = _placementManagerGameObject.GetComponent<IPlacementManager>();
+        placementManager = placementManagerGameObject.GetComponent<IPlacementManager>();
+        resourceManager = resourceManagerGameObject.GetComponent<IResourceManager>();
         PrepareStates();
         PreapreGameComponents();
         AssignInputListeners();
@@ -67,49 +66,50 @@ public class GameManager : MonoBehaviour
 
     private void PreapreGameComponents()
     {
-        inputManager.MouseInputMask = _inputMask;
-        _cameraMovement.SetCameraLimits(0, _width, 0, _length);
+        inputManager.MouseInputMask = inputMask;
+        cameraMovement.SetCameraLimits(0, width, 0, length);
     }
 
     private void AssignUiControllerListeners()
     {
-        _uiController.AddListenerOnBuildAreaEvent((structureName) => m_State.OnBuildArea(structureName));
-        _uiController.AddListenerOnBuildSingleStructureEvent((structureName) => m_State.OnBuildSingleStructure(structureName));
-        _uiController.AddListenerOnBuildRoadEvent((structureName) => m_State.OnBuildRoad(structureName));
-        _uiController.AddListenerOnCancleActionEvent(() => m_State.OnCancle());
-        _uiController.AddListenerOnDemolishActionEvent(() => m_State.OnDemolishAction());
-        _uiController.AddListenerOnConfirmActionEvent(() => m_State.OnConfirmAction());
+        uiController.AddListenerOnBuildAreaEvent((structureName) => state.OnBuildArea(structureName));
+        uiController.AddListenerOnBuildSingleStructureEvent((structureName) => state.OnBuildSingleStructure(structureName));
+        uiController.AddListenerOnBuildRoadEvent((structureName) => state.OnBuildRoad(structureName));
+        uiController.AddListenerOnCancleActionEvent(() => state.OnCancle());
+        uiController.AddListenerOnDemolishActionEvent(() => state.OnDemolishAction());
+        uiController.AddListenerOnConfirmActionEvent(() => state.OnConfirmAction());
 
     }
 
     private void AssignInputListeners()
     {
-        inputManager.AddListenerOnPointerDownEvent((position) => m_State.OnInputPointerDown(position));
-        inputManager.AddListenerOnPointerSecondDownEvent((position) => m_State.OnInputPanChange(position));
-        inputManager.AddListenerOnPointerSecondUpEvent(() => m_State.OnInputPanUp());
-        inputManager.AddListenerOnPointerChangeEvent((position) => m_State.OnInputPointerChange(position));
-        inputManager.AddListenerOnPointerUpEvent(() => m_State.OnInputPointerUp());
+        inputManager.AddListenerOnPointerDownEvent((position) => state.OnInputPointerDown(position));
+        inputManager.AddListenerOnPointerSecondDownEvent((position) => state.OnInputPanChange(position));
+        inputManager.AddListenerOnPointerSecondUpEvent(() => state.OnInputPanUp());
+        inputManager.AddListenerOnPointerChangeEvent((position) => state.OnInputPointerChange(position));
+        inputManager.AddListenerOnPointerUpEvent(() => state.OnInputPointerUp());
     }
 
 
     private void HandlePointerChange(Vector3 position)
     {
-        m_State.OnInputPointerChange(position);
+        state.OnInputPointerChange(position);
     }
 
     private void HandleInputCameraStop()
     {
-        m_State.OnInputPanUp();
+        state.OnInputPanUp();
     }
 
     private void HandleInputCameraPan(Vector3 position)
     {
-        m_State.OnInputPanChange(position);
+        state.OnInputPanChange(position);
     }
 
     private void HandleInput(Vector3 position)
     {
-        m_State.OnInputPointerDown(position);
+        state.OnInputPointerDown(position);
+
     }
 
     private void StartPlacementMode(string variable)
@@ -119,7 +119,8 @@ public class GameManager : MonoBehaviour
 
     public void TransitionToState(PlayerState newState, string variable)
     {
-        m_State = newState;
-        m_State.EnterState(variable);
+        this.state = newState;
+        this.state.EnterState(variable);
     }
+
 }

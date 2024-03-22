@@ -3,96 +3,102 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UiController : MonoBehaviour
 {
-    private Action<string> m_OnBuildAreaHandler;
-    private Action<string> m_OnBuildSingleStructureHandler;
-    private Action<string> m_OnBuildRoadHandler;
+    private Action<string> OnBuildAreaHandler;
+    private Action<string> OnBuildSingleStructureHandler;
+    private Action<string> OnBuildRoadHandler;
 
-    private Action m_OnCancleActionHandler;
-    private Action m_OnConfirmActionHandler;
-    private Action m_OnDemolishActionHandler;
+    private Action OnCancleActionHandler;
+    private Action OnConfirmActionHandler;
+    private Action OnDemolishActionHandler;
 
-    [FormerlySerializedAs("structureRepository")] public StructureRepository _structureRepository;
-    [FormerlySerializedAs("buildResidentialAreaBtn")] public Button _buildResidentialAreaBtn;
-    [FormerlySerializedAs("cancleActionBtn")] public Button _cancleActionBtn;
-    [FormerlySerializedAs("confirmActionBtn")] public Button _confirmActionBtn;
-    [FormerlySerializedAs("cancleActionPanel")] public GameObject _cancleActionPanel;
+    public StructureRepository structureRepository;
+    public Button buildResidentialAreaBtn;
+    public Button cancleActionBtn;
+    public Button confirmActionBtn;
+    public GameObject cancleActionPanel;
 
-    [FormerlySerializedAs("buildingMenuPanel")] public GameObject _buildingMenuPanel;
-    [FormerlySerializedAs("openBuildMenuBtn")] public Button _openBuildMenuBtn;
-    [FormerlySerializedAs("demolishBtn")] public Button _demolishBtn;
+    public GameObject buildingMenuPanel;
+    public Button openBuildMenuBtn;
+    public Button demolishBtn;
 
-    [FormerlySerializedAs("zonesPanel")] public GameObject _zonesPanel;
-    [FormerlySerializedAs("facilitiesPanel")] public GameObject _facilitiesPanel;
-    [FormerlySerializedAs("roadsPanel")] public GameObject _roadsPanel;
-    [FormerlySerializedAs("closeBuildMenuBtn")] public Button _closeBuildMenuBtn;
+    public GameObject zonesPanel;
+    public GameObject facilitiesPanel;
+    public GameObject roadsPanel;
+    public Button closeBuildMenuBtn;
 
-    [FormerlySerializedAs("buildButtonPrefab")] public GameObject _buildButtonPrefab;
-    [SerializeField] private TMP_Text _moneyValueText;
+    public GameObject buildButtonPrefab;
+
+    public TextMeshProUGUI moneyValue;
+    public TextMeshProUGUI populationValue;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _cancleActionPanel.SetActive(false);
-        _buildingMenuPanel.SetActive(false);
+        cancleActionPanel.SetActive(false);
+        buildingMenuPanel.SetActive(false);
         //buildResidentialAreaBtn.onClick.AddListener(OnBuildAreaCallback);
-        _cancleActionBtn.onClick.AddListener(OnCancleActionCallback);
-        _confirmActionBtn.onClick.AddListener(OnConfirmActionCallback);
-        _openBuildMenuBtn.onClick.AddListener(OnOpenBuildMenu);
-        _demolishBtn.onClick.AddListener(OnDemolishHandler);
-        _closeBuildMenuBtn.onClick.AddListener(OnCloseMenuHandler);
+        cancleActionBtn.onClick.AddListener(OnCancleActionCallback);
+        confirmActionBtn.onClick.AddListener(OnConfirmActionCallback);
+        openBuildMenuBtn.onClick.AddListener(OnOpenBuildMenu);
+        demolishBtn.onClick.AddListener(OnDemolishHandler);
+        closeBuildMenuBtn.onClick.AddListener(OnCloseMenuHandler);
     }
 
     private void OnConfirmActionCallback()
     {
-        _cancleActionPanel.SetActive(false);
-        m_OnConfirmActionHandler?.Invoke();
+        cancleActionPanel.SetActive(false);
+        OnConfirmActionHandler?.Invoke();
     }
 
     private void OnCloseMenuHandler()
     {
-        _buildingMenuPanel.SetActive(false);
+        buildingMenuPanel.SetActive(false);
     }
 
     private void OnDemolishHandler()
     {
-        m_OnDemolishActionHandler?.Invoke();
-        _cancleActionPanel.SetActive(true);
+        OnDemolishActionHandler?.Invoke();
+        cancleActionPanel.SetActive(true);
         OnCloseMenuHandler();
     }
 
     private void OnOpenBuildMenu()
     {
-        _buildingMenuPanel.SetActive(true);
+        buildingMenuPanel.SetActive(true);
         PrepareBuildMenu();
     }
 
     private void PrepareBuildMenu()
     {
-        CreateButtonsInPanel(_zonesPanel.transform, _structureRepository.GetZoneNames(), OnBuildAreaCallback);
-        CreateButtonsInPanel(_facilitiesPanel.transform, _structureRepository.GetSingleStructureNames(), OnBuildSingleStructureCallback);
-        CreateButtonsInPanel(_roadsPanel.transform, new List<string>() { _structureRepository.GetRoadStructureName() }, OnBuildRoadCallback);
+        CreateButtonsInPanel(zonesPanel.transform, structureRepository.GetZoneNames(), OnBuildAreaCallback);
+        CreateButtonsInPanel(facilitiesPanel.transform, structureRepository.GetSingleStructureNames(), OnBuildSingleStructureCallback);
+        CreateButtonsInPanel(roadsPanel.transform, new List<string>() { structureRepository.GetRoadStructureName() }, OnBuildRoadCallback);
+    }
+
+    public void SetPopulationValue(int population)
+    {
+        populationValue.text = population + "";
     }
 
     private void OnBuildRoadCallback(string nameOfStructure)
     {
         PrepareUIForBuilding();
-        m_OnBuildRoadHandler?.Invoke(nameOfStructure);
+        OnBuildRoadHandler?.Invoke(nameOfStructure);
     }
 
     private void OnBuildSingleStructureCallback(string nameOfStructure)
     {
         PrepareUIForBuilding();
-        m_OnBuildSingleStructureHandler?.Invoke(nameOfStructure);
+        OnBuildSingleStructureHandler?.Invoke(nameOfStructure);
     }
 
     private void PrepareUIForBuilding()
     {
-        _cancleActionPanel.SetActive(true);
+        cancleActionPanel.SetActive(true);
         OnCloseMenuHandler();
     }
 
@@ -103,7 +109,7 @@ public class UiController : MonoBehaviour
             int quantityDifference = dataToShow.Count - panelTransform.childCount;
             for (int i = 0; i < quantityDifference; i++)
             {
-                Instantiate(_buildButtonPrefab, panelTransform);
+                Instantiate(buildButtonPrefab, panelTransform);
             }
         }
         for (int i = 0; i < panelTransform.childCount; i++)
@@ -120,75 +126,80 @@ public class UiController : MonoBehaviour
     private void OnBuildAreaCallback(string nameOfStructure)
     {
         PrepareUIForBuilding();
-        m_OnBuildAreaHandler?.Invoke(nameOfStructure);
+        OnBuildAreaHandler?.Invoke(nameOfStructure);
+    }
+
+    public void SetMoneyValue(int money)
+    {
+        moneyValue.text = money + "";
+    }
+
+    private void Update()
+    {
+        
     }
 
     private void OnCancleActionCallback()
     {
-        _cancleActionPanel.SetActive(false);
-        m_OnCancleActionHandler?.Invoke();
+        cancleActionPanel.SetActive(false);
+        OnCancleActionHandler?.Invoke();
     }
 
     public void AddListenerOnBuildAreaEvent(Action<string> listener)
     {
-        m_OnBuildAreaHandler += listener;
+        OnBuildAreaHandler += listener;
     }
 
     public void RemoveListenerOnBuildAreaEvent(Action<string> listener)
     {
-        m_OnBuildAreaHandler -= listener;
+        OnBuildAreaHandler -= listener;
     }
     public void AddListenerOnCancleActionEvent(Action listener)
     {
-        m_OnCancleActionHandler += listener;
+        OnCancleActionHandler += listener;
     }
 
     public void RemoveListenerOnCancleActionEvent(Action listener)
     {
-        m_OnCancleActionHandler -= listener;
+        OnCancleActionHandler -= listener;
     }
 
     public void AddListenerOnDemolishActionEvent(Action listener)
     {
-        m_OnDemolishActionHandler += listener;
+        OnDemolishActionHandler += listener;
     }
 
     public void RemoveListenerOnDemolishActionEvent(Action listener)
     {
-        m_OnDemolishActionHandler -= listener;
+        OnDemolishActionHandler -= listener;
     }
     public void AddListenerOnBuildSingleStructureEvent(Action<string> listener)
     {
-        m_OnBuildSingleStructureHandler += listener;
+        OnBuildSingleStructureHandler += listener;
     }
 
     public void RemoveListenerOnBuildSingleStructureEvent(Action<string> listener)
     {
-        m_OnBuildSingleStructureHandler -= listener;
+        OnBuildSingleStructureHandler -= listener;
     }
 
     public void AddListenerOnBuildRoadEvent(Action<string> listener)
     {
-        m_OnBuildRoadHandler += listener;
+        OnBuildRoadHandler += listener;
     }
 
     public void RemoveListenerOnBuildRoadEvent(Action<string> listener)
     {
-        m_OnBuildRoadHandler -= listener;
+        OnBuildRoadHandler -= listener;
     }
 
     public void AddListenerOnConfirmActionEvent(Action listener)
     {
-        m_OnConfirmActionHandler += listener;
+        OnConfirmActionHandler += listener;
     }
 
     public void RemoveListenerOnConfirmActionEvent(Action listener)
     {
-        m_OnConfirmActionHandler -= listener;
-    }
-
-    public void SetMoneyValue(int moneyAmount)
-    {
-        _moneyValueText.text = moneyAmount.ToString();
+        OnConfirmActionHandler -= listener;
     }
 }

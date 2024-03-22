@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BuildingManagerHelpers;
 using NUnit.Framework;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -21,10 +19,10 @@ namespace Tests
         public void Init()
         {
             grid = new GridStructure(3, 10, 10);
-            roadSO._prefab = roadStraight;
-            roadSO._cornerPrefab = roadCorner;
-            roadSO._threeWayPrefab = road3Way;
-            roadSO._fourWayPrefab = road4Way;
+            roadSO.prefab = roadStraight;
+            roadSO.cornerPrefab = roadCorner;
+            roadSO.threeWayPrefab = road3Way;
+            roadSO.fourWayPrefab = road4Way;
 
             grid.PlaceStructureOnTheGrid(roadStraight, new Vector3(3, 0, 6), roadSO);
             grid.PlaceStructureOnTheGrid(roadStraight, new Vector3(6, 0, 3), roadSO);

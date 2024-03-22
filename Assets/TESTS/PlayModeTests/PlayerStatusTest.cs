@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
-using States;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -44,14 +43,16 @@ namespace Tests
         {
             GameObject gameManagerObject = new GameObject();
             var camerMovementComponent = gameManagerObject.AddComponent<CameraMovement>();
+            gameManagerObject.AddComponent<ResourceManagerTestStud>();
 
             uiController = Substitute.For<UiController>();
 
             gameManagerComponent = gameManagerObject.AddComponent<GameManager>();
+            gameManagerComponent.resourceManagerGameObject = gameManagerObject;
             gameManagerObject.AddComponent<PlacementManager>();
-            gameManagerComponent._placementManagerGameObject = gameManagerObject;
-            gameManagerComponent._cameraMovement = camerMovementComponent;
-            gameManagerComponent._uiController = uiController;
+            gameManagerComponent.placementManagerGameObject = gameManagerObject;
+            gameManagerComponent.cameraMovement = camerMovementComponent;
+            gameManagerComponent.uiController = uiController;
         }
 
         [UnityTest]

@@ -1,51 +1,102 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ScriptableObjects;
 using UnityEngine;
 
 public class GridStructure
 {
-    private int m_CellSize;
-    Cell[,] m_Grid;
-    private int m_Width, m_Length;
+    private int cellSize;
+    private Cell[,] grid;
+    private int width, length;
     public GridStructure(int cellSize, int width, int length)
     {
-        m_CellSize = cellSize;
-        m_Width = width;
-        m_Length = length;
-        m_Grid = new Cell[m_Width,m_Length];
-        for (int row = 0; row < m_Grid.GetLength(0); row++)
+        this.cellSize = cellSize;
+        this.width = width;
+        this.length = length;
+        grid = new Cell[this.width,this.length];
+        for (int row = 0; row < grid.GetLength(0); row++)
         {
-            for (int col = 0; col < m_Grid.GetLength(1); col++)
+            for (int col = 0; col < grid.GetLength(1); col++)
             {
-                m_Grid[row, col] = new Cell();
+                grid[row, col] = new Cell();
             }
         }
     }
     public Vector3 CalculateGridPosition(Vector3 inputPosition)
     {
-        int x = Mathf.FloorToInt((float)inputPosition.x / m_CellSize);
-        int z = Mathf.FloorToInt((float)inputPosition.z / m_CellSize);
-        return new Vector3(x * m_CellSize, 0, z * m_CellSize);
+        int x = Mathf.FloorToInt((float)inputPosition.x / cellSize);
+        int z = Mathf.FloorToInt((float)inputPosition.z / cellSize);
+        return new Vector3(x * cellSize, 0, z * cellSize);
     }
 
     public void RemoveStructureFromTheGrid(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
-        m_Grid[cellIndex.y, cellIndex.x].RemoveStructure();
+        grid[cellIndex.y, cellIndex.x].RemoveStructure();
+    }
+
+    internal IEnumerable<Vector3Int> GetStructurePositionsInRange(Vector3Int gridPosition, int range)
+    {
+        var cellIndex = CalculateGridIndex(gridPosition);
+        List<Vector3Int> listToReturn = new List<Vector3Int>();
+        if (CheckIndexValidity(cellIndex) == false)
+            return listToReturn;
+        for (int row = cellIndex.y - range; row <= cellIndex.y + range; row++)
+        {
+            for (int col = cellIndex.x - range; col <= cellIndex.x + range; col++)
+            {
+                var tempPosition = new Vector2Int(col, row);
+                if (CheckIndexValidity(tempPosition) && Vector2.Distance(cellIndex, tempPosition) <= range)
+                {
+                    var data = grid[row, col].GetStructureData();
+                    if (data != null)
+                    {
+                        listToReturn.Add(GetGridPositionFromIndex(tempPosition));
+                    }
+                }
+            }
+        }
+        return listToReturn;
+    }
+
+    internal bool ArePositionsInRange(Vector3Int gridPosition, Vector3Int structurePositionNearby, int range)
+    {
+        var distance = Vector2.Distance(CalculateGridIndex(gridPosition), CalculateGridIndex(structurePositionNearby));
+        return distance <= range;
     }
 
     private Vector2Int CalculateGridIndex(Vector3 gridPosition)
     {
-        return new Vector2Int((int)(gridPosition.x / m_CellSize), (int)(gridPosition.z / m_CellSize));
+        return new Vector2Int((int)(gridPosition.x / cellSize), (int)(gridPosition.z / cellSize));
+    }
+
+    private Vector3Int GetGridPositionFromIndex(Vector2Int tempPosition)
+    {
+        return new Vector3Int(tempPosition.x * cellSize, 0, tempPosition.y * cellSize);
+    }
+
+    public IEnumerable<StructureBaseSO> GetAllStructures()
+    {
+        List<StructureBaseSO> structureData = new List<StructureBaseSO>();
+        for (int row = 0; row < grid.GetLength(0); row++)
+        {
+            for (int col = 0; col < grid.GetLength(1); col++)
+            {
+                var data = grid[row, col].GetStructureData();
+                if (data != null)
+                {
+                    structureData.Add(data);
+                }
+            }
+        }
+        return structureData;
     }
 
     public bool IsCellTaken(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
         if(CheckIndexValidity(cellIndex))
-            return m_Grid[cellIndex.y, cellIndex.x].IsTaken;
+            return grid[cellIndex.y, cellIndex.x].IsTaken;
         throw new IndexOutOfRangeException("No index " + cellIndex + " in grid");
     }
 
@@ -53,7 +104,7 @@ public class GridStructure
     {
         var cellIndex = CalculateGridIndex(gridPosition);
         if (CheckIndexValidity(cellIndex))
-            m_Grid[cellIndex.y, cellIndex.x].SetConstruction(structure, structureData);
+            grid[cellIndex.y, cellIndex.x].SetConstruction(structure, structureData);
     }
 
     public HashSet<Vector3Int> GetAllPositionsFromTo(Vector3Int minPoint, Vector3Int maxPoint)
@@ -73,12 +124,12 @@ public class GridStructure
     public StructureBaseSO GetStructureDataFromTheGrid(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
-        return m_Grid[cellIndex.y, cellIndex.x].GetStructureData();
+        return grid[cellIndex.y, cellIndex.x].GetStructureData();
     }
 
     private bool CheckIndexValidity(Vector2Int cellIndex)
     {
-        if (cellIndex.x >= 0 && cellIndex.x < m_Grid.GetLength(1) && cellIndex.y >= 0 && cellIndex.y < m_Grid.GetLength(0))
+        if (cellIndex.x >= 0 && cellIndex.x < grid.GetLength(1) && cellIndex.y >= 0 && cellIndex.y < grid.GetLength(0))
             return true;
         return false;
     }
@@ -86,7 +137,7 @@ public class GridStructure
     public GameObject GetStructureFromTheGrid(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
-        return m_Grid[cellIndex.y, cellIndex.x].GetStructure();
+        return grid[cellIndex.y, cellIndex.x].GetStructure();
     }
 
     public Vector3Int? GetPositionOfTheNeighbourIfExists(Vector3 gridPosition, Direction direction)
@@ -95,16 +146,16 @@ public class GridStructure
         switch (direction)
         {
             case Direction.Up:
-                neighbourPosition += new Vector3Int(0, 0, m_CellSize);
+                neighbourPosition += new Vector3Int(0, 0, cellSize);
                 break;
             case Direction.Right:
-                neighbourPosition += new Vector3Int(m_CellSize, 0, 0);
+                neighbourPosition += new Vector3Int(cellSize, 0, 0);
                 break;
             case Direction.Down:
-                neighbourPosition += new Vector3Int(0, 0, -m_CellSize);
+                neighbourPosition += new Vector3Int(0, 0, -cellSize);
                 break;
             case Direction.Left:
-                neighbourPosition += new Vector3Int(-m_CellSize, 0, 0);
+                neighbourPosition += new Vector3Int(-cellSize, 0, 0);
                 break;
         }
         var index = CalculateGridIndex(neighbourPosition.Value);
@@ -115,24 +166,30 @@ public class GridStructure
         return neighbourPosition;
     }
 
-    public IEnumerable<StructureBaseSO> GetAllStructures()
+    public IEnumerable<StructureBaseSO> GetStructuresDataInRange(Vector3 gridPosition, int range)
     {
-        List<StructureBaseSO> structureDataList = new List<StructureBaseSO>();
-
-        for (int row = 0; row < m_Grid.GetLength(0); row++)
+        var cellIndex = CalculateGridIndex(gridPosition);
+        List<StructureBaseSO> listToReturn = new List<StructureBaseSO>();
+        if (CheckIndexValidity(cellIndex) == false)
         {
-            for (int col = 0; col < m_Grid.GetLength(1); col++)
+            return listToReturn;
+        }
+        for (int row = cellIndex.y - range; row <= cellIndex.y + range; row++)
+        {
+            for (int col = cellIndex.x - range; col <= cellIndex.x + range; col++)
             {
-                var data = m_Grid[row, col].GetStructureData();
-                
-                if (data != null)
+                var tempPosition = new Vector2Int(col, row);
+                if (CheckIndexValidity(tempPosition) && Vector2.Distance(cellIndex, tempPosition) <= range)
                 {
-                    structureDataList.Add(data);
+                    var data = grid[row, col].GetStructureData();
+                    if (data != null)
+                    {
+                        listToReturn.Add(data);
+                    }
                 }
             }
         }
-        
-        return structureDataList;
+        return listToReturn;
     }
 }
 

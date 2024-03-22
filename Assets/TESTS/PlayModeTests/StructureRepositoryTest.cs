@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -16,19 +15,19 @@ namespace Tests
         {
             CollectionSO collection = new CollectionSO();
             var road = new RoadStructureSO();
-            road._buildingName = "Road";
+            road.buildingName = "Road";
             var facility = new SingleFacilitySO();
-            facility._buildingName = "PowerPlant";
+            facility.buildingName = "PowerPlant";
             var zone = new ZoneStructureSO();
-            zone._buildingName = "Commercial";
-            collection._roadStructure = road;
-            collection._singleStructureList = new List<SingleStructureBaseSO>();
-            collection._singleStructureList.Add(facility);
-            collection._zonesList = new List<ZoneStructureSO>();
-            collection._zonesList.Add(zone);
+            zone.buildingName = "Commercial";
+            collection.roadStructure = road;
+            collection.singleStructureList = new List<SingleStructureBaseSO>();
+            collection.singleStructureList.Add(facility);
+            collection.zonesList = new List<ZoneStructureSO>();
+            collection.zonesList.Add(zone);
             GameObject testObject = new GameObject();
             repository = testObject.AddComponent<StructureRepository>();
-            repository._modelDataCollection = collection;
+            repository.modelDataCollection = collection;
         }
 
         [UnityTest]

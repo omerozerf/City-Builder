@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BuildingManagerHelpers;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
@@ -24,6 +23,7 @@ namespace Tests
         {
             StructureRepository structureRepository = TestHelpers.CreateStructureRepositoryContainingRoad();
             IPlacementManager placementManager = Substitute.For<IPlacementManager>();
+            
             tempObject = new GameObject();
             placementManager.CreateGhostStructure(default, default).ReturnsForAnyArgs(tempObject);
             grid = new GridStructure(3, 10, 10);
@@ -31,7 +31,10 @@ namespace Tests
             grid.PlaceStructureOnTheGrid(tempObject, gridPosition1, null);
             grid.PlaceStructureOnTheGrid(tempObject, gridPosition2, null);
 
-            helper = new StructureDemolitionHelper(structureRepository, grid, placementManager, null);
+            IResourceManager resourceManager = Substitute.For<IResourceManager>();
+            resourceManager.CanIBuyIt(default).Returns(true);
+
+            helper = new StructureDemolitionHelper(structureRepository, grid, placementManager, resourceManager);
 
         }
         [Test]

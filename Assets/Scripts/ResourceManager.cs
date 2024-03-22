@@ -1,113 +1,122 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour, IResourceManager
 {
-    [SerializeField] private int _startMoneyAmount;
-    [SerializeField] private float _moneyCalculationInterval;
-    [SerializeField] private BuildingManager _buildingManager;
-    [SerializeField] private UiController _uiController;
-    
-    public int _demolitionPrice = 20;
-    
-    private MoneyHelper m_MoneyHelper;
+    [SerializeField]
+    private int startMoneyAmount = 5000;
+    [SerializeField]
+    private int demolitionPrice = 20;
+    [SerializeField]
+    private float moneyCalculationInterval = 2;
 
+    private MoneyHelper moneyHelper;
+    private PopulationHelper populationHelper;
+    private BuildingManager buildingManger;
+    public UiController uiController;
 
-    private void Awake()
-    { 
-        m_MoneyHelper = new MoneyHelper(_startMoneyAmount);
-    }
+    public int StartMoneyAmount { get => startMoneyAmount;}
+    public float MoneyCalculationInterval { get => moneyCalculationInterval;}
 
+    public int DemolitionPrice => demolitionPrice;
+
+    // Start is called before the first frame update
     private void Start()
     {
-        UpdateMoneyValueUI();
+        moneyHelper = new MoneyHelper(startMoneyAmount);
+        populationHelper = new PopulationHelper();
+        UpdateUI();
     }
 
-    private void OnDisable()
+    public void PrepareResourceManager(BuildingManager buildingManager)
     {
-        CancelInvoke();
+        this.buildingManger = buildingManager;
+        InvokeRepeating("CalculateTownIncome",0,MoneyCalculationInterval);
     }
 
-
-    private bool CanBuy(int amount)
+    public bool SpendMoney(int amount)
     {
-        return m_MoneyHelper.GetMoneyAmount() >= amount;
+        if (CanIBuyIt(amount))
+        {
+            try
+            {
+                moneyHelper.ReduceMoney(amount);
+                UpdateUI();
+                return true;
+            }
+            catch (MoneyException)
+            {
+
+                ReloadGame();
+            }
+        }
+        return false;
     }
-    
+
     private void ReloadGame()
     {
-        Debug.Log("End of the game. Reload the game.");
-    }
-    
-    private void UpdateMoneyValueUI()
-    {
-        _uiController.SetMoneyValue(m_MoneyHelper.GetMoneyAmount());
+        Debug.Log("End the game");
     }
 
-
-    public void AddMoney(int amount)
+    public bool CanIBuyIt(int amount)
     {
-        m_MoneyHelper.AddMoneyAmount(amount);
-        UpdateMoneyValueUI();
+        return moneyHelper.Money >= amount;
     }
 
     public void CalculateTownIncome()
     {
         try
         {
-            m_MoneyHelper.CalculateMoney(_buildingManager.GetAllStructures());
-            UpdateMoneyValueUI();
+            moneyHelper.CalculateMoney(buildingManger.GetAllStructures());
+            UpdateUI();
         }
         catch (MoneyException)
         {
             ReloadGame();
-            throw;
         }
     }
-    
-    public bool SpendMoney(int amount)
-    {
-        if (CanBuy(amount))
-        {
-            try
-            {
-                m_MoneyHelper.ReduceMoneyAmount(amount);
-                UpdateMoneyValueUI();
-                
-                return true;
-            }
-            catch (MoneyException)
-            {
-                ReloadGame();
-                throw;
-            }
-        }
 
-        return false;
+    private void OnDisable()
+    {
+        CancelInvoke();  
     }
 
-    public bool GetCanBuy(int amount)
+    public void AddMoney(int amount)
     {
-        return CanBuy(amount);
-    }
-    
-    public BuildingManager GetBuildingManager()
-    {
-        return _buildingManager;
+        moneyHelper.AddMoney(amount);
+        UpdateUI();
     }
 
-    public void PrepareResourceManager(BuildingManager buildingManager)
+    private void UpdateUI()
     {
-        _buildingManager = buildingManager;
-        
-        InvokeRepeating(nameof(CalculateTownIncome), 0, _moneyCalculationInterval);
+        uiController.SetMoneyValue(moneyHelper.Money);
+        uiController.SetPopulationValue(populationHelper.Population);
     }
 
-    public int HowManyStructuresCanBePlaced(int structureDataPlacementCost, int numberOfStructures)
+    // Update is called once per frame
+    private void Update()
     {
-        int amount = (m_MoneyHelper.GetMoneyAmount() / structureDataPlacementCost);
-        
-        return amount > numberOfStructures ? amount : numberOfStructures;
+
+    }
+
+    public int HowManyStructuresCanIPlace(int placementCost, int numberOfStructures)
+    {
+        int amount = (int)(moneyHelper.Money / placementCost);
+        return amount > numberOfStructures ? numberOfStructures : amount;
+    }
+
+    public void AddToPopulation(int value)
+    {
+        populationHelper.AddToPopulation(value);
+        UpdateUI();
+    }
+
+    public void ReducePopulation(int value)
+    {
+        populationHelper.ReducePopulation(value);
+        UpdateUI();
+
     }
 }

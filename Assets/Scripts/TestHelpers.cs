@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using System.Collections;
 using System.Collections.Generic;
-using ScriptableObjects;
 using UnityEngine;
 
 public static class TestHelpers
@@ -11,10 +10,10 @@ public static class TestHelpers
         StructureRepository structureRepository = Substitute.For<StructureRepository>();
         CollectionSO collection = new CollectionSO();
         RoadStructureSO road = new RoadStructureSO();
-        road._buildingName = "Road";
-        road._prefab = GetAGameObjectWithMaterial();
-        collection._roadStructure = road;
-        structureRepository._modelDataCollection = collection;
+        road.buildingName = "Road";
+        road.prefab = GetAGameObjectWithMaterial();
+        collection.roadStructure = road;
+        structureRepository.modelDataCollection = collection;
         return structureRepository;
     }
 
