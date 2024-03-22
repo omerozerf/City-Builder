@@ -4,7 +4,7 @@ namespace BuildingManagerHelpers
 {
     public class SingleStructurePlacementHelper : StructureModificationHelper
     {
-        public SingleStructurePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager) : base(structureRepository, grid, placementManager)
+        public SingleStructurePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, ResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
         {
         }
 

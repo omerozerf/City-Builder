@@ -2821,6 +2821,7 @@ MonoBehaviour:
   _inputMask:
     serializedVersion: 2
     m_Bits: 64
+  _resourceManager: {fileID: 1217917516}
 --- !u!4 &1650921836
 Transform:
   m_ObjectHideFlags: 0

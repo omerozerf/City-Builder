@@ -11,12 +11,15 @@ namespace BuildingManagerHelpers
         protected readonly GridStructure grid;
         protected readonly IPlacementManager placementManager;
         protected StructureBaseSO structureData;
+        protected ResourceManager resourceManager;
 
-        public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager)
+        public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid,
+            IPlacementManager placementManager, ResourceManager resourceManager)
         {
             this.structureRepository = structureRepository;
             this.grid = grid;
             this.placementManager = placementManager;
+            this.resourceManager = resourceManager;
         }
 
         public GameObject AccessStructureInDictionary(Vector3 gridPosition)

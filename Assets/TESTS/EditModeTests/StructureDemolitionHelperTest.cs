@@ -31,7 +31,7 @@ namespace Tests
             grid.PlaceStructureOnTheGrid(tempObject, gridPosition1, null);
             grid.PlaceStructureOnTheGrid(tempObject, gridPosition2, null);
 
-            helper = new StructureDemolitionHelper(structureRepository, grid, placementManager);
+            helper = new StructureDemolitionHelper(structureRepository, grid, placementManager, null);
 
         }
         [Test]

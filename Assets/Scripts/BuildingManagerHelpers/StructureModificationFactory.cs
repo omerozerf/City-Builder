@@ -10,12 +10,12 @@ namespace BuildingManagerHelpers
         private static StructureModificationHelper ms_StructureDemolitionHelper;
         private static StructureModificationHelper ms_RoadStructurePlacementHelper;
         private static StructureModificationHelper ms_ZonePlacementHelper;
-        public static void PrepareFactory(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager)
+        public static void PrepareFactory(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, ResourceManager resourceManager)
         {
-            ms_SingleStructurePlacementHelper = new SingleStructurePlacementHelper(structureRepository, grid, placementManager);
-            ms_StructureDemolitionHelper = new StructureDemolitionHelper(structureRepository, grid, placementManager);
-            ms_RoadStructurePlacementHelper = new RoadPlacementModificationHelper(structureRepository, grid, placementManager);
-            ms_ZonePlacementHelper = new ZonePlacementHelper(structureRepository, grid, placementManager, Vector3.zero);
+            ms_SingleStructurePlacementHelper = new SingleStructurePlacementHelper(structureRepository, grid, placementManager, resourceManager);
+            ms_StructureDemolitionHelper = new StructureDemolitionHelper(structureRepository, grid, placementManager, resourceManager);
+            ms_RoadStructurePlacementHelper = new RoadPlacementModificationHelper(structureRepository, grid, placementManager, resourceManager);
+            ms_ZonePlacementHelper = new ZonePlacementHelper(structureRepository, grid, placementManager, Vector3.zero, resourceManager);
         }
 
         public static StructureModificationHelper GetHelper(Type classType)

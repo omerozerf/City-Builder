@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     public PlayerDemolitionState demolishState;
     public PlayerBuildingRoadState buildingRoadState;
     public PlayerBuildingZoneState buildingAreaState;
+    
+    [SerializeField] private ResourceManager _resourceManager;
 
     public PlayerState State { get => m_State; }
 
@@ -43,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void PrepareStates()
     {
-        m_BuildingManager = new BuildingManager(m_CellSize, _width, _length, m_PlacementManager, _structureRepository);
+        m_BuildingManager = new BuildingManager(m_CellSize, _width, _length, m_PlacementManager, _structureRepository, _resourceManager);
         selectionState = new PlayerSelectionState(this);
         demolishState = new PlayerDemolitionState(this, m_BuildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, m_BuildingManager);

@@ -12,12 +12,12 @@ public class BuildingManager
     StructureRepository m_StructureRepository;
     StructureModificationHelper m_Helper;
 
-    public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManager, StructureRepository structureRepository)
+    public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManager, StructureRepository structureRepository, ResourceManager resourceManager)
     {
         m_Grid = new GridStructure(cellSize, width, length);
         m_PlacementManager = placementManager;
         m_StructureRepository = structureRepository;
-        StructureModificationFactory.PrepareFactory(structureRepository, m_Grid, placementManager);
+        StructureModificationFactory.PrepareFactory(structureRepository, m_Grid, placementManager, resourceManager);
 
     }
 

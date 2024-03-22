@@ -7,7 +7,7 @@ namespace BuildingManagerHelpers
     public class RoadPlacementModificationHelper : StructureModificationHelper
     {
         Dictionary<Vector3Int, GameObject> m_ExistingRoadStructuresToModify = new Dictionary<Vector3Int, GameObject>();
-        public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager) : base(structureRepository, grid, placementManager)
+        public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, ResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
         {
         }
 

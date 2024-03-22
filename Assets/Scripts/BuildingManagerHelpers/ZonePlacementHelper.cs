@@ -10,7 +10,7 @@ namespace BuildingManagerHelpers
         bool m_StartPositionAcquired = false;
         Vector3 m_MapBottomLeftCorner;
         Queue<GameObject> m_GameObjectsToReuse = new Queue<GameObject>();
-        public ZonePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, Vector3 mapBottomLeftCorner) : base(structureRepository, grid, placementManager)
+        public ZonePlacementHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, Vector3 mapBottomLeftCorner, ResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
         {
             m_MapBottomLeftCorner = mapBottomLeftCorner;
         }
