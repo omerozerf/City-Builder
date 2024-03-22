@@ -3,18 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour, IInputManager
 {
-    private Action<Vector3> OnPointerSecondChangeHandler;
-    private Action OnPointerSecondUpHandler;
-    private Action<Vector3> OnPointerDownHandler;
-    private Action OnPointerUpHandler;
-    private Action<Vector3> OnPointerChangeHandler;
+    private Action<Vector3> m_OnPointerSecondChangeHandler;
+    private Action m_OnPointerSecondUpHandler;
+    private Action<Vector3> m_OnPointerDownHandler;
+    private Action m_OnPointerUpHandler;
+    private Action<Vector3> m_OnPointerChangeHandler;
 
-    public LayerMask mouseInputMask;
+    [FormerlySerializedAs("mouseInputMask")] public LayerMask _mouseInputMask;
 
-    public LayerMask MouseInputMask { get => mouseInputMask; set => mouseInputMask = value; }
+    public LayerMask MouseInputMask { get => _mouseInputMask; set => _mouseInputMask = value; }
     // Update is called once per frame
     private void Update()
     {
@@ -27,16 +28,16 @@ public class InputManager : MonoBehaviour, IInputManager
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            CallActionOnPointer((position) => OnPointerDownHandler?.Invoke(position));
+            CallActionOnPointer((position) => m_OnPointerDownHandler?.Invoke(position));
 
         }
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            CallActionOnPointer((position) => OnPointerChangeHandler?.Invoke(position));
+            CallActionOnPointer((position) => m_OnPointerChangeHandler?.Invoke(position));
         }
         if (Input.GetMouseButtonUp(0))
         {
-            OnPointerUpHandler?.Invoke();
+            m_OnPointerUpHandler?.Invoke();
         }
 
     }
@@ -56,7 +57,7 @@ public class InputManager : MonoBehaviour, IInputManager
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Vector3? position = null;
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, mouseInputMask))
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, _mouseInputMask))
         {
             position = hit.point - transform.position;
 
@@ -70,60 +71,60 @@ public class InputManager : MonoBehaviour, IInputManager
         if (Input.GetMouseButton(1))
         {
             var position = Input.mousePosition;
-            OnPointerSecondChangeHandler?.Invoke(position);
+            m_OnPointerSecondChangeHandler?.Invoke(position);
         }
         if (Input.GetMouseButtonUp(1))
         {
-            OnPointerSecondUpHandler?.Invoke();
+            m_OnPointerSecondUpHandler?.Invoke();
         }
     }
 
     public void AddListenerOnPointerDownEvent(Action<Vector3> listener)
     {
-        OnPointerDownHandler += listener;
+        m_OnPointerDownHandler += listener;
     }
 
     public void RemoveListenerOnPointerDownEvent(Action<Vector3> listener)
     {
-        OnPointerDownHandler -= listener;
+        m_OnPointerDownHandler -= listener;
     }
 
     public void AddListenerOnPointerSecondDownEvent(Action<Vector3> listener)
     {
-        OnPointerSecondChangeHandler += listener;
+        m_OnPointerSecondChangeHandler += listener;
     }
 
     public void RemoveListenerOnPointerSecondChangeEvent(Action<Vector3> listener)
     {
-        OnPointerSecondChangeHandler -= listener;
+        m_OnPointerSecondChangeHandler -= listener;
     }
 
     public void AddListenerOnPointerSecondUpEvent(Action listener)
     {
-        OnPointerSecondUpHandler += listener;
+        m_OnPointerSecondUpHandler += listener;
     }
 
     public void RemoveListenerOnPointerSecondUpEvent(Action listener)
     {
-        OnPointerSecondUpHandler -= listener;
+        m_OnPointerSecondUpHandler -= listener;
     }
 
     public void AddListenerOnPointerUpEvent(Action listener)
     {
-        OnPointerUpHandler += listener;
+        m_OnPointerUpHandler += listener;
     }
     public void RemoveListenerOnPointerUpEvent(Action listener)
     {
-        OnPointerUpHandler -= listener;
+        m_OnPointerUpHandler -= listener;
     }
 
     public void AddListenerOnPointerChangeEvent(Action<Vector3> listener)
     {
-        OnPointerChangeHandler += listener;
+        m_OnPointerChangeHandler += listener;
     }
 
     public void RemoveListenerOnPointerChangeEvent(Action<Vector3> listener)
     {
-        OnPointerChangeHandler -= listener;
+        m_OnPointerChangeHandler -= listener;
     }
 }

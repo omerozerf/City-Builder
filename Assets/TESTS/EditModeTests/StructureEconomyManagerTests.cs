@@ -172,10 +172,10 @@ namespace Tests
         private SingleFacilitySO CreateFacilityAtPosition(Vector3Int positon, FacilityType facilityType = FacilityType.None)
         {
             SingleFacilitySO facility = new SingleFacilitySO();
-            facility.requireRoadAccess = true;
-            facility.singleStructureRange = 3;
-            facility.facilityType = facilityType;
-            facility.maxCustomers = 3;
+            facility._requireRoadAccess = true;
+            facility._singleStructureRange = 3;
+            facility._facilityType = facilityType;
+            facility._maxCustomers = 3;
             grid.PlaceStructureOnTheGrid(structureObject, positon, facility);
             StructureEconomyManager.PrepareFacilityStructure(positon, grid);
             return facility;
@@ -199,11 +199,11 @@ namespace Tests
         private static ZoneStructureSO CreateResidentialZone()
         {
             ZoneStructureSO residentialZone = ScriptableObject.CreateInstance<ZoneStructureSO>();
-            residentialZone.requireRoadAccess = true;
-            residentialZone.requirePower = true;
-            residentialZone.requireWater = true;
-            residentialZone.upkeepCost = 30;
-            residentialZone.maxFacilitySearchRange = 2;
+            residentialZone._requireRoadAccess = true;
+            residentialZone._requirePower = true;
+            residentialZone._requireWater = true;
+            residentialZone._upkeepCost = 30;
+            residentialZone._maxFacilitySearchRange = 2;
             return residentialZone;
         }
     }

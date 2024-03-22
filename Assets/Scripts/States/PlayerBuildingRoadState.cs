@@ -4,47 +4,47 @@ using UnityEngine;
 
 public class PlayerBuildingRoadState : PlayerState
 {
-    private BuildingManager buildingManager;
-    private string structureName;
+    private BuildingManager m_BuildingManager;
+    private string m_StructureName;
     public PlayerBuildingRoadState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
-        this.buildingManager = buildingManager;
+        this.m_BuildingManager = buildingManager;
     }
     public override void OnConfirmAction()
     {
         
-        this.buildingManager.ConfirmModification();
+        this.m_BuildingManager.ConfirmModification();
         base.OnConfirmAction();
     }
     public override void OnCancle()
     {
-        this.buildingManager.CancelModification();
+        this.m_BuildingManager.CancelModification();
         this.gameManager.TransitionToState(this.gameManager.selectionState, null);
     }
 
     public override void EnterState(string structureName)
     {
         base.EnterState(structureName);
-        this.buildingManager.PrepareBuildingManager(this.GetType());
-        this.structureName = structureName;
+        this.m_BuildingManager.PrepareBuildingManager(this.GetType());
+        this.m_StructureName = structureName;
     }
 
     public override void OnInputPointerDown(Vector3 position)
     {
-        buildingManager.PrepareStructureForPlacement(position, this.structureName, StructureType.Road);
+        m_BuildingManager.PrepareStructureForPlacement(position, this.m_StructureName, StructureType.Road);
     }
 
     public override void OnBuildArea(string structureName)
     {
 
         base.OnBuildArea(structureName);
-        this.buildingManager.CancelModification();
+        this.m_BuildingManager.CancelModification();
     }
 
     public override void OnBuildSingleStructure(string structureName)
     {
         base.OnBuildSingleStructure(structureName);
-        this.buildingManager.CancelModification();
+        this.m_BuildingManager.CancelModification();
     }
 
 }

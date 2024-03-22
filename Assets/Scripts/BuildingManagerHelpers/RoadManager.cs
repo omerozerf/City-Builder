@@ -46,12 +46,12 @@ public static class RoadManager
     {
         if (neighboursStatus == ((int)Direction.Up | (int)Direction.Down) || neighboursStatus == (int)Direction.Up || neighboursStatus == (int)Direction.Down)
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).prefab, RotationValue.R90);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._prefab, RotationValue.R90);
         }
         else if (neighboursStatus == ((int)Direction.Right | (int)Direction.Left) || neighboursStatus == (int)Direction.Right
         || neighboursStatus == (int)Direction.Left || neighboursStatus == 0)
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).prefab, RotationValue.R0);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._prefab, RotationValue.R0);
         }
         return roadToReturn;
     }
@@ -60,19 +60,19 @@ public static class RoadManager
     {
         if (neighboursStatus == ((int)Direction.Up | (int)Direction.Right | (int)Direction.Down))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R0);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._threeWayPrefab, RotationValue.R0);
         }
         else if (neighboursStatus == ((int)Direction.Left | (int)Direction.Up | (int)Direction.Right))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R270);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._threeWayPrefab, RotationValue.R270);
         }
         else if (neighboursStatus == ((int)Direction.Down | (int)Direction.Left | (int)Direction.Up))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R180);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._threeWayPrefab, RotationValue.R180);
         }
         else if (neighboursStatus == ((int)Direction.Right | (int)Direction.Down | (int)Direction.Left))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R90);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._threeWayPrefab, RotationValue.R90);
         }
         return roadToReturn;
     }
@@ -81,7 +81,7 @@ public static class RoadManager
     {
         if (neighboursStatus == ((int)Direction.Up | (int)Direction.Right | (int)Direction.Down | (int)Direction.Left))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).fourWayPrefab, RotationValue.R0);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._fourWayPrefab, RotationValue.R0);
         }
         return roadToReturn;
     }
@@ -90,19 +90,19 @@ public static class RoadManager
     {
         if (neighboursStatus == ((int)Direction.Up | (int)Direction.Right))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R0);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._cornerPrefab, RotationValue.R0);
         }
         else if (neighboursStatus == ((int)Direction.Down | (int)Direction.Right))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R90);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._cornerPrefab, RotationValue.R90);
         }
         else if (neighboursStatus == ((int)Direction.Down | (int)Direction.Left))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R180);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._cornerPrefab, RotationValue.R180);
         }
         else if (neighboursStatus == ((int)Direction.Up | (int)Direction.Left))
         {
-            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R270);
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData)._cornerPrefab, RotationValue.R270);
         }
         return roadToReturn;
     }

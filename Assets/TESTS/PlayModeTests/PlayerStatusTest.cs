@@ -48,11 +48,11 @@ namespace Tests
             uiController = Substitute.For<UiController>();
 
             gameManagerComponent = gameManagerObject.AddComponent<GameManager>();
-            gameManagerComponent.resourceManagerGameObject = gameManagerObject;
+            gameManagerComponent._resourceManagerGameObject = gameManagerObject;
             gameManagerObject.AddComponent<PlacementManager>();
-            gameManagerComponent.placementManagerGameObject = gameManagerObject;
-            gameManagerComponent.cameraMovement = camerMovementComponent;
-            gameManagerComponent.uiController = uiController;
+            gameManagerComponent._placementManagerGameObject = gameManagerObject;
+            gameManagerComponent._cameraMovement = camerMovementComponent;
+            gameManagerComponent._uiController = uiController;
         }
 
         [UnityTest]

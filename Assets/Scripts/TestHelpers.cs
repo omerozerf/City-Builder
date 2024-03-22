@@ -10,10 +10,10 @@ public static class TestHelpers
         StructureRepository structureRepository = Substitute.For<StructureRepository>();
         CollectionSO collection = new CollectionSO();
         RoadStructureSO road = new RoadStructureSO();
-        road.buildingName = "Road";
-        road.prefab = GetAGameObjectWithMaterial();
-        collection.roadStructure = road;
-        structureRepository.modelDataCollection = collection;
+        road._buildingName = "Road";
+        road._prefab = GetAGameObjectWithMaterial();
+        collection._roadStructure = road;
+        structureRepository._modelDataCollection = collection;
         return structureRepository;
     }
 

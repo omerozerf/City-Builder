@@ -15,19 +15,19 @@ namespace Tests
         {
             CollectionSO collection = new CollectionSO();
             var road = new RoadStructureSO();
-            road.buildingName = "Road";
+            road._buildingName = "Road";
             var facility = new SingleFacilitySO();
-            facility.buildingName = "PowerPlant";
+            facility._buildingName = "PowerPlant";
             var zone = new ZoneStructureSO();
-            zone.buildingName = "Commercial";
-            collection.roadStructure = road;
-            collection.singleStructureList = new List<SingleStructureBaseSO>();
-            collection.singleStructureList.Add(facility);
-            collection.zonesList = new List<ZoneStructureSO>();
-            collection.zonesList.Add(zone);
+            zone._buildingName = "Commercial";
+            collection._roadStructure = road;
+            collection._singleStructureList = new List<SingleStructureBaseSO>();
+            collection._singleStructureList.Add(facility);
+            collection._zonesList = new List<ZoneStructureSO>();
+            collection._zonesList.Add(zone);
             GameObject testObject = new GameObject();
             repository = testObject.AddComponent<StructureRepository>();
-            repository.modelDataCollection = collection;
+            repository._modelDataCollection = collection;
         }
 
         [UnityTest]

@@ -2,34 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "New facility", menuName = "CityBuilder/StructureData/Facility")]
 public class SingleFacilitySO : SingleStructureBaseSO
 {
-    public int maxCustomers;
-    public int upkeepPerCustomer;
-    private HashSet<StructureBaseSO> customers = new HashSet<StructureBaseSO>();
-    public FacilityType facilityType = FacilityType.None;
+    [FormerlySerializedAs("maxCustomers")] public int _maxCustomers;
+    [FormerlySerializedAs("upkeepPerCustomer")] public int _upkeepPerCustomer;
+    private HashSet<StructureBaseSO> m_Customers = new HashSet<StructureBaseSO>();
+    [FormerlySerializedAs("facilityType")] public FacilityType _facilityType = FacilityType.None;
 
     public void RemoveClient(StructureBaseSO clientStructure)
     {
-        if (customers.Contains(clientStructure))
+        if (m_Customers.Contains(clientStructure))
         {
-            if (facilityType == FacilityType.Water)
+            if (_facilityType == FacilityType.Water)
             {
                 clientStructure.RemoveWaterFacility();
             }
-            if (facilityType == FacilityType.Power)
+            if (_facilityType == FacilityType.Power)
             {
                 clientStructure.RemovePowerFacility();
             }
-            customers.Remove(clientStructure);
+            m_Customers.Remove(clientStructure);
         }
     }
 
     public override int GetIncome()
     {
-        return customers.Count * income;
+        return m_Customers.Count * _income;
     }
 
 
@@ -37,17 +38,17 @@ public class SingleFacilitySO : SingleStructureBaseSO
     {
         foreach (var nearbyStructure in structuresAroundFacility)
         {
-            if (maxCustomers > customers.Count && nearbyStructure != this)
+            if (_maxCustomers > m_Customers.Count && nearbyStructure != this)
             {
-                if (facilityType == FacilityType.Water && nearbyStructure.requireWater)
+                if (_facilityType == FacilityType.Water && nearbyStructure._requireWater)
                 {
                     nearbyStructure.AddWaterFacility(this);
-                    customers.Add(nearbyStructure);
+                    m_Customers.Add(nearbyStructure);
                 }
-                if (facilityType == FacilityType.Power && nearbyStructure.requirePower)
+                if (_facilityType == FacilityType.Power && nearbyStructure._requirePower)
                 {
                     nearbyStructure.AddPowerFacility(this);
-                    customers.Add(nearbyStructure);
+                    m_Customers.Add(nearbyStructure);
                 }
             }
         }
@@ -56,23 +57,23 @@ public class SingleFacilitySO : SingleStructureBaseSO
     public override IEnumerable<StructureBaseSO> PrepareForDestruction()
     {
         base.PrepareForDestruction();
-        List<StructureBaseSO> tempList = new List<StructureBaseSO>(customers);
+        List<StructureBaseSO> tempList = new List<StructureBaseSO>(m_Customers);
         foreach(var clientStructure in tempList)
         {
             RemoveClient(clientStructure);
         }
-        customers.Clear();
+        m_Customers.Clear();
         return tempList;
     }
 
     internal bool IsFull()
     {
-        return GetNumberOfCustomers() > maxCustomers;
+        return GetNumberOfCustomers() > _maxCustomers;
     }
 
     public int GetNumberOfCustomers()
     {
-        return customers.Count;
+        return m_Customers.Count;
     }
 }
 

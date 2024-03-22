@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StructureDemolitionHelper : StructureModificationHelper
 {
-    private Dictionary<Vector3Int, GameObject> roadToDemolish = new Dictionary<Vector3Int, GameObject>();
+    private Dictionary<Vector3Int, GameObject> m_RoadToDemolish = new Dictionary<Vector3Int, GameObject>();
     public StructureDemolitionHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, IResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
     {
     }
@@ -27,7 +27,7 @@ public class StructureDemolitionHelper : StructureModificationHelper
             PrepareStructureForDemolition(gridPosition);
             grid.RemoveStructureFromTheGrid(gridPosition);
         }
-        foreach (var keyVeluPair in roadToDemolish)
+        foreach (var keyVeluPair in m_RoadToDemolish)
         {
             Dictionary<Vector3Int, GameObject> neighboursDictionary = RoadManager.GetRoadNeighboursForPosition(grid, keyVeluPair.Key);
             if (neighboursDictionary.Count > 0)
@@ -47,7 +47,7 @@ public class StructureDemolitionHelper : StructureModificationHelper
         var data = grid.GetStructureDataFromTheGrid(gridPosition);
         if (data != null)
         {
-            if (data.GetType() == typeof(ZoneStructureSO) && ((ZoneStructureSO)data).zoneType == ZoneType.Residential)
+            if (data.GetType() == typeof(ZoneStructureSO) && ((ZoneStructureSO)data)._zoneType == ZoneType.Residential)
             {
                 resourceManager.ReducePopulation(1);
             }
@@ -78,9 +78,9 @@ public class StructureDemolitionHelper : StructureModificationHelper
     {
         structuresToBeModified.Add(gridPositionInt, structure);
         placementManager.SetBuildingForDemolition(structure);
-        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && roadToDemolish.ContainsKey(gridPositionInt) == false)
+        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && m_RoadToDemolish.ContainsKey(gridPositionInt) == false)
         {
-            roadToDemolish.Add(gridPositionInt, structure);
+            m_RoadToDemolish.Add(gridPositionInt, structure);
         }
     }
 
@@ -88,9 +88,9 @@ public class StructureDemolitionHelper : StructureModificationHelper
     {
         placementManager.ResetBuildingLook(structure);
         structuresToBeModified.Remove(gridPositionInt);
-        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && roadToDemolish.ContainsKey(gridPositionInt))
+        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && m_RoadToDemolish.ContainsKey(gridPositionInt))
         {
-            roadToDemolish.Remove(gridPositionInt);
+            m_RoadToDemolish.Remove(gridPositionInt);
         }
     }
 

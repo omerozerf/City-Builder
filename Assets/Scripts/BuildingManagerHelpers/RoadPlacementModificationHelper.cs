@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RoadPlacementModificationHelper : StructureModificationHelper
 {
-    private Dictionary<Vector3Int, GameObject> existingRoadStructuresToModify = new Dictionary<Vector3Int, GameObject>();
+    private Dictionary<Vector3Int, GameObject> m_ExistingRoadStructuresToModify = new Dictionary<Vector3Int, GameObject>();
     public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManager, IResourceManager resourceManager) : base(structureRepository, grid, placementManager, resourceManager)
     {
     }
@@ -21,12 +21,12 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
             if (structuresToBeModified.ContainsKey(gridPositionInt))
             {
                 RevokeRoadPlacementAt(gridPositionInt);
-                resourceManager.AddMoney(structureData.placementCost);
+                resourceManager.AddMoney(structureData._placementCost);
             }
-            else if(resourceManager.CanIBuyIt(structureData.placementCost))
+            else if(resourceManager.CanIBuyIt(structureData._placementCost))
             {
                 PlaceNewRoadAt(roadStructure, gridPosition, gridPositionInt);
-                resourceManager.SpendMoney(structureData.placementCost);
+                resourceManager.SpendMoney(structureData._placementCost);
             }
             AdjustNeighboursIfAreRoadStructures(gridPosition);
         }
@@ -57,9 +57,9 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
         if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, neighbourPositionInt))
         {
             var neighbourStructureData = grid.GetStructureDataFromTheGrid(neighbourGridPosition.Value);
-            if (neighbourStructureData != null && neighbourStructureData.GetType() == typeof(RoadStructureSO) && existingRoadStructuresToModify.ContainsKey(neighbourPositionInt) == false)
+            if (neighbourStructureData != null && neighbourStructureData.GetType() == typeof(RoadStructureSO) && m_ExistingRoadStructuresToModify.ContainsKey(neighbourPositionInt) == false)
             {
-                existingRoadStructuresToModify.Add(neighbourPositionInt, grid.GetStructureFromTheGrid(neighbourGridPosition.Value));
+                m_ExistingRoadStructuresToModify.Add(neighbourPositionInt, grid.GetStructureFromTheGrid(neighbourGridPosition.Value));
             }
         }
     }
@@ -91,14 +91,14 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
 
     public override void CancleModifications()
     {
-        resourceManager.AddMoney(structuresToBeModified.Count * structureData.placementCost);
+        resourceManager.AddMoney(structuresToBeModified.Count * structureData._placementCost);
         base.CancleModifications();
-        existingRoadStructuresToModify.Clear();
+        m_ExistingRoadStructuresToModify.Clear();
     }
 
     public override void ConfirmModifications()
     {
-        RoadManager.ModifyRoadCellsOnTheGrid(existingRoadStructuresToModify, structureData, structuresToBeModified, grid, placementManager);
+        RoadManager.ModifyRoadCellsOnTheGrid(m_ExistingRoadStructuresToModify, structureData, structuresToBeModified, grid, placementManager);
 
         base.ConfirmModifications();
     }

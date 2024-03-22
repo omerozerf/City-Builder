@@ -5,34 +5,34 @@ using UnityEngine;
 
 public class GridStructure
 {
-    private int cellSize;
-    private Cell[,] grid;
-    private int width, length;
+    private int m_CellSize;
+    private Cell[,] m_Grid;
+    private int m_Width, m_Length;
     public GridStructure(int cellSize, int width, int length)
     {
-        this.cellSize = cellSize;
-        this.width = width;
-        this.length = length;
-        grid = new Cell[this.width,this.length];
-        for (int row = 0; row < grid.GetLength(0); row++)
+        this.m_CellSize = cellSize;
+        this.m_Width = width;
+        this.m_Length = length;
+        m_Grid = new Cell[this.m_Width,this.m_Length];
+        for (int row = 0; row < m_Grid.GetLength(0); row++)
         {
-            for (int col = 0; col < grid.GetLength(1); col++)
+            for (int col = 0; col < m_Grid.GetLength(1); col++)
             {
-                grid[row, col] = new Cell();
+                m_Grid[row, col] = new Cell();
             }
         }
     }
     public Vector3 CalculateGridPosition(Vector3 inputPosition)
     {
-        int x = Mathf.FloorToInt((float)inputPosition.x / cellSize);
-        int z = Mathf.FloorToInt((float)inputPosition.z / cellSize);
-        return new Vector3(x * cellSize, 0, z * cellSize);
+        int x = Mathf.FloorToInt((float)inputPosition.x / m_CellSize);
+        int z = Mathf.FloorToInt((float)inputPosition.z / m_CellSize);
+        return new Vector3(x * m_CellSize, 0, z * m_CellSize);
     }
 
     public void RemoveStructureFromTheGrid(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
-        grid[cellIndex.y, cellIndex.x].RemoveStructure();
+        m_Grid[cellIndex.y, cellIndex.x].RemoveStructure();
     }
 
     internal IEnumerable<Vector3Int> GetStructurePositionsInRange(Vector3Int gridPosition, int range)
@@ -48,7 +48,7 @@ public class GridStructure
                 var tempPosition = new Vector2Int(col, row);
                 if (CheckIndexValidity(tempPosition) && Vector2.Distance(cellIndex, tempPosition) <= range)
                 {
-                    var data = grid[row, col].GetStructureData();
+                    var data = m_Grid[row, col].GetStructureData();
                     if (data != null)
                     {
                         listToReturn.Add(GetGridPositionFromIndex(tempPosition));
@@ -67,22 +67,22 @@ public class GridStructure
 
     private Vector2Int CalculateGridIndex(Vector3 gridPosition)
     {
-        return new Vector2Int((int)(gridPosition.x / cellSize), (int)(gridPosition.z / cellSize));
+        return new Vector2Int((int)(gridPosition.x / m_CellSize), (int)(gridPosition.z / m_CellSize));
     }
 
     private Vector3Int GetGridPositionFromIndex(Vector2Int tempPosition)
     {
-        return new Vector3Int(tempPosition.x * cellSize, 0, tempPosition.y * cellSize);
+        return new Vector3Int(tempPosition.x * m_CellSize, 0, tempPosition.y * m_CellSize);
     }
 
     public IEnumerable<StructureBaseSO> GetAllStructures()
     {
         List<StructureBaseSO> structureData = new List<StructureBaseSO>();
-        for (int row = 0; row < grid.GetLength(0); row++)
+        for (int row = 0; row < m_Grid.GetLength(0); row++)
         {
-            for (int col = 0; col < grid.GetLength(1); col++)
+            for (int col = 0; col < m_Grid.GetLength(1); col++)
             {
-                var data = grid[row, col].GetStructureData();
+                var data = m_Grid[row, col].GetStructureData();
                 if (data != null)
                 {
                     structureData.Add(data);
@@ -96,7 +96,7 @@ public class GridStructure
     {
         var cellIndex = CalculateGridIndex(gridPosition);
         if(CheckIndexValidity(cellIndex))
-            return grid[cellIndex.y, cellIndex.x].IsTaken;
+            return m_Grid[cellIndex.y, cellIndex.x].IsTaken;
         throw new IndexOutOfRangeException("No index " + cellIndex + " in grid");
     }
 
@@ -104,7 +104,7 @@ public class GridStructure
     {
         var cellIndex = CalculateGridIndex(gridPosition);
         if (CheckIndexValidity(cellIndex))
-            grid[cellIndex.y, cellIndex.x].SetConstruction(structure, structureData);
+            m_Grid[cellIndex.y, cellIndex.x].SetConstruction(structure, structureData);
     }
 
     public HashSet<Vector3Int> GetAllPositionsFromTo(Vector3Int minPoint, Vector3Int maxPoint)
@@ -124,12 +124,12 @@ public class GridStructure
     public StructureBaseSO GetStructureDataFromTheGrid(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
-        return grid[cellIndex.y, cellIndex.x].GetStructureData();
+        return m_Grid[cellIndex.y, cellIndex.x].GetStructureData();
     }
 
     private bool CheckIndexValidity(Vector2Int cellIndex)
     {
-        if (cellIndex.x >= 0 && cellIndex.x < grid.GetLength(1) && cellIndex.y >= 0 && cellIndex.y < grid.GetLength(0))
+        if (cellIndex.x >= 0 && cellIndex.x < m_Grid.GetLength(1) && cellIndex.y >= 0 && cellIndex.y < m_Grid.GetLength(0))
             return true;
         return false;
     }
@@ -137,7 +137,7 @@ public class GridStructure
     public GameObject GetStructureFromTheGrid(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
-        return grid[cellIndex.y, cellIndex.x].GetStructure();
+        return m_Grid[cellIndex.y, cellIndex.x].GetStructure();
     }
 
     public Vector3Int? GetPositionOfTheNeighbourIfExists(Vector3 gridPosition, Direction direction)
@@ -146,16 +146,16 @@ public class GridStructure
         switch (direction)
         {
             case Direction.Up:
-                neighbourPosition += new Vector3Int(0, 0, cellSize);
+                neighbourPosition += new Vector3Int(0, 0, m_CellSize);
                 break;
             case Direction.Right:
-                neighbourPosition += new Vector3Int(cellSize, 0, 0);
+                neighbourPosition += new Vector3Int(m_CellSize, 0, 0);
                 break;
             case Direction.Down:
-                neighbourPosition += new Vector3Int(0, 0, -cellSize);
+                neighbourPosition += new Vector3Int(0, 0, -m_CellSize);
                 break;
             case Direction.Left:
-                neighbourPosition += new Vector3Int(-cellSize, 0, 0);
+                neighbourPosition += new Vector3Int(-m_CellSize, 0, 0);
                 break;
         }
         var index = CalculateGridIndex(neighbourPosition.Value);
@@ -181,7 +181,7 @@ public class GridStructure
                 var tempPosition = new Vector2Int(col, row);
                 if (CheckIndexValidity(tempPosition) && Vector2.Distance(cellIndex, tempPosition) <= range)
                 {
-                    var data = grid[row, col].GetStructureData();
+                    var data = m_Grid[row, col].GetStructureData();
                     if (data != null)
                     {
                         listToReturn.Add(data);

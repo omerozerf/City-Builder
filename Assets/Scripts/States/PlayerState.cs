@@ -9,7 +9,7 @@ public abstract class PlayerState
     public PlayerState(GameManager gameManager)
     {
         this.gameManager = gameManager;
-        cameraMovement = gameManager.cameraMovement;
+        cameraMovement = gameManager._cameraMovement;
     }
     public virtual void OnConfirmAction()
     {

@@ -2,37 +2,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ResourceManager : MonoBehaviour, IResourceManager
 {
-    [SerializeField]
-    private int startMoneyAmount = 5000;
-    [SerializeField]
-    private int demolitionPrice = 20;
-    [SerializeField]
-    private float moneyCalculationInterval = 2;
+    [FormerlySerializedAs("startMoneyAmount")] [SerializeField]
+    private int _startMoneyAmount = 5000;
+    [FormerlySerializedAs("demolitionPrice")] [SerializeField]
+    private int _demolitionPrice = 20;
+    [FormerlySerializedAs("moneyCalculationInterval")] [SerializeField]
+    private float _moneyCalculationInterval = 2;
 
-    private MoneyHelper moneyHelper;
-    private PopulationHelper populationHelper;
-    private BuildingManager buildingManger;
-    public UiController uiController;
+    private MoneyHelper m_MoneyHelper;
+    private PopulationHelper m_PopulationHelper;
+    private BuildingManager m_BuildingManger;
+    [FormerlySerializedAs("uiController")] public UiController _uiController;
 
-    public int StartMoneyAmount { get => startMoneyAmount;}
-    public float MoneyCalculationInterval { get => moneyCalculationInterval;}
+    public int StartMoneyAmount { get => _startMoneyAmount;}
+    public float MoneyCalculationInterval { get => _moneyCalculationInterval;}
 
-    public int DemolitionPrice => demolitionPrice;
+    public int DemolitionPrice => _demolitionPrice;
 
     // Start is called before the first frame update
     private void Start()
     {
-        moneyHelper = new MoneyHelper(startMoneyAmount);
-        populationHelper = new PopulationHelper();
+        m_MoneyHelper = new MoneyHelper(_startMoneyAmount);
+        m_PopulationHelper = new PopulationHelper();
         UpdateUI();
     }
 
     public void PrepareResourceManager(BuildingManager buildingManager)
     {
-        this.buildingManger = buildingManager;
+        this.m_BuildingManger = buildingManager;
         InvokeRepeating("CalculateTownIncome",0,MoneyCalculationInterval);
     }
 
@@ -42,7 +43,7 @@ public class ResourceManager : MonoBehaviour, IResourceManager
         {
             try
             {
-                moneyHelper.ReduceMoney(amount);
+                m_MoneyHelper.ReduceMoney(amount);
                 UpdateUI();
                 return true;
             }
@@ -62,14 +63,14 @@ public class ResourceManager : MonoBehaviour, IResourceManager
 
     public bool CanIBuyIt(int amount)
     {
-        return moneyHelper.Money >= amount;
+        return m_MoneyHelper.Money >= amount;
     }
 
     public void CalculateTownIncome()
     {
         try
         {
-            moneyHelper.CalculateMoney(buildingManger.GetAllStructures());
+            m_MoneyHelper.CalculateMoney(m_BuildingManger.GetAllStructures());
             UpdateUI();
         }
         catch (MoneyException)
@@ -85,14 +86,14 @@ public class ResourceManager : MonoBehaviour, IResourceManager
 
     public void AddMoney(int amount)
     {
-        moneyHelper.AddMoney(amount);
+        m_MoneyHelper.AddMoney(amount);
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        uiController.SetMoneyValue(moneyHelper.Money);
-        uiController.SetPopulationValue(populationHelper.Population);
+        _uiController.SetMoneyValue(m_MoneyHelper.Money);
+        _uiController.SetPopulationValue(m_PopulationHelper.Population);
     }
 
     // Update is called once per frame
@@ -103,19 +104,19 @@ public class ResourceManager : MonoBehaviour, IResourceManager
 
     public int HowManyStructuresCanIPlace(int placementCost, int numberOfStructures)
     {
-        int amount = (int)(moneyHelper.Money / placementCost);
+        int amount = (int)(m_MoneyHelper.Money / placementCost);
         return amount > numberOfStructures ? numberOfStructures : amount;
     }
 
     public void AddToPopulation(int value)
     {
-        populationHelper.AddToPopulation(value);
+        m_PopulationHelper.AddToPopulation(value);
         UpdateUI();
     }
 
     public void ReducePopulation(int value)
     {
-        populationHelper.ReducePopulation(value);
+        m_PopulationHelper.ReducePopulation(value);
         UpdateUI();
 
     }

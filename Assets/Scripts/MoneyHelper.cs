@@ -5,24 +5,24 @@ using UnityEngine;
 
 public class MoneyHelper
 {
-    private int money;
+    private int m_Money;
 
     public MoneyHelper(int startMoneyAmount)
     {
-        this.money = startMoneyAmount;
+        this.m_Money = startMoneyAmount;
     }
 
-    public int Money { get => money; 
+    public int Money { get => m_Money; 
         private set 
         { 
             if(value < 0)
             {
-                money = 0;
+                m_Money = 0;
                 throw new MoneyException("Not enough money");
             }
             else
             {
-                money = value;
+                m_Money = value;
             }
             
         } 
@@ -48,7 +48,7 @@ public class MoneyHelper
     {
         foreach (var structure in buildings)
         {
-            Money -= structure.upkeepCost;
+            Money -= structure._upkeepCost;
         }
     }
 

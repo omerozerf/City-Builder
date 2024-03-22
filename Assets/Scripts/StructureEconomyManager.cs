@@ -8,7 +8,7 @@ public class StructureEconomyManager : MonoBehaviour
     private static void PrepareNewStructure(Vector3Int gridPosition, GridStructure grid)
     {
         var structureData = grid.GetStructureDataFromTheGrid(gridPosition);
-        var structuresAroundZoneStructure = grid.GetStructuresDataInRange(gridPosition, structureData.structureRange);
+        var structuresAroundZoneStructure = grid.GetStructuresDataInRange(gridPosition, structureData._structureRange);
         //adds roads
         structureData.PreareStructure(structuresAroundZoneStructure);
     }
@@ -20,17 +20,17 @@ public class StructureEconomyManager : MonoBehaviour
         ZoneStructureSO zoneData = (ZoneStructureSO)grid.GetStructureDataFromTheGrid(gridPosition);
         if (DoesStructureRequireAnyResource(zoneData))
         {
-            var structuresAroundPositions = grid.GetStructurePositionsInRange(gridPosition, zoneData.maxFacilitySearchRange);
+            var structuresAroundPositions = grid.GetStructurePositionsInRange(gridPosition, zoneData._maxFacilitySearchRange);
             foreach (var structurePositionNearby in structuresAroundPositions)
             {
                 var data = grid.GetStructureDataFromTheGrid(structurePositionNearby);
                 if (data.GetType() == typeof(SingleFacilitySO))
                 {
                     SingleFacilitySO facility = (SingleFacilitySO)data;
-                    if ((facility.facilityType == FacilityType.Power && zoneData.HasPower() == false && zoneData.requirePower)
-                        || (facility.facilityType == FacilityType.Water && zoneData.HasWater() == false && zoneData.requireWater))
+                    if ((facility._facilityType == FacilityType.Power && zoneData.HasPower() == false && zoneData._requirePower)
+                        || (facility._facilityType == FacilityType.Water && zoneData.HasWater() == false && zoneData._requireWater))
                     {
-                        if (grid.ArePositionsInRange(gridPosition, structurePositionNearby, facility.singleStructureRange))
+                        if (grid.ArePositionsInRange(gridPosition, structurePositionNearby, facility._singleStructureRange))
                         {
                             if (facility.IsFull() == false)
                             {
@@ -49,14 +49,14 @@ public class StructureEconomyManager : MonoBehaviour
 
     private static bool DoesStructureRequireAnyResource(ZoneStructureSO zoneData)
     {
-        return (zoneData.requirePower && zoneData.HasPower() == false) || (zoneData.requireWater && zoneData.HasWater() == false);
+        return (zoneData._requirePower && zoneData.HasPower() == false) || (zoneData._requireWater && zoneData.HasWater() == false);
     }
 
     //what to do when road is placed
     public static void PrepareRoadStructure(Vector3Int gridPosition, GridStructure grid)
     {
         RoadStructureSO roadData = (RoadStructureSO)grid.GetStructureDataFromTheGrid(gridPosition);
-        var structuresAroundRoad = grid.GetStructuresDataInRange(gridPosition, roadData.structureRange);
+        var structuresAroundRoad = grid.GetStructuresDataInRange(gridPosition, roadData._structureRange);
         roadData.PrepareRoad(structuresAroundRoad);
 
     }
@@ -66,7 +66,7 @@ public class StructureEconomyManager : MonoBehaviour
         PrepareNewStructure(gridPosition, grid);
 
         SingleFacilitySO faciltityData = (SingleFacilitySO)grid.GetStructureDataFromTheGrid(gridPosition);
-        var structuresAroundFacility = grid.GetStructuresDataInRange(gridPosition, faciltityData.singleStructureRange);
+        var structuresAroundFacility = grid.GetStructuresDataInRange(gridPosition, faciltityData._singleStructureRange);
         faciltityData.AddClients(structuresAroundFacility);
     }
 
@@ -79,7 +79,7 @@ public class StructureEconomyManager : MonoBehaviour
     public static IEnumerable<StructureBaseSO> PrepareRoadDemolition(Vector3Int gridPosition, GridStructure grid)
     {
         RoadStructureSO roadData = (RoadStructureSO)grid.GetStructureDataFromTheGrid(gridPosition);
-        var structuresAroundRoad = grid.GetStructuresDataInRange(gridPosition, roadData.structureRange);
+        var structuresAroundRoad = grid.GetStructuresDataInRange(gridPosition, roadData._structureRange);
         return roadData.PrepareRoadDemolition(structuresAroundRoad);
     }
 

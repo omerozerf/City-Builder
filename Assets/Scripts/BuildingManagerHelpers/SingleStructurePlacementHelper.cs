@@ -12,21 +12,21 @@ public class SingleStructurePlacementHelper : StructureModificationHelper
     {
         base.PrepareStructureForModification(inputPosition, structureName, structureType);
         //GameObject buildingPrefab = this.structureRepository.GetBuildingPrefabByName(structureName, structureType);
-        GameObject buildingPrefab = structureData.prefab;
+        GameObject buildingPrefab = structureData._prefab;
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
         if (grid.IsCellTaken(gridPosition) == false)
         {
             if (structuresToBeModified.ContainsKey(gridPositionInt))
             {
-                resourceManager.AddMoney(structureData.placementCost);
+                resourceManager.AddMoney(structureData._placementCost);
                 RevokeStructurePlacementAt(gridPositionInt);
 
             }
-            else if (resourceManager.CanIBuyIt(structureData.placementCost))
+            else if (resourceManager.CanIBuyIt(structureData._placementCost))
             {
                 PlaceNewStructureAt(buildingPrefab, gridPosition, gridPositionInt);
-                resourceManager.SpendMoney(structureData.placementCost);
+                resourceManager.SpendMoney(structureData._placementCost);
             }
         }
     }
@@ -46,7 +46,7 @@ public class SingleStructurePlacementHelper : StructureModificationHelper
 
     public override void CancleModifications()
     {
-        resourceManager.AddMoney(structuresToBeModified.Count * structureData.placementCost);
+        resourceManager.AddMoney(structuresToBeModified.Count * structureData._placementCost);
         base.CancleModifications();
     }
 

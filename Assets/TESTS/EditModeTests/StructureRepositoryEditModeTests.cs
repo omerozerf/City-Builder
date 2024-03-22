@@ -22,20 +22,20 @@ namespace Tests
             testSingleStructure = new GameObject();
             testZone = new GameObject();
             var road = new RoadStructureSO();
-            road.buildingName = "Road";
-            road.prefab = testRoad;
+            road._buildingName = "Road";
+            road._prefab = testRoad;
             var facility = new SingleFacilitySO();
-            facility.buildingName = "PowerPlant";
-            facility.prefab = testSingleStructure;
+            facility._buildingName = "PowerPlant";
+            facility._prefab = testSingleStructure;
             var zone = new ZoneStructureSO();
-            zone.buildingName = "Commercial";
-            zone.prefab = testZone;
-            collection.roadStructure = road;
-            collection.singleStructureList = new List<SingleStructureBaseSO>();
-            collection.singleStructureList.Add(facility);
-            collection.zonesList = new List<ZoneStructureSO>();
-            collection.zonesList.Add(zone);
-            structureRepo.modelDataCollection = collection;
+            zone._buildingName = "Commercial";
+            zone._prefab = testZone;
+            collection._roadStructure = road;
+            collection._singleStructureList = new List<SingleStructureBaseSO>();
+            collection._singleStructureList.Add(facility);
+            collection._zonesList = new List<ZoneStructureSO>();
+            collection._zonesList.Add(zone);
+            structureRepo._modelDataCollection = collection;
         }
         // A Test behaves as an ordinary method
         [Test]
