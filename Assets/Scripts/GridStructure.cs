@@ -143,6 +143,7 @@ public class GridStructure
     public Vector3Int? GetPositionOfTheNeighbourIfExists(Vector3 gridPosition, Direction direction)
     {
         Vector3Int? neighbourPosition = Vector3Int.FloorToInt(gridPosition);
+        
         switch (direction)
         {
             case Direction.Up:
@@ -157,8 +158,11 @@ public class GridStructure
             case Direction.Left:
                 neighbourPosition += new Vector3Int(-m_CellSize, 0, 0);
                 break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
         }
         var index = CalculateGridIndex(neighbourPosition.Value);
+        
         if (CheckIndexValidity(index) == false)
         {
             return null;
