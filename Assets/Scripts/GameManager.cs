@@ -107,7 +107,6 @@ public class GameManager : MonoBehaviour
     private void HandleInput(Vector3 position)
     {
         m_State.OnInputPointerDown(position);
-
     }
 
     private void StartPlacementMode(string variable)
@@ -120,5 +119,4 @@ public class GameManager : MonoBehaviour
         m_State = newState;
         m_State.EnterState(variable);
     }
-
 }
